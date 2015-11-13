@@ -8,13 +8,48 @@ import geo.IVector;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 final class Polygon implements IPolygon {
 
-    private List<Point> points = new ArrayList<>();
-    private List<Line> lines = new ArrayList<>();
+    private final List<Point> points = new ArrayList<>();
+    private final List<Line> lines = new ArrayList<>();
 
     private double xMin, yMin, xMax, yMax;
+
+    private final Iterable<IPoint> pointIterator = () -> new Iterator<IPoint>() {
+        int i = 0;
+
+        @Override
+        public boolean hasNext() {
+            return i < points.size();
+        }
+
+        @Override
+        public IPoint next() {
+            if (!hasNext()) {
+                throw new NoSuchElementException();
+            }
+            return points.get(i++);
+        }
+    };
+
+    private final Iterable<ILine> lineIterator = () -> new Iterator<ILine>() {
+        private int i = 0;
+
+        @Override
+        public boolean hasNext() {
+            return i < lines.size();
+        }
+
+        @Override
+        public ILine next() {
+            if (!hasNext()) {
+                throw new NoSuchElementException();
+            }
+            return lines.get(i++);
+        }
+    };
 
     @Override
     public void addPoint(double x, double y) {
@@ -94,48 +129,18 @@ final class Polygon implements IPolygon {
         }
     }
 
-    private final Iterable<IPoint> pointIterator = () -> new Iterator<IPoint>() {
-        int i = 0;
-
-        @Override
-        public boolean hasNext() {
-            return i < points.size();
-        }
-
-        @Override
-        public IPoint next() {
-            return points.get(i++);
-        }
-    };
-
     @Override
     public Iterable<IPoint> iteratePoints() {
         return pointIterator;
     }
-
-    private final Iterable<ILine> lineIterator = () -> new Iterator<ILine>() {
-        private int i = 0;
-
-        @Override
-        public boolean hasNext() {
-            return i < lines.size();
-        }
-
-        @Override
-        public ILine next() {
-            return lines.get(i++);
-        }
-    };
 
     @Override
     public Iterable<ILine> iterateLines() {
         if (lines.size() != points.size()) {
             initLines();
         }
-
         return lineIterator;
     }
-
 
     @Override
     public String toString() {
@@ -145,7 +150,5 @@ final class Polygon implements IPolygon {
         b.append(">");
         return b.toString();
     }
-
-
 
 }
