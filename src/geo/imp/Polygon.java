@@ -18,7 +18,7 @@ final class Polygon implements IPolygon {
     private double xMin, yMin, xMax, yMax;
 
     private final Iterable<IPoint> pointIterator = () -> new Iterator<IPoint>() {
-        int i = 0;
+        private int i = 0;
 
         @Override
         public boolean hasNext() {

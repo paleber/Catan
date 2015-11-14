@@ -6,25 +6,28 @@ import geo.IVector;
 
 import java.util.Locale;
 
-final class Circle implements ICircle{
+/** Implementation of Circle. */
+final class Circle implements ICircle {
 
+    /* Mid of the circle. */
     private final Point mid = new Point();
+
+    /* Radius of the circle. */
     private double radius;
 
     @Override
-    public void init(double x, double y, double radius) {
-        mid.x = x;
-        mid.y = y;
+    public void init(final double x, final double y, final double radius) {
+        mid.init(x, y);
         this.radius = radius;
     }
 
     @Override
-    public void move(IVector v) {
+    public void move(final IVector v) {
         mid.move(v);
     }
 
     @Override
-    public void rotate(IPoint pivot, double radian) {
+    public void rotate(final IPoint pivot, final double radian) {
         mid.rotate(pivot, radian);
     }
 
@@ -60,7 +63,8 @@ final class Circle implements ICircle{
 
     @Override
     public String toString() {
-        return String.format(Locale.ENGLISH, "<%sr=%.3f>", mid.toString(), radius);
+        return String.format(Locale.ENGLISH, "<%sr=%.3f>", mid.toString(),
+                             radius);
     }
 
 }

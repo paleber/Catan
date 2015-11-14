@@ -7,7 +7,7 @@ import java.util.Locale;
 
 final class Point implements IPoint {
 
-    double x, y;
+    private double x, y;
 
     Point() {
     }
@@ -20,6 +20,11 @@ final class Point implements IPoint {
     Point(Point other) {
         x = other.x;
         y = other.y;
+    }
+
+    void init(double x, double y) {
+        this.x = x;
+        this.y = y;
     }
 
     @Override
@@ -55,4 +60,5 @@ final class Point implements IPoint {
     public String toString() {
         return String.format(Locale.ENGLISH, "(%.3f|%.3f)", getX(), getY());
     }
+
 }

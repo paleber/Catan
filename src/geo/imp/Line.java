@@ -3,47 +3,49 @@ package geo.imp;
 import geo.ILine;
 import geo.IPoint;
 
+/** Implementation of Line. */
 final class Line implements ILine {
 
-    private final Point[] points = new Point[2];
+    private final Point end;
+    private final Point start;
 
-    Line(Point s, Point e) {
-        points[0] = s;
-        points[1] = e;
+    Line(final Point start, final Point end) {
+        this.start = start;
+        this.end = end;
     }
 
     @Override
     public double getXMin() {
-        return Math.min(points[0].getX(), points[1].getX());
+        return Math.min(start.getX(), end.getX());
     }
 
     @Override
     public double getYMin() {
-        return Math.min(points[0].getY(), points[1].getY());
+        return Math.min(start.getY(), end.getY());
     }
 
     @Override
     public double getXMax() {
-        return Math.max(points[0].getX(), points[1].getX());
+        return Math.max(start.getX(), end.getX());
     }
 
     @Override
     public double getYMax() {
-        return Math.max(points[0].getY(), points[1].getY());
+        return Math.max(start.getY(), end.getY());
     }
 
     @Override
     public String toString() {
-        return "<" + points[0] + points[1] + ">";
+        return "<" + start + end + ">";
     }
 
     @Override
     public IPoint getStart() {
-        return points[0];
+        return start;
     }
 
     @Override
     public IPoint getEnd() {
-        return points[1];
+        return end;
     }
 }

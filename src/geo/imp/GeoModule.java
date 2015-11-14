@@ -1,8 +1,11 @@
 package geo.imp;
 
-import geo.*;
 import com.google.inject.AbstractModule;
+import geo.ICircle;
+import geo.IPolygon;
+import geo.IVector;
 
+/** GeoModule. */
 public final class GeoModule extends AbstractModule {
 
     @Override
