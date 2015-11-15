@@ -52,6 +52,16 @@ final class Circle implements ICircle {
     }
 
     @Override
+    public double getXMid() {
+        return mid.getX();
+    }
+
+    @Override
+    public double getYMid() {
+        return mid.getY();
+    }
+
+    @Override
     public IPoint getMid() {
         return mid;
     }

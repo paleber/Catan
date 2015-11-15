@@ -6,4 +6,6 @@ public interface IPoint {
 
     double getY();
 
+    double squareDistanceTo(IPoint other);
+
 }

@@ -10,4 +10,8 @@ public interface IBoundingBox {
 
     double getYMax();
 
+    double getXMid();
+
+    double getYMid();
+
 }

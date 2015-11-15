@@ -35,6 +35,16 @@ final class Line implements ILine {
     }
 
     @Override
+    public double getXMid() {
+        return (start.getX() + end.getX()) / 2;
+    }
+
+    @Override
+    public double getYMid() {
+        return (start.getY() + end.getY()) / 2;
+    }
+
+    @Override
     public String toString() {
         return "<" + start + end + ">";
     }

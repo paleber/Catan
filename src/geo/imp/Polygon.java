@@ -116,6 +116,16 @@ final class Polygon implements IPolygon {
         return yMax;
     }
 
+    @Override
+    public double getXMid() {
+        return (xMin + xMax) / 2;
+    }
+
+    @Override
+    public double getYMid() {
+        return (yMin + yMax) / 2;
+    }
+
     private void update() {
         xMin = points.get(0).getX();
         yMin = points.get(0).getY();

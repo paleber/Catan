@@ -37,12 +37,17 @@ final class Point implements IPoint {
         return y;
     }
 
-    void move(IVector v) {
+    @Override
+    public double squareDistanceTo(final IPoint other) {
+        return (x * x) + (y * y);
+    }
+
+    void move(final IVector v) {
         x += v.getX();
         y += v.getY();
     }
 
-    void rotate(IPoint pivot, double radian) {
+    void rotate(final IPoint pivot, final double radian) {
         x -= pivot.getX();
         y -= pivot.getY();
 
