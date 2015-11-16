@@ -1,17 +1,26 @@
 package geo.imp;
 
+import com.google.inject.Inject;
+import com.google.inject.assistedinject.Assisted;
 import geo.ILine;
 import geo.IPoint;
 
 /** Implementation of Line. */
 final class Line implements ILine {
 
-    private final Point end;
     private final Point start;
+    private final Point end;
 
-    Line(final Point start, final Point end) {
+    @Inject
+    Line(@Assisted final Point start, @Assisted final Point end) {
         this.start = start;
         this.end = end;
+    }
+
+    @Inject
+    Line(@Assisted final ILine other) {
+        start = new Point(other.getStart());
+        end = new Point(other.getEnd());
     }
 
     @Override

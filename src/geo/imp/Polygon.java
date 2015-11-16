@@ -1,87 +1,99 @@
 package geo.imp;
 
+import com.google.inject.Inject;
+import com.google.inject.assistedinject.Assisted;
 import geo.ILine;
 import geo.IPoint;
 import geo.IPolygon;
 import geo.IVector;
 
-import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
 import java.util.NoSuchElementException;
 
+/** Implementation of Polygon. */
 final class Polygon implements IPolygon {
 
-    private final List<Point> points = new ArrayList<>();
-    private final List<Line> lines = new ArrayList<>();
+    private final Point[] points;
+    private final Line[] lines;
 
     private double xMin, yMin, xMax, yMax;
 
-    private final Iterable<IPoint> pointIterator = () -> new Iterator<IPoint>() {
-        private int i = 0;
+    private final Iterable<IPoint> pointIterator =
+            () -> new Iterator<IPoint>() {
+                private int i = 0;
 
-        @Override
-        public boolean hasNext() {
-            return i < points.size();
-        }
+                @Override
+                public boolean hasNext() {
+                    return i < points.length;
+                }
 
-        @Override
-        public IPoint next() {
-            if (!hasNext()) {
-                throw new NoSuchElementException();
-            }
-            return points.get(i++);
-        }
-    };
+                @Override
+                public IPoint next() {
+                    if (!hasNext()) {
+                        throw new NoSuchElementException();
+                    }
+                    return points[i++];
+                }
+            };
 
-    private final Iterable<ILine> lineIterator = () -> new Iterator<ILine>() {
-        private int i = 0;
+    private final Iterable<ILine> lineIterator =
+            () -> new Iterator<ILine>() {
+                private int i = 0;
 
-        @Override
-        public boolean hasNext() {
-            return i < lines.size();
-        }
+                @Override
+                public boolean hasNext() {
+                    return i < lines.length;
+                }
 
-        @Override
-        public ILine next() {
-            if (!hasNext()) {
-                throw new NoSuchElementException();
-            }
-            return lines.get(i++);
-        }
-    };
+                @Override
+                public ILine next() {
+                    if (!hasNext()) {
+                        throw new NoSuchElementException();
+                    }
+                    return lines[i++];
+                }
+            };
 
-    @Override
-    public void addPoint(double x, double y) {
-        points.add(new Point(x, y));
+    @Inject
+    Polygon(@Assisted final IPoint... p) {
+        points = (Point[]) p.clone();
+        lines = new Line[points.length];
+        initLines();
     }
 
-    @Override
-    public void addPoint(IVector v) {
-        Point p = new Point(points.get(points.size() - 1));
-        p.move(v);
-        points.add(p);
+
+    @Inject
+    Polygon(@Assisted final IPoint p, @Assisted final IVector... v) {
+        points = new Point[1 + v.length];
+        points[0] = (Point) p;
+        for (int i = 0; i < v.length; i++) {
+            points[i + 1] = new Point(points[i]);
+            points[i + 1].move(v[i]);
+        }
+        lines = new Line[points.length];
+        initLines();
     }
 
-    @Override
-    public void copy(IPolygon other) {
-        points.clear();
-        lines.clear();
-
-        for (IPoint p : other.iteratePoints()) {
-            points.add(new Point(p.getX(), p.getY()));
+    @Inject
+    Polygon(@Assisted final IPolygon other) {
+        Polygon poly = (Polygon) other;
+        points = new Point[poly.points.length];
+        for (int i = 0; i < points.length; i++) {
+            points[i] = new Point(poly.points[i]);
         }
+        lines = new Line[points.length];
+        initLines();
     }
 
     private void initLines() {
-        lines.clear();
-        for (int i = 0; i < points.size(); i++) {
-            lines.add(new Line(points.get(i), points.get((i + 1) % points.size())));
+        for (int i = 0; i < points.length; i++) {
+            lines[i] = new Line(points[i], points[(i + 1) % points.length]);
         }
+        update();
     }
 
     @Override
-    public void move(IVector v) {
+    public void move(final IVector v) {
         for (Point p : points) {
             p.move(v);
         }
@@ -89,7 +101,7 @@ final class Polygon implements IPolygon {
     }
 
     @Override
-    public void rotate(IPoint pivot, double radian) {
+    public void rotate(final IPoint pivot, final double radian) {
         for (Point p : points) {
             p.rotate(pivot, radian);
         }
@@ -127,15 +139,15 @@ final class Polygon implements IPolygon {
     }
 
     private void update() {
-        xMin = points.get(0).getX();
-        yMin = points.get(0).getY();
-        xMax = points.get(0).getX();
-        yMax = points.get(0).getY();
-        for (int i = 1; i < points.size(); i++) {
-            xMin = Math.min(xMin, points.get(i).getX());
-            yMin = Math.min(yMin, points.get(i).getY());
-            xMax = Math.max(xMax, points.get(i).getX());
-            yMax = Math.max(yMax, points.get(i).getY());
+        xMin = points[0].getX();
+        yMin = points[0].getY();
+        xMax = points[0].getX();
+        yMax = points[0].getY();
+        for (int i = 1; i < points.length; i++) {
+            xMin = Math.min(xMin, points[i].getX());
+            yMin = Math.min(yMin, points[i].getY());
+            xMax = Math.max(xMax, points[i].getX());
+            yMax = Math.max(yMax, points[i].getY());
         }
     }
 
@@ -146,9 +158,6 @@ final class Polygon implements IPolygon {
 
     @Override
     public Iterable<ILine> iterateLines() {
-        if (lines.size() != points.size()) {
-            initLines();
-        }
         return lineIterator;
     }
 
@@ -156,7 +165,9 @@ final class Polygon implements IPolygon {
     public String toString() {
         StringBuilder b = new StringBuilder();
         b.append("<");
-        points.forEach(b::append);
+        for (Point p : points) {
+            b.append(p);
+        }
         b.append(">");
         return b.toString();
     }

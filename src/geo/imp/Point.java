@@ -1,32 +1,28 @@
 package geo.imp;
 
+import com.google.inject.Inject;
+import com.google.inject.assistedinject.Assisted;
 import geo.IPoint;
 import geo.IVector;
 
 import java.util.Locale;
 
+/** Implementation of Point. */
 final class Point implements IPoint {
 
     private double x, y;
 
-    Point() {
-    }
-
-    Point(double x, double y) {
+    @Inject
+    Point(@Assisted final double x, @Assisted final double y) {
         this.x = x;
         this.y = y;
     }
 
-    Point(Point other) {
-        x = other.x;
-        y = other.y;
+    @Inject
+    Point(@Assisted final IPoint other) {
+        x = other.getX();
+        y = other.getY();
     }
-
-    /*
-    void init(double x, double y) {
-        this.x = x;
-        this.y = y;
-    }*/
 
     @Override
     public double getX() {

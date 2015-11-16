@@ -12,17 +12,19 @@ import java.util.Locale;
 /** Implementation of Circle. */
 final class Circle implements ICircle {
 
-    /* Mid of the circle. */
     private final Point mid;
-
-    /* Radius of the circle. */
-    private double radius;
+    private final double radius;
 
     @Inject
-    Circle(@Assisted final double x, @Assisted final double y,
-           @Assisted final double radius) {
-        mid = new Point(x, y);
+    Circle(@Assisted final IPoint mid, @Assisted final double radius) {
+        this.mid = (Point) mid;
         this.radius = radius;
+    }
+
+    @Inject
+    Circle(@Assisted final ICircle other) {
+        mid = new Point(other.getMid());
+        radius = other.getRadius();
     }
 
     @Override

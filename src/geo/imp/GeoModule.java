@@ -14,6 +14,7 @@ public final class GeoModule extends AbstractModule {
         install(new FactoryModuleBuilder().
                 implement(IPoint.class, Point.class).
                 implement(IVector.class, Vector.class).
+                implement(ILine.class, Line.class).
                 implement(ICircle.class, Circle.class).
                 implement(IPolygon.class, Polygon.class).
                 build(IGeoFactory.class));
