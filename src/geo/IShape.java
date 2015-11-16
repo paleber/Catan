@@ -1,6 +1,6 @@
 package geo;
 
-public interface IShape extends IBoundingBox {
+interface IShape extends IBoundingBox {
 
     void move(IVector v);
 

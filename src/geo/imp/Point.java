@@ -22,10 +22,11 @@ final class Point implements IPoint {
         y = other.y;
     }
 
+    /*
     void init(double x, double y) {
         this.x = x;
         this.y = y;
-    }
+    }*/
 
     @Override
     public double getX() {

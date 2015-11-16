@@ -1,18 +1,22 @@
 package geo.imp;
 
 import com.google.inject.AbstractModule;
-import geo.ICircle;
-import geo.IPolygon;
-import geo.IVector;
+import com.google.inject.Binder;
+import com.google.inject.Module;
+import com.google.inject.assistedinject.FactoryModuleBuilder;
+import geo.*;
 
 /** GeoModule. */
 public final class GeoModule extends AbstractModule {
 
     @Override
     protected void configure() {
-        bind(IVector.class).to(Vector.class);
-        bind(ICircle.class).to(Circle.class);
-        bind(IPolygon.class).to(Polygon.class);
+        install(new FactoryModuleBuilder().
+                implement(IPoint.class, Point.class).
+                implement(IVector.class, Vector.class).
+                implement(ICircle.class, Circle.class).
+                implement(IPolygon.class, Polygon.class).
+                build(IGeoFactory.class));
     }
 
 }

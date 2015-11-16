@@ -1,6 +1,6 @@
 package geo;
 
-public interface IBoundingBox {
+interface IBoundingBox {
 
     double getXMin();
 

@@ -1,5 +1,8 @@
 package geo.imp;
 
+import com.google.inject.Inject;
+import com.google.inject.assistedinject.Assisted;
+
 import geo.ICircle;
 import geo.IPoint;
 import geo.IVector;
@@ -10,14 +13,15 @@ import java.util.Locale;
 final class Circle implements ICircle {
 
     /* Mid of the circle. */
-    private final Point mid = new Point();
+    private final Point mid;
 
     /* Radius of the circle. */
     private double radius;
 
-    @Override
-    public void init(final double x, final double y, final double radius) {
-        mid.init(x, y);
+    @Inject
+    Circle(@Assisted final double x, @Assisted final double y,
+           @Assisted final double radius) {
+        mid = new Point(x, y);
         this.radius = radius;
     }
 
