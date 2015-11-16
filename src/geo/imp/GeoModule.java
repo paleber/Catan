@@ -1,10 +1,13 @@
 package geo.imp;
 
 import com.google.inject.AbstractModule;
-import com.google.inject.Binder;
-import com.google.inject.Module;
 import com.google.inject.assistedinject.FactoryModuleBuilder;
-import geo.*;
+import geo.ICircle;
+import geo.IGeoFactory;
+import geo.ILine;
+import geo.IPoint;
+import geo.IPolygon;
+import geo.IVector;
 
 /** GeoModule. */
 public final class GeoModule extends AbstractModule {

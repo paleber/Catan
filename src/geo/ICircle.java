@@ -1,11 +1,22 @@
 package geo;
 
+/**
+ * Interface of Circle.
+ */
 public interface ICircle extends IShape {
 
-   // void init(double x, double y, double radius);
-
+    /**
+     * Get the mid.
+     *
+     * @return mid
+     */
     IPoint getMid();
 
+    /**
+     * Get the radius.
+     *
+     * @return radius
+     */
     double getRadius();
 
 }

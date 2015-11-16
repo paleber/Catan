@@ -1,15 +1,22 @@
 package geo;
 
+/**
+ * Interface of Polygon.
+ */
 public interface IPolygon extends IShape {
 
-    //void copy(IPolygon other);
-
-    //void addPoint(double x, double y);
-
-    //void addPoint(IVector v);
-
+    /**
+     * Iterate through the points.
+     *
+     * @return point-iterator
+     */
     Iterable<IPoint> iteratePoints();
 
+    /**
+     * Iterate through the lines.
+     *
+     * @return line-iterator
+     */
     Iterable<ILine> iterateLines();
 
 }
