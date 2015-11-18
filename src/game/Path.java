@@ -1,4 +1,4 @@
-package model;
+package game;
 
 import geo.ILine;
 import util.IdGenerator;
