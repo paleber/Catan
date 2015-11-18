@@ -8,17 +8,30 @@ public class Game {
     // Places = b.getPlaces();
     // Fields = b.getFields();
 
-    private final Player[] players = null;
-    private final Intersection[] intersections = null;
+    private final Player[] players;
+    private final Intersection[] inter = null;
     private final Path[] paths = null;
     private final Terrain[] terrains = null;
 
 
     public Game(String... playerNames) {
-        Player[] players = new Player[playerNames.length];
+        players = new Player[playerNames.length];
         for (int i = 0; i < players.length; i++) {
             players[i] = new Player(playerNames[i]);
         }
+
+        // Boardbuilder builder;
+        if (players.length <= 4) {
+          // builder = new StandardBoardBuilder();
+        } else {
+            // builder = new ExtensionBoardBuilder
+        }
+        // builder.build();
+
+        // inter = builder.getIntersections();
+        // paths = builder.getPaths();
+        // terrains = builder.getTerrain();
+
     }
 
 
