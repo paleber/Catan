@@ -11,7 +11,7 @@ public class PointTest {
 
     @Test
     public void testConstructorDefault() {
-        Point p = new Point();
+        Point p = new Point(0 ,0);
         assertEquals(0, p.getX(), DELTA);
         assertEquals(0, p.getY(), DELTA);
     }
@@ -40,8 +40,7 @@ public class PointTest {
 
     @Test
     public void testMove() {
-        IVector v = new Vector();
-        v.init(2, 5);
+        IVector v = new Vector(2, 5);
         Point p = new Point(1, 2);
         p.move(v);
         assertEquals(3, p.getX(), DELTA);

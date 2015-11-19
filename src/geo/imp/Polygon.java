@@ -56,7 +56,10 @@ final class Polygon implements IPolygon {
 
     @Inject
     Polygon(@Assisted final IPoint... p) {
-        points = (Point[]) p.clone();
+        points = new Point[p.length];
+        for (int i = 0; i < p.length; i++) {
+           points[i] = (Point)p[i];
+        }
         lines = new Line[points.length];
         initLines();
     }

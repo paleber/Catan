@@ -10,40 +10,13 @@ public class PolygonTest {
 
     private static final double DELTA = 1e-9;
 
-    @Test
-    public void testAddPoint() {
-        Polygon poly = new Polygon();
-        poly.addPoint(2, 1);
-        poly.addPoint(3, 5);
-        Vector v = new Vector();
-        v.init(2, 3);
-        poly.addPoint(v);
-
-        int i = 0;
-        for (IPoint p : poly.iteratePoints()) {
-            if (i == 0) {
-                assertEquals(2, p.getX(), DELTA);
-                assertEquals(1, p.getY(), DELTA);
-            } else if (i == 1) {
-                assertEquals(3, p.getX(), DELTA);
-                assertEquals(5, p.getY(), DELTA);
-            } else {
-                assertEquals(5, p.getX(), DELTA);
-                assertEquals(8, p.getY(), DELTA);
-            }
-            i++;
-        }
-    }
 
     @Test
     public void testCopy() {
-        Polygon poly = new Polygon();
-        poly.addPoint(1, 2);
-        poly.addPoint(7, 8);
-        poly.addPoint(6, 5);
+        Polygon poly = new Polygon(new Point(1, 2), new Point(7, 8),
+                new Point(6, 5));
 
-        Polygon copy = new Polygon();
-        copy.copy(poly);
+        Polygon copy = new Polygon(poly);
 
         int i = 0;
         for (IPoint p : copy.iteratePoints()) {
@@ -63,15 +36,10 @@ public class PolygonTest {
 
     @Test
     public void testBoundingBox() {
-        Polygon poly = new Polygon();
-        poly.addPoint(8, 3);
-        poly.addPoint(4, 7);
-        poly.addPoint(5, 4);
+        Polygon poly = new Polygon(new Point(8, 3), new Point(4, 7),
+                new Point(5, 4));
 
-        Vector v = new Vector();
-        v.init(1, 1);
-
-        poly.move(v);
+        poly.move(new Vector(1, 1));
 
         assertEquals(5, poly.getXMin(), DELTA);
         assertEquals(9, poly.getXMax(), DELTA);
@@ -81,10 +49,8 @@ public class PolygonTest {
 
     @Test
     public void testRotate() {
-        Polygon poly = new Polygon();
-        poly.addPoint(0, 0);
-        poly.addPoint(1, 2);
-        poly.addPoint(1, 1);
+        Polygon poly = new Polygon(new Point(0, 0), new Point(1, 2),
+                new Point(1, 1));
 
         Point pivot = new Point(0, 0);
         poly.rotate(pivot, Math.PI);
@@ -101,19 +67,15 @@ public class PolygonTest {
 
     @Test
     public void testToString() {
-        Polygon poly = new Polygon();
-        poly.addPoint(0, 1);
-        poly.addPoint(2, 3);
-        poly.addPoint(4, 5);
+        Polygon poly = new Polygon(new Point(0, 1), new Point(2, 3),
+                new Point(4, 5));
         assertEquals("<(0.000|1.000)(2.000|3.000)(4.000|5.000)>", poly.toString());
     }
 
     @Test
     public void testLines() {
-        Polygon poly = new Polygon();
-        poly.addPoint(0, 0);
-        poly.addPoint(1, 1);
-        poly.addPoint(2, 3);
+        Polygon poly = new Polygon(new Point(0, 0), new Point(1, 1),
+                new Point(2, 3));
 
         int i = 0;
         for (ILine l : poly.iterateLines()) {
