@@ -2,6 +2,7 @@ package geo.imp;
 
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
+import com.google.inject.assistedinject.AssistedInject;
 import geo.ILine;
 import geo.IPoint;
 import geo.IPolygon;
@@ -54,7 +55,7 @@ final class Polygon implements IPolygon {
                 }
             };
 
-    @Inject
+    @AssistedInject
     Polygon(@Assisted final IPoint... p) {
         points = new Point[p.length];
         for (int i = 0; i < p.length; i++) {
@@ -65,7 +66,7 @@ final class Polygon implements IPolygon {
     }
 
 
-    @Inject
+    @AssistedInject
     Polygon(@Assisted final IPoint p, @Assisted final IVector... v) {
         points = new Point[1 + v.length];
         points[0] = (Point) p;
@@ -77,7 +78,7 @@ final class Polygon implements IPolygon {
         initLines();
     }
 
-    @Inject
+    @AssistedInject
     Polygon(@Assisted final IPolygon other) {
         Polygon poly = (Polygon) other;
         points = new Point[poly.points.length];

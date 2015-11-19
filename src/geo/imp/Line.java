@@ -2,6 +2,7 @@ package geo.imp;
 
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
+import com.google.inject.assistedinject.AssistedInject;
 import geo.ILine;
 import geo.IPoint;
 
@@ -11,13 +12,13 @@ final class Line implements ILine {
     private final Point start;
     private final Point end;
 
-    @Inject
-    Line(@Assisted final Point start, @Assisted final Point end) {
-        this.start = start;
-        this.end = end;
+    @AssistedInject
+    Line(@Assisted("s") final IPoint start, @Assisted("e") final IPoint end) {
+        this.start = (Point) start;
+        this.end = (Point) end;
     }
 
-    @Inject
+    @AssistedInject
     Line(@Assisted final ILine other) {
         start = new Point(other.getStart());
         end = new Point(other.getEnd());

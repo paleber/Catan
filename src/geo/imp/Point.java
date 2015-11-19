@@ -2,6 +2,7 @@ package geo.imp;
 
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
+import com.google.inject.assistedinject.AssistedInject;
 import geo.IPoint;
 import geo.IVector;
 
@@ -12,13 +13,13 @@ final class Point implements IPoint {
 
     private double x, y;
 
-    @Inject
-    Point(@Assisted final double x, @Assisted final double y) {
+    @AssistedInject
+    Point(@Assisted("x") final double x, @Assisted("y") final double y) {
         this.x = x;
         this.y = y;
     }
 
-    @Inject
+    @AssistedInject
     Point(@Assisted final IPoint other) {
         x = other.getX();
         y = other.getY();

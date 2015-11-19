@@ -2,12 +2,7 @@ package geo.imp;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.assistedinject.FactoryModuleBuilder;
-import geo.ICircle;
-import geo.IGeoFactory;
-import geo.ILine;
-import geo.IPoint;
-import geo.IPolygon;
-import geo.IVector;
+import geo.*;
 
 /** GeoModule. */
 public final class GeoModule extends AbstractModule {
@@ -21,6 +16,8 @@ public final class GeoModule extends AbstractModule {
                 implement(ICircle.class, Circle.class).
                 implement(IPolygon.class, Polygon.class).
                 build(IGeoFactory.class));
+
+
     }
 
 }

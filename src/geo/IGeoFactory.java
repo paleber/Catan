@@ -1,5 +1,7 @@
 package geo;
 
+import com.google.inject.assistedinject.Assisted;
+
 /**
  * Factory for GeoModule.
  */
@@ -12,7 +14,7 @@ public interface IGeoFactory {
      * @param y y-value
      * @return created point
      */
-    IPoint createPoint(double x, double y);
+    IPoint createPoint(@Assisted("x") double x, @Assisted("y") double y);
 
     /**
      * Copy a point.
@@ -29,7 +31,7 @@ public interface IGeoFactory {
      * @param y y-value
      * @return created vector
      */
-    IVector createVector(double x, double y);
+    IVector createVector(@Assisted("x") double x, @Assisted("y") double y);
 
     /**
      * Create a vector between two points .
@@ -38,7 +40,7 @@ public interface IGeoFactory {
      * @param to   to
      * @return created vector
      */
-    IVector createVector(IPoint from, IPoint to);
+    IVector createVector(@Assisted("f") IPoint from, @Assisted("t") IPoint to);
 
     /**
      * Copy a vector.
@@ -55,8 +57,7 @@ public interface IGeoFactory {
      * @param end   end
      * @return created line.
      */
-    ILine createLine(IPoint start, IPoint end);
-
+    ILine createLine(@Assisted("s") IPoint start, @Assisted("e") IPoint end);
 
     /**
      * Copy a line.

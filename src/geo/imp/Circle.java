@@ -3,6 +3,7 @@ package geo.imp;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
+import com.google.inject.assistedinject.AssistedInject;
 import geo.ICircle;
 import geo.IPoint;
 import geo.IVector;
@@ -15,13 +16,13 @@ final class Circle implements ICircle {
     private final Point mid;
     private final double radius;
 
-    @Inject
+    @AssistedInject
     Circle(@Assisted final IPoint mid, @Assisted final double radius) {
         this.mid = (Point) mid;
         this.radius = radius;
     }
 
-    @Inject
+    @AssistedInject
     Circle(@Assisted final ICircle other) {
         mid = new Point(other.getMid());
         radius = other.getRadius();

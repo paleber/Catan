@@ -1,21 +1,9 @@
 package game;
 
-import com.google.inject.Guice;
-import geo.IGeoFactory;
-import geo.IPoint;
-import geo.IPolygon;
-import geo.IVector;
-import geo.imp.GeoModule;
-
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
-
 
 abstract class AbstractBoardBuilder implements IBoardBuilder {
 
-    private static final IGeoFactory GEO_FACTORY = Guice.createInjector(
+    /*private static final IGeoFactory GEO_FACTORY = Guice.createInjector(
             new GeoModule()).getInstance(IGeoFactory.class);
 
     private final Map<IPolygon, IPoint> polys = new TreeMap<>();
@@ -47,7 +35,7 @@ abstract class AbstractBoardBuilder implements IBoardBuilder {
         polys.put(poly, mid);
     }
 
-
+*/
 
 
 

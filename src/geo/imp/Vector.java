@@ -1,7 +1,7 @@
 package geo.imp;
 
-import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
+import com.google.inject.assistedinject.AssistedInject;
 import geo.IPoint;
 import geo.IVector;
 
@@ -12,22 +12,22 @@ final class Vector implements IVector {
 
     private double radian, length;
 
-    @Inject
-    Vector(@Assisted final double x, @Assisted final double y) {
+    @AssistedInject
+    Vector(@Assisted("x") final double x, @Assisted("y") final double y) {
         radian = Math.atan2(y, x);
         length = Math.sqrt(x * x + y * y);
         limitAngle();
     }
 
-    @Inject
+    @AssistedInject
     Vector(@Assisted final IVector other) {
         radian = other.getAngle();
         length = other.getLength();
     }
 
-    @Inject
-    Vector(@Assisted final IPoint start, @Assisted final IPoint end) {
-        this(end.getX() - start.getX(), end.getY() - start.getY());
+    @AssistedInject
+    Vector(@Assisted("f") final IPoint from, @Assisted("t") final IPoint to) {
+        this(to.getX() - from.getX(), to.getY() - from.getY());
     }
 
     @Override
