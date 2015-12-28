@@ -1,6 +1,6 @@
 package game;
 
-import geo.IPoint;
+import geo2.IPoint;
 import util.IdGenerator;
 
 public class Intersection {

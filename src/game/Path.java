@@ -1,6 +1,6 @@
 package game;
 
-import geo.ILine;
+import geo2.ILine;
 import util.IdGenerator;
 
 public class Path {

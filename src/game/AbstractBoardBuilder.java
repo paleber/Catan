@@ -1,8 +1,8 @@
 package game;
 
 import com.google.inject.Guice;
-import geo.*;
-import geo.imp.GeoModule;
+import geo2.*;
+import geo2.imp.GeoModule;
 
 import java.util.*;
 
