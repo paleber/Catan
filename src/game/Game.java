@@ -1,5 +1,10 @@
 package game;
 
+import game.object.Field;
+import game.object.Intersection;
+import game.object.Path;
+import game.object.Player;
+
 public class Game {
 
     // BoardBuilder b = new StandardBoardBuilder();
@@ -11,7 +16,7 @@ public class Game {
     private final Player[] players;
     private final Intersection[] inter = null;
     private final Path[] paths = null;
-    private final Terrain[] terrains = null;
+    private final Field[] fields = null;
 
 
     public Game(String... playerNames) {

@@ -1,8 +1,8 @@
-package game;
+package game.object;
 
 import util.IdGenerator;
 
-public class Terrain {
+public class Field {
 
     private final int id = IdGenerator.generate();
 

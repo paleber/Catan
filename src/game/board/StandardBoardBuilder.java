@@ -1,20 +1,20 @@
-package game;
+package game.board;
 
 import com.google.inject.Guice;
-import geo2.*;
-import geo2.imp.GeoModule;
+import game.object.Field;
+import game.object.Material;
+import game.object.Intersection;
+import game.object.Path;
+import geo.*;
+import geo.imp.GeoModule;
+
 
 import java.util.*;
 
-final class StandardBoardBuilder implements IBoardBuilder {
+public final class StandardBoardBuilder implements IBoardBuilder {
 
-    private static final IGeoFactory GEO_FACTORY = Guice.createInjector(
+    private static final IGeoFactory GEO = Guice.createInjector(
             new GeoModule()).getInstance(IGeoFactory.class);
-
-    @Override
-    public void build() {
-
-    }
 
     @Override
     public Intersection[] getIntersections() {
@@ -27,46 +27,41 @@ final class StandardBoardBuilder implements IBoardBuilder {
     }
 
     @Override
-    public Terrain[] getTerrains() {
-        return new Terrain[0];
+    public Field[] getTerrains() {
+        return new Field[0];
     }
 
-    enum Direction {
-        C1, C3, C5, C7, C9, C11 // Direction, Number equals Clock-Position
-    }
+
 
     private static final IPolygon PROTO_HEXAGON = createHexagon();
 
     private static final Map<Direction, IVector> dirs = createDirections();
 
     private static IPolygon createHexagon() {
-        IPoint p = GEO_FACTORY.createPoint(0, 0);
+        IPoint p = GEO.createPoint(0, 0);
         IVector[] v = new IVector[5];
-        v[0] = GEO_FACTORY.createVector(1, 0);
+        v[0] = GEO.createVector(1, 0);
         for (int i = 1; i < v.length; i++) {
-            v[i] = GEO_FACTORY.copy(v[i - 1]);
+            v[i] = GEO.copy(v[i - 1]);
             v[i].rotate(Math.PI / 3);
         }
-        IPolygon hexagon = GEO_FACTORY.createPolygon(p, v);
+        IPolygon hexagon = GEO.createPolygon(p, v);
 
-        IPoint mid = GEO_FACTORY.createPoint(hexagon.getXMid(),
-                hexagon.getYMid());
-        IVector u = GEO_FACTORY.createVector(mid,
-                GEO_FACTORY.createPoint(0, 0));
+        IPoint mid = hexagon.calculateMid();
+        IVector u = GEO.createVector(mid, GEO.createPoint(0, 0));
         hexagon.move(u);
 
-        hexagon.rotate(GEO_FACTORY.createPoint(0,0), Math.PI / 6);
+        hexagon.rotate(GEO.createPoint(0,0), Math.PI / 6);
 
         return hexagon;
     }
 
     private static Map<Direction, IVector> createDirections() {
         Map<Direction, IVector> map = new TreeMap<>();
-        IPoint from = GEO_FACTORY.createPoint(PROTO_HEXAGON.getXMid(),
-                PROTO_HEXAGON.getYMid());
+        IPoint from = PROTO_HEXAGON.calculateMid();
         for (ILine l : PROTO_HEXAGON.iterateLines()) {
-            IPoint to = GEO_FACTORY.createPoint(l.getXMid(), l.getYMid());
-            IVector v = GEO_FACTORY.createVector(from, to);
+            IPoint to = l.calculateMid();
+            IVector v = GEO.createVector(from, to);
             v.setLength(2 * v.getLength());
             Direction dir = Direction.values()[map.size()];
             map.put(dir, v);
@@ -114,7 +109,7 @@ final class StandardBoardBuilder implements IBoardBuilder {
     }
 
     private void buildFields() {
-        fields.add(GEO_FACTORY.copy(PROTO_HEXAGON));
+        fields.add(GEO.copy(PROTO_HEXAGON));
         addField(Direction.C9);
         addField(Direction.C9);
         addField(Direction.C7);
@@ -136,7 +131,7 @@ final class StandardBoardBuilder implements IBoardBuilder {
     }
 
     private void addField(Direction dir) {
-        IPolygon poly = GEO_FACTORY.copy(fields.get(fields.size() - 1));
+        IPolygon poly = GEO.copy(fields.get(fields.size() - 1));
         poly.move(dirs.get(dir));
         fields.add(poly);
     }
