@@ -1,17 +1,37 @@
 package game.object;
 
 import geo.IPoint;
-import util.IdGenerator;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Intersection {
 
-    private final int id = IdGenerator.generate();
 
-    private IPoint p;
 
-    private Intersection[] nextIntersections;
-    private Path[] nextPaths;
+    enum status {
+        FREE, BLOCKED, VILLAGE, CITY
+    }
 
-    private Player owner;
+    private IPoint point;
+
+    private final List<Intersection> nextIntersections = new ArrayList<>();
+    private final List<Path> nextPaths = new ArrayList<>();
+
+    private Player owner = null;
+
+
+    public Intersection(IPoint point) {
+        this.point = point;
+    }
+
+    public void addNeighbor(Path path) {
+        nextPaths.add(path);
+    }
+
+    public void addNeighbor(Intersection intersection) {
+        nextIntersections.add(intersection);
+    }
+
 
 }

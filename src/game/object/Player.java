@@ -10,9 +10,7 @@ public class Player {
     private static final int MAX_VILLAGES = 5;
     private static final int MAX_CITIES = 4;
 
-    private ArrayList<Intersection> cities;
-    private ArrayList<Intersection> villages;
-    private ArrayList<Path> streets;
+
 
     private Map<Material, Integer> resources = new EnumMap<>(Material.class);
 
@@ -29,7 +27,7 @@ public class Player {
         resources.put(m, n + 1);
     }
 
-    public int getMaterialQuantity(Material m) {
+    public int getMaterialNumber(Material m) {
         return resources.get(m);
     }
 

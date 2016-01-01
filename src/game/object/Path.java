@@ -2,16 +2,23 @@ package game.object;
 
 
 import geo.ILine;
-import util.IdGenerator;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Path {
 
-    private final int id = IdGenerator.generate();
+    private final ILine line;
 
-    private ILine line;
-
-    private Path[] nextPaths;
+    private final List<Path> nextPaths = new ArrayList<>();
 
     private Player owner = null;
 
+    public Path(ILine line) {
+        this.line = line;
+    }
+
+    public void addNeighbor(Path next) {
+        nextPaths.add(next);
+    }
 }
