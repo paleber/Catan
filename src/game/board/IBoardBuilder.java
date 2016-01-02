@@ -11,6 +11,6 @@ public interface IBoardBuilder {
 
     Path[] getPaths();
 
-    Field[] getTerrains();
+    Field[] getFields();
 
 }

@@ -75,7 +75,7 @@
         <dependency>
             <groupId>com.github.paleber</groupId>
             <artifactId>GameEngine</artifactId>
-            <version>c67a199</version>
+            <version>def1b2f</version>
         </dependency>
     </dependencies>
 </project>
