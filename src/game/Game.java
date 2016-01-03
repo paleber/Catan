@@ -1,23 +1,19 @@
 package game;
 
+import game.board.IBoardBuilder;
+import game.board.StandardBoardBuilder;
 import game.object.Field;
 import game.object.Intersection;
 import game.object.Path;
 import game.object.Player;
 
+
 public class Game {
 
-    // BoardBuilder b = new StandardBoardBuilder();
-    // b.build();
-    // Streets = b.getStreets();
-    // Places = b.getPlaces();
-    // Fields = b.getFields();
-
     private final Player[] players;
-    private final Intersection[] inter = null;
-    private final Path[] paths = null;
-    private final Field[] fields = null;
-
+    private final Intersection[] intersections;
+    private final Path[] paths;
+    private final Field[] fields;
 
     public Game(String... playerNames) {
         players = new Player[playerNames.length];
@@ -25,18 +21,11 @@ public class Game {
             players[i] = new Player(playerNames[i]);
         }
 
-        // Boardbuilder builder;
-        if (players.length <= 4) {
-          // builder = new StandardBoardBuilder();
-        } else {
-            // builder = new ExtensionBoardBuilder
-        }
-        // builder.build();
+        IBoardBuilder builder = new StandardBoardBuilder();
 
-        // inter = builder.getIntersections();
-        // paths = builder.getPaths();
-        // terrains = builder.getTerrain();
-
+        intersections = builder.getIntersections();
+        paths = builder.getPaths();
+        fields = builder.getFields();
     }
 
 
