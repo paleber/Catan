@@ -2,7 +2,7 @@ package tui;
 
 import control.IMenuControl;
 import control.MenuMainControl;
-import engine.control.ControlManager;
+import engine.control.imp.ControlManager;
 
 public final class TuiMenuControl implements IMenuControl {
 

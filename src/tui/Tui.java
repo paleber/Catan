@@ -1,6 +1,6 @@
 package tui;
 
-import engine.control.ControlManager;
+import engine.control.imp.ControlManager;
 import engine.control.IView;
 
 public final class Tui implements IView {

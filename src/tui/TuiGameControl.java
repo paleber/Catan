@@ -1,6 +1,6 @@
 package tui;
 
-import engine.control.ControlManager;
+import engine.control.imp.ControlManager;
 import control.GameMainControl;
 import engine.control.IControl;
 

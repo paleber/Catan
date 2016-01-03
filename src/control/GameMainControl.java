@@ -1,6 +1,6 @@
 package control;
 
-import engine.control.ControlManager;
+import engine.control.imp.ControlManager;
 import engine.control.IControl;
 import engine.control.IMainControl;
 

@@ -1,6 +1,6 @@
 package gui;
 
-import engine.control.ControlManager;
+import engine.control.imp.ControlManager;
 import engine.control.IView;
 
 public final class Gui implements IView {
