@@ -3,17 +3,21 @@ import com.google.inject.Inject;
 import com.google.inject.Injector;
 import control.GameMainControl;
 import control.MenuMainControl;
+import engine.console.imp.ConsoleModule;
 import engine.control.IControlManager;
 import engine.control.imp.ControlModule;
 import geo.imp.GeoModule;
 import gui.Gui;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import tui.Tui;
 
 public class Catan {
 
     private static final Injector INJECTOR = Guice.createInjector(
             new ControlModule(),
-            new GeoModule()
+            new GeoModule(),
+            new ConsoleModule()
     );
 
     @Inject
@@ -46,8 +50,11 @@ public class Catan {
     }
 
     public static void main(String[] args) {
+        LogManager.getLogger();
         Catan catan = INJECTOR.getInstance(Catan.class);
         catan.initialize();
     }
+
+
 
 }

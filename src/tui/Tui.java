@@ -1,21 +1,27 @@
 package tui;
 
 import com.google.inject.Inject;
-import com.google.inject.assistedinject.Assisted;
-import com.google.inject.assistedinject.AssistedInject;
 import control.MenuMainControl;
+import engine.console.IConsole;
 import engine.control.IControlManager;
-import engine.control.imp.ControlManager;
 import engine.control.IView;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 
 public final class Tui implements IView {
+
+    private static final Logger LOGGER = LogManager.getLogger(Tui.class);
 
     @Inject
     private TuiMenuControl menu;
 
+    @Inject
+    private IConsole console;
+
     @Override
     public void initialize(IControlManager cm) {
-        System.out.println("-->> Tui initialize");
+        LOGGER.info("Initializing Tui");
         cm.registerControl(menu, MenuMainControl.class, this);
     }
 
@@ -23,5 +29,12 @@ public final class Tui implements IView {
     public void shutdown() {
         System.out.println("Tui shutdown");
     }
+
+    public IConsole getConsole() {
+        return console;
+    }
+
+
+
 
 }

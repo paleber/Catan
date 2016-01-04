@@ -4,13 +4,17 @@ import engine.control.IControl;
 import engine.control.IControlManager;
 import engine.control.IMainControl;
 import engine.control.IView;
-import tui.Tui;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+
 
 public final class ControlManager implements IControlManager {
 
     private final Map<Class<? extends IMainControl>, IMainControl> mainControls = new HashMap<>();
+
     private final List<IView> views = new LinkedList<>();
     private final Map<Class<?>, Object> sharedData = new HashMap<>();
 
