@@ -2,8 +2,10 @@ package engine.control;
 
 public interface IControl {
 
-    void onStart();
+    void initialize(IControlManager cm, IView view);
 
-    void onStop();
+    void start();
+
+    void stop();
 
 }

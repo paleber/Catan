@@ -1,39 +1,53 @@
 import com.google.inject.Guice;
+import com.google.inject.Inject;
 import com.google.inject.Injector;
-import control.MenuMainControl;
-import engine.console.imp.ConsoleModule;
-import engine.control.imp.ControlManager;
 import control.GameMainControl;
+import control.MenuMainControl;
+import engine.control.IControlManager;
+import engine.control.imp.ControlModule;
 import geo.imp.GeoModule;
 import gui.Gui;
 import tui.Tui;
 
 public class Catan {
 
-    public static void main(final String[] args) {
+    private static final Injector INJECTOR = Guice.createInjector(
+            new ControlModule(),
+            new GeoModule()
+    );
 
-        Injector injector = Guice.createInjector(
-                new GeoModule(),
-                new ConsoleModule()
-        );
+    @Inject
+    private IControlManager controlManager;
 
+    @Inject
+    private MenuMainControl menu;
 
+    @Inject
+    private GameMainControl game;
 
+    @Inject
+    private Tui tui;
+
+    @Inject
+    private Gui gui;
+
+    private void initialize() {
+
+        // TODO add shared Data
+
+        controlManager.registerMainControl(menu);
+        controlManager.registerMainControl(game);
+
+        controlManager.registerView(tui);
+        controlManager.registerView(gui);
+
+        controlManager.switchControl(MenuMainControl.class);
 
     }
 
-    private Catan() {
-        ControlManager cm = new ControlManager();
-
-        new GameMainControl(cm);
-        new MenuMainControl(cm);
-
-        new Gui(cm);
-        new Tui(cm);
-
-        cm.switchControl(MenuMainControl.class);
-
-        cm.shutdown(); // TODO entfernen
+    public static void main(String[] args) {
+        Catan catan = INJECTOR.getInstance(Catan.class);
+        catan.initialize();
     }
 
 }

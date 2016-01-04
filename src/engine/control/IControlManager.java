@@ -1,12 +1,14 @@
 package engine.control;
 
+import tui.Tui;
+
 public interface IControlManager {
 
     void registerView(IView view);
 
     void registerMainControl(IMainControl ctrl);
 
-    void registerViewControl(IControl view, Class<? extends IMainControl> ctrl);
+    void registerControl(IControl ctrl, Class<? extends IMainControl> type, IView view);
 
     void switchControl(Class<? extends IMainControl> ctrl);
 

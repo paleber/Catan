@@ -2,21 +2,25 @@ package tui;
 
 import control.IMenuControl;
 import control.MenuMainControl;
+import engine.control.IControlManager;
+import engine.control.IView;
 import engine.control.imp.ControlManager;
 
 public final class TuiMenuControl implements IMenuControl {
 
-    public TuiMenuControl(ControlManager cm, Tui tui) {
-        cm.registerViewControl(this, MenuMainControl.class);
+
+    @Override
+    public void initialize(IControlManager cm, IView view) {
+
     }
 
     @Override
-    public void onStart() {
+    public void start() {
 
     }
 
     @Override
-    public void onStop() {
+    public void stop() {
 
     }
 
