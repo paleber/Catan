@@ -12,7 +12,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import tui.Tui;
 
-public class Catan {
+public final class Catan {
 
     private static final Injector INJECTOR = Guice.createInjector(
             new ControlModule(),
@@ -47,6 +47,7 @@ public class Catan {
 
         controlManager.switchControl(MenuMainControl.class);
 
+        controlManager.shutdown();
     }
 
     public static void main(String[] args) {
@@ -54,7 +55,5 @@ public class Catan {
         Catan catan = INJECTOR.getInstance(Catan.class);
         catan.initialize();
     }
-
-
 
 }
