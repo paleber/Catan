@@ -1,9 +1,9 @@
-package game.board;
+package model.game.board;
 
-import game.object.Field;
-import game.object.Material;
-import game.object.Intersection;
-import game.object.Path;
+import model.game.object.Field;
+import model.game.object.Material;
+import model.game.object.Intersection;
+import model.game.object.Path;
 import geo.*;
 
 import java.util.*;

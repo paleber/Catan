@@ -1,4 +1,4 @@
-package game.board;
+package model.game.board;
 
 import com.google.inject.Guice;
 import geo.*;

@@ -1,0 +1,74 @@
+package model.common;
+
+import java.util.LinkedList;
+import java.util.List;
+
+import static model.common.CatanException.*;
+
+public final class PlayerData {
+
+    public static final int MIN_NUMBER_PLAYER = 1;
+    public static final int MAX_NUMBER_PLAYER = 4;
+
+    private final List<String> names = new LinkedList<>();
+
+    public PlayerData() {
+        resizeList(MIN_NUMBER_PLAYER);
+    }
+
+    public void setNumberPlayers(int n) throws IllegalPlayerNumberException {
+        if (n < MIN_NUMBER_PLAYER || n > MAX_NUMBER_PLAYER) {
+            throw new IllegalPlayerNumberException();
+        }
+    }
+
+    private void resizeList(int n) {
+        while (n < names.size()) {
+            names.add("Player" + (names.size() + 1));
+        }
+        while (n > names.size()) {
+            names.remove(names.size() - 1);
+        }
+    }
+
+    public int getNumberPlayers() {
+        return names.size();
+    }
+
+    public void setPlayerName(int index, String name)
+            throws PlayerNotExistsException, NameAlreadyInUseException, IllegalNameException {
+
+        if (names.contains(name)) {
+            throw new NameAlreadyInUseException();
+        }
+
+        if (!checkName(name)) {
+            throw new IllegalNameException();
+        }
+
+        try {
+            names.remove(index);
+        } catch (IndexOutOfBoundsException e) {
+            throw new PlayerNotExistsException();
+        }
+
+        names.add(index, name);
+    }
+
+    public String getPlayerName(int index) throws PlayerNotExistsException {
+        try {
+            return names.get(index);
+        } catch (IndexOutOfBoundsException e) {
+            throw new PlayerNotExistsException();
+        }
+    }
+
+    private boolean checkName(String name) {
+        if (name.contains(" ")) {
+            return false;
+        }
+        // TODO more checks like length, illegal characters and numbers
+        return true;
+    }
+
+}

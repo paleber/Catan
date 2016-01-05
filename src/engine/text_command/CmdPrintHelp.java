@@ -6,12 +6,12 @@ import org.apache.logging.log4j.Logger;
 import java.util.Map;
 
 /** TextCommand for printing help on console. */
-final class TextCmdPrintHelp implements ITextCommand {
+final class CmdPrintHelp implements ITextCommand {
 
     private static final Logger LOGGER = LogManager.getLogger();
     private final Map<String, ITextCommand> cmdMap;
 
-    public TextCmdPrintHelp(final Map<String, ITextCommand> cmdMap) {
+    public CmdPrintHelp(final Map<String, ITextCommand> cmdMap) {
         this.cmdMap = cmdMap;
     }
 

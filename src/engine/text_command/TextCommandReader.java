@@ -36,7 +36,7 @@ public class TextCommandReader {
     }
 
     public TextCommandReader() {
-        cmdMap.put("help", new TextCmdPrintHelp(cmdMap));
+        cmdMap.put("help", new CmdPrintHelp(cmdMap));
     }
 
     public void addCommand(String name, ITextCommand cmd) {

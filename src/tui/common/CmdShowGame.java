@@ -19,7 +19,7 @@ public class CmdShowGame implements ITextCommand {
 
     @Override
     public String getDescription() {
-        return "show the game";
+        return "show the model";
     }
 
 }

@@ -1,11 +1,11 @@
-package game;
+package model.game;
 
-import game.board.IBoardBuilder;
-import game.board.StandardBoardBuilder;
-import game.object.Field;
-import game.object.Intersection;
-import game.object.Path;
-import game.object.Player;
+import model.game.board.IBoardBuilder;
+import model.game.board.StandardBoardBuilder;
+import model.game.object.Field;
+import model.game.object.Intersection;
+import model.game.object.Path;
+import model.game.object.Player;
 
 
 public class Game {

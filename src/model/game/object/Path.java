@@ -1,4 +1,4 @@
-package game.object;
+package model.game.object;
 
 
 import geo.ILine;

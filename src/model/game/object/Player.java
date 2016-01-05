@@ -1,6 +1,5 @@
-package game.object;
+package model.game.object;
 
-import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.Map;
 

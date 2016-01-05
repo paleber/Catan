@@ -1,4 +1,4 @@
-package game.object;
+package model.game.object;
 
 /**
  * Enum with Materials used for Resources and Terrain.

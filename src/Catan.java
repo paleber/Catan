@@ -8,6 +8,7 @@ import engine.control.IControlManager;
 import engine.control.imp.ControlModule;
 import geo.imp.GeoModule;
 import gui.Gui;
+import model.common.PlayerData;
 import org.apache.logging.log4j.LogManager;
 import tui.Tui;
 
@@ -34,9 +35,12 @@ public final class Catan {
     @Inject
     private Gui gui;
 
+    @Inject
+    private PlayerData playerData;
+
     private void initialize() {
 
-        // TODO add shared Data
+        controlManager.addSharedData(playerData);
 
         controlManager.registerMainControl(menu);
         controlManager.registerMainControl(game);
