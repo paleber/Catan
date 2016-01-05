@@ -20,7 +20,7 @@ public final class MenuMainControl implements IMainControl {
 
     @Override
     public void initialize(IControlManager controlManager) {
-        LOGGER.info("Initializing");
+        LOGGER.trace("Initializing");
         this.controlManager = controlManager;
     }
 
@@ -32,13 +32,13 @@ public final class MenuMainControl implements IMainControl {
 
     @Override
     public void start() {
-        LOGGER.info("Starting");
+        LOGGER.trace("Starting");
         views.forEach(IMenuControl::start);
     }
 
     @Override
     public void stop() {
-        LOGGER.info("Stopping");
+        LOGGER.trace("Stopping");
         views.forEach(IMenuControl::stop);
     }
 

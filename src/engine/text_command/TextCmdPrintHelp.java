@@ -1,4 +1,4 @@
-package tui.cmd;
+package engine.text_command;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -6,14 +6,12 @@ import org.apache.logging.log4j.Logger;
 import java.util.Map;
 
 /** TextCommand for printing help on console. */
-public final class TextCmdPrintHelp implements TextCommand {
+final class TextCmdPrintHelp implements ITextCommand {
 
     private static final Logger LOGGER = LogManager.getLogger();
-    private final Map<String, TextCommand> cmdMap;
+    private final Map<String, ITextCommand> cmdMap;
 
-    /** Default-Constructor.
-     * @param cmdMap */
-    public TextCmdPrintHelp(final Map<String, TextCommand> cmdMap) {
+    public TextCmdPrintHelp(final Map<String, ITextCommand> cmdMap) {
         this.cmdMap = cmdMap;
     }
 

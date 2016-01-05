@@ -9,7 +9,6 @@ import engine.control.imp.ControlModule;
 import geo.imp.GeoModule;
 import gui.Gui;
 import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import tui.Tui;
 
 public final class Catan {
@@ -46,8 +45,6 @@ public final class Catan {
         controlManager.registerView(gui);
 
         controlManager.switchControl(MenuMainControl.class);
-
-        controlManager.shutdown();
     }
 
     public static void main(String[] args) {

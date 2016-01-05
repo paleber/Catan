@@ -5,16 +5,13 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>de.htwg.se.catan</groupId>
     <artifactId>catan</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>1.0</version>
     <build>
         <sourceDirectory>src</sourceDirectory>
         <testSourceDirectory>test</testSourceDirectory>
         <resources>
             <resource>
                 <directory>res</directory>
-                <includes>
-                    <include>log4j2.xml</include>
-                </includes>
             </resource>
         </resources>
         <plugins>

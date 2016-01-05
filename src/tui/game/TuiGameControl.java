@@ -1,4 +1,4 @@
-package tui;
+package tui.game;
 
 import engine.control.IControlManager;
 import engine.control.IView;
@@ -12,17 +12,17 @@ public final class TuiGameControl implements IControl {
 
     @Override
     public void initialize(IControlManager cm, IView view) {
-        LOGGER.info("Initializing");
+        LOGGER.trace("Initializing");
     }
 
     @Override
     public void start() {
-        LOGGER.info("Starting");
+        LOGGER.trace("Starting");
     }
 
     @Override
     public void stop() {
-        LOGGER.info("Stopping");
+        LOGGER.trace("Stopping");
     }
 
 }

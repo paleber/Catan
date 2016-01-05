@@ -20,14 +20,14 @@ public final class Gui implements IView {
 
     @Override
     public void initialize(IControlManager cm) {
-        LOGGER.info("Initializing");
+        LOGGER.trace("Initializing");
         cm.registerControl(menu, MenuMainControl.class, this);
         cm.registerControl(game, GameMainControl.class, this);
     }
 
     @Override
     public void shutdown() {
-        LOGGER.info("Shutting down");
+        LOGGER.trace("Shutting down");
     }
 
 }
