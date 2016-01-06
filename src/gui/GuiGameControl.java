@@ -1,12 +1,12 @@
 package gui;
 
-import engine.control.IControl;
 import engine.control.IControlManager;
+import engine.control.IControlSubject;
 import engine.control.IView;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public final class GuiGameControl implements IControl {
+public final class GuiGameControl implements IControlSubject {
 
     private static final Logger LOGGER = LogManager.getLogger();
 

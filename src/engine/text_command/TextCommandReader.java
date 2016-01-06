@@ -62,14 +62,17 @@ public class TextCommandReader {
     }
 
     private void executeCommand(final String line) {
+        LOGGER.trace("execute command: " + line);
         String[] words = line.split(" ");
-        if(words.length > 0) {
+        if (words.length > 0) {
             ITextCommand cmd = cmdMap.get(words[0]);
             if (cmd != null) {
                 try {
                     cmd.execute(words);
-                } catch(IllegalArgumentException e) {
-                    LOGGER.error("illegal arguments, " + words[0] + cmd.getDescription());
+                } catch (IndexOutOfBoundsException e) {
+                    LOGGER.error("not enough arguments, " + words[0] + ": " + cmd.getDescription());
+                } catch (NumberFormatException e) {
+                    LOGGER.error("illegal argument format, " + words[0] + ": " + cmd.getDescription());
                 }
             } else {
                 LOGGER.error("unknown command, \"help\" to print available commands");

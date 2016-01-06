@@ -1,6 +1,6 @@
 package tui.common;
 
-import control.MenuMainControl;
+import control.MenuControl;
 import engine.control.IControlManager;
 import engine.text_command.ITextCommand;
 
@@ -14,7 +14,7 @@ public class CmdShowMenu implements ITextCommand {
 
     @Override
     public void execute(final String... args) {
-        cm.switchControl(MenuMainControl.class);
+        cm.switchControl(MenuControl.class);
     }
 
     @Override

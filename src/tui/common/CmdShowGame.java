@@ -1,6 +1,6 @@
 package tui.common;
 
-import control.GameMainControl;
+import control.GameControl;
 import engine.control.IControlManager;
 import engine.text_command.ITextCommand;
 
@@ -14,12 +14,12 @@ public class CmdShowGame implements ITextCommand {
 
     @Override
     public void execute(final String... args) {
-        cm.switchControl(GameMainControl.class);
+        cm.switchControl(GameControl.class);
     }
 
     @Override
     public String getDescription() {
-        return "show the model";
+        return "show the game";
     }
 
 }

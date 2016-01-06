@@ -1,12 +1,12 @@
 package gui;
 
-import control.IMenuControl;
+import control.IMenuSubject;
 import engine.control.IControlManager;
 import engine.control.IView;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public final class GuiMenuControl implements IMenuControl {
+public final class GuiMenuControl implements IMenuSubject {
 
     private static final Logger LOGGER = LogManager.getLogger();
 

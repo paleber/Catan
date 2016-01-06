@@ -8,7 +8,7 @@ public interface IControlManager {
 
     void registerMainControl(IMainControl ctrl);
 
-    void registerControl(IControl ctrl, Class<? extends IMainControl> type, IView view);
+    void registerControl(IControlSubject ctrl, Class<? extends IMainControl> type, IView view);
 
     void switchControl(Class<? extends IMainControl> ctrl);
 

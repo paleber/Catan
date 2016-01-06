@@ -1,24 +1,35 @@
 package tui.menu;
 
-import control.IMenuControl;
+import control.IMenuSubject;
+import control.MenuControl;
 import engine.control.IControlManager;
+import engine.control.IMainControl;
 import engine.control.IView;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import engine.text_command.TextCommandReader;
+import tui.Tui;
+import tui.common.CmdShowGame;
 import tui.common.CmdShutdown;
 
-public final class TuiMenuControl implements IMenuControl {
+public final class TuiMenuControl implements IMenuSubject {
 
     private static final Logger LOGGER = LogManager.getLogger();
 
     private TextCommandReader reader = new TextCommandReader();
 
     @Override
-    public void initialize(IControlManager cm, IView view) {
+    public void initialize(IControlManager cm, IMainControl main, IView view) {
+        assert (view instanceof Tui);
+        assert (main instanceof MenuControl);
+
+        Tui tui = (Tui) view;
+        MenuControl menu = (MenuControl) main;
+
         LOGGER.trace("Initializing");
-        // add set Number command
-        // add set Name command
+        reader.addCommand("number", new CmdSetNumberPlayers(menu));// add set Number command
+        //reader.addCommand("name");// add set Name command
+        reader.addCommand("game", new CmdShowGame(cm));
         reader.addCommand("exit", new CmdShutdown(cm));
     }
 

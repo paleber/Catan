@@ -18,19 +18,14 @@ final class CmdPrintHelp implements ITextCommand {
 
     @Override
     public void execute(final String... args) {
-        if (args.length != 1) {
-            throw new IllegalArgumentException();
-        }
         for (String cmd : cmdMap.keySet()) {
-            LOGGER.info(cmd + cmdMap.get(cmd).getDescription());
+            LOGGER.info(cmd + ": " + cmdMap.get(cmd).getDescription());
         }
     }
 
     @Override
     public String getDescription() {
-        return ": print the help";
+        return "print the help";
     }
-
-
 
 }

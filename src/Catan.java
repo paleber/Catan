@@ -1,8 +1,8 @@
 import com.google.inject.Guice;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
-import control.GameMainControl;
-import control.MenuMainControl;
+import control.GameControl;
+import control.MenuControl;
 import engine.console.imp.ConsoleModule;
 import engine.control.IControlManager;
 import engine.control.imp.ControlModule;
@@ -23,10 +23,10 @@ public final class Catan {
     private IControlManager controlManager;
 
     @Inject
-    private MenuMainControl menu;
+    private MenuControl menu;
 
     @Inject
-    private GameMainControl game;
+    private GameControl game;
 
     @Inject
     private Tui tui;
@@ -47,7 +47,7 @@ public final class Catan {
         controlManager.registerView(tui);
         controlManager.registerView(gui);
 
-        controlManager.switchControl(MenuMainControl.class);
+        controlManager.switchControl(MenuControl.class);
     }
 
     public static void main(String[] args) {

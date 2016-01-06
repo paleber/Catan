@@ -2,7 +2,7 @@ package engine.control;
 
 public interface IMainControl {
 
-    void addControl(IControl control);
+    void addControl(IControlSubject control);
 
     void initialize(IControlManager cm);
 

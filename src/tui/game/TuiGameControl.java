@@ -1,12 +1,12 @@
 package tui.game;
 
 import engine.control.IControlManager;
+import engine.control.IControlSubject;
 import engine.control.IView;
-import engine.control.IControl;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public final class TuiGameControl implements IControl {
+public final class TuiGameControl implements IControlSubject {
 
     private static final Logger LOGGER = LogManager.getLogger();
 

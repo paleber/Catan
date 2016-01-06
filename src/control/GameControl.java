@@ -1,12 +1,12 @@
 package control;
 
 import engine.control.IControlManager;
-import engine.control.IControl;
+import engine.control.IControlSubject;
 import engine.control.IMainControl;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public final class GameMainControl implements IMainControl{
+public final class GameControl implements IMainControl{
 
     private static final Logger LOGGER = LogManager.getLogger();
 
@@ -19,7 +19,7 @@ public final class GameMainControl implements IMainControl{
     }
 
     @Override
-    public void addControl(IControl view) {
+    public void addControl(IControlSubject view) {
 
     }
 

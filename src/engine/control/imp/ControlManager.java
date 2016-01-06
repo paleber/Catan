@@ -1,7 +1,7 @@
 package engine.control.imp;
 
-import engine.control.IControl;
 import engine.control.IControlManager;
+import engine.control.IControlSubject;
 import engine.control.IMainControl;
 import engine.control.IView;
 
@@ -34,7 +34,7 @@ public final class ControlManager implements IControlManager {
     }
 
     @Override
-    public void registerControl(IControl ctrl, Class<? extends IMainControl> type, IView view) {
+    public void registerControl(IControlSubject ctrl, Class<? extends IMainControl> type, IView view) {
         assert (mainControls.containsKey(ctrl));
         mainControls.get(type).addControl(ctrl);
         ctrl.initialize(this, view);
