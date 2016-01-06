@@ -2,6 +2,7 @@ package engine.text_command;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.core.config.plugins.convert.TypeConverters;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -65,7 +66,11 @@ public class TextCommandReader {
         if(words.length > 0) {
             ITextCommand cmd = cmdMap.get(words[0]);
             if (cmd != null) {
-                cmd.execute(words);
+                try {
+                    cmd.execute(words);
+                } catch(IllegalArgumentException e) {
+                    LOGGER.error("illegal arguments, " + words[0] + cmd.getDescription());
+                }
             } else {
                 LOGGER.error("unknown command, \"help\" to print available commands");
             }

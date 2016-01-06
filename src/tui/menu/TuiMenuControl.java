@@ -17,6 +17,8 @@ public final class TuiMenuControl implements IMenuControl {
     @Override
     public void initialize(IControlManager cm, IView view) {
         LOGGER.trace("Initializing");
+        // add set Number command
+        // add set Name command
         reader.addCommand("exit", new CmdShutdown(cm));
     }
 
@@ -33,8 +35,8 @@ public final class TuiMenuControl implements IMenuControl {
     }
 
     @Override
-    public void test() {
-        System.out.println("testing tui menu Controller");
+    public void updatePlayerNames(String names) {
+        LOGGER.info("Player names updated");
     }
 
 }

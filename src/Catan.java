@@ -9,7 +9,6 @@ import engine.control.imp.ControlModule;
 import geo.imp.GeoModule;
 import gui.Gui;
 import model.common.PlayerData;
-import org.apache.logging.log4j.LogManager;
 import tui.Tui;
 
 public final class Catan {
@@ -52,7 +51,6 @@ public final class Catan {
     }
 
     public static void main(String[] args) {
-        LogManager.getLogger();
         Catan catan = INJECTOR.getInstance(Catan.class);
         catan.initialize();
     }

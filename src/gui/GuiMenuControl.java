@@ -26,7 +26,7 @@ public final class GuiMenuControl implements IMenuControl {
     }
 
     @Override
-    public void test() {
-        System.out.println("testing Gui menu Controller");
+    public void updatePlayerNames(String names) {
+
     }
 }

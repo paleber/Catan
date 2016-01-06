@@ -5,6 +5,6 @@ import engine.control.IControl;
 
 public interface IMenuControl extends IControl {
 
-    void test();
+    void updatePlayerNames(String names);
 
 }

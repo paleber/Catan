@@ -23,19 +23,16 @@ public final class PlayerData {
     }
 
     private void resizeList(int n) {
-        while (n < names.size()) {
+        while (names.size() < n) {
             names.add("Player" + (names.size() + 1));
         }
-        while (n > names.size()) {
+        while (names.size()> n) {
             names.remove(names.size() - 1);
         }
+
     }
 
-    public int getNumberPlayers() {
-        return names.size();
-    }
-
-    public void setPlayerName(int index, String name)
+    public void setPlayerName(String name, int index)
             throws PlayerNotExistsException, NameAlreadyInUseException, IllegalNameException {
 
         if (names.contains(name)) {
@@ -55,12 +52,8 @@ public final class PlayerData {
         names.add(index, name);
     }
 
-    public String getPlayerName(int index) throws PlayerNotExistsException {
-        try {
-            return names.get(index);
-        } catch (IndexOutOfBoundsException e) {
-            throw new PlayerNotExistsException();
-        }
+    public String[] getPlayerNames() {
+        return names.toArray(new String[0]);
     }
 
     private boolean checkName(String name) {
