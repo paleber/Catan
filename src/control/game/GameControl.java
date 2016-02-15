@@ -1,25 +1,25 @@
-package control;
+package control.game;
 
-import engine.control.IControlManager;
-import engine.control.IControlSubject;
 import engine.control.IMainControl;
+import engine.control.IControlObserver;
+import engine.control.IControlSubject;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public final class GameControl implements IMainControl{
+public final class GameControl implements IControlObserver {
 
     private static final Logger LOGGER = LogManager.getLogger();
 
-    private IControlManager controlManager;
+    private IMainControl controlManager;
 
     @Override
-    public void initialize(IControlManager controlManager) {
+    public void initialize(IMainControl controlManager) {
         LOGGER.trace("Initializing");
         this.controlManager = controlManager;
     }
 
     @Override
-    public void addControl(IControlSubject view) {
+    public void addSubject(IControlSubject view) {
 
     }
 

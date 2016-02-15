@@ -1,8 +1,8 @@
-package control;
+package control.menu;
 
-import engine.control.IControlManager;
-import engine.control.IControlSubject;
 import engine.control.IMainControl;
+import engine.control.IControlObserver;
+import engine.control.IControlSubject;
 import model.common.PlayerData;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -10,7 +10,7 @@ import org.apache.logging.log4j.Logger;
 import java.util.LinkedList;
 import java.util.List;
 
-public final class MenuControl implements IMainControl {
+public final class MenuControl implements IControlObserver {
 
     private static final Logger LOGGER = LogManager.getLogger();
 
@@ -19,13 +19,13 @@ public final class MenuControl implements IMainControl {
     private PlayerData playerData;
 
     @Override
-    public void initialize(IControlManager cm) {
+    public void initialize(IMainControl cm) {
         LOGGER.trace("Initializing");
         playerData = (PlayerData) cm.getSharedData(PlayerData.class);
     }
 
     @Override
-    public void addControl(IControlSubject view) {
+    public void addSubject(IControlSubject view) {
         assert (view instanceof IMenuSubject);
         views.add((IMenuSubject) view);
     }

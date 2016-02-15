@@ -1,9 +1,9 @@
 package tui.menu;
 
-import control.IMenuSubject;
-import control.MenuControl;
-import engine.control.IControlManager;
+import control.menu.IMenuSubject;
+import control.menu.MenuControl;
 import engine.control.IMainControl;
+import engine.control.IControlObserver;
 import engine.control.IView;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -19,7 +19,7 @@ public final class TuiMenuControl implements IMenuSubject {
     private TextCommandReader reader = new TextCommandReader();
 
     @Override
-    public void initialize(IControlManager cm, IMainControl main, IView view) {
+    public void initialize(IMainControl cm, IControlObserver main, IView view) {
         assert (view instanceof Tui);
         assert (main instanceof MenuControl);
 

@@ -1,6 +1,6 @@
 package tui.menu;
 
-import control.MenuControl;
+import control.menu.MenuControl;
 import engine.text_command.ITextCommand;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

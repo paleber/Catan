@@ -1,14 +1,14 @@
 package tui.common;
 
-import control.GameControl;
-import engine.control.IControlManager;
+import control.game.GameControl;
+import engine.control.IMainControl;
 import engine.text_command.ITextCommand;
 
 public class CmdShowGame implements ITextCommand {
 
-    private final IControlManager cm;
+    private final IMainControl cm;
 
-    public CmdShowGame(final IControlManager cm) {
+    public CmdShowGame(final IMainControl cm) {
         this.cm = cm;
     }
 

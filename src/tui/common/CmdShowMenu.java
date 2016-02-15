@@ -1,14 +1,14 @@
 package tui.common;
 
-import control.MenuControl;
-import engine.control.IControlManager;
+import control.menu.MenuControl;
+import engine.control.IMainControl;
 import engine.text_command.ITextCommand;
 
 public class CmdShowMenu implements ITextCommand {
 
-    private final IControlManager cm;
+    private final IMainControl cm;
 
-    public CmdShowMenu(final IControlManager cm) {
+    public CmdShowMenu(final IMainControl cm) {
         this.cm = cm;
     }
 

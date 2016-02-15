@@ -1,13 +1,13 @@
 package tui.common;
 
-import engine.control.IControlManager;
+import engine.control.IMainControl;
 import engine.text_command.ITextCommand;
 
 public final class CmdShutdown implements ITextCommand {
 
-    private final IControlManager cm;
+    private final IMainControl cm;
 
-    public CmdShutdown(final IControlManager cm) {
+    public CmdShutdown(final IMainControl cm) {
         this.cm = cm;
     }
 

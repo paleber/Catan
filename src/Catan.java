@@ -1,10 +1,9 @@
 import com.google.inject.Guice;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
-import control.GameControl;
-import control.MenuControl;
-import engine.console.imp.ConsoleModule;
-import engine.control.IControlManager;
+import control.game.GameControl;
+import control.menu.MenuControl;
+import engine.control.IMainControl;
 import engine.control.imp.ControlModule;
 import geo.imp.GeoModule;
 import gui.Gui;
@@ -15,12 +14,11 @@ public final class Catan {
 
     private static final Injector INJECTOR = Guice.createInjector(
             new ControlModule(),
-            new GeoModule(),
-            new ConsoleModule()
+            new GeoModule()
     );
 
     @Inject
-    private IControlManager controlManager;
+    private IMainControl controlManager;
 
     @Inject
     private MenuControl menu;
@@ -38,14 +36,13 @@ public final class Catan {
     private PlayerData playerData;
 
     private void initialize() {
-
         controlManager.addSharedData(playerData);
 
-        controlManager.registerMainControl(menu);
-        controlManager.registerMainControl(game);
+        controlManager.addObserver(menu);
+        controlManager.addObserver(game);
 
-        controlManager.registerView(tui);
-        controlManager.registerView(gui);
+        controlManager.addView(tui);
+        controlManager.addView(gui);
 
         controlManager.switchControl(MenuControl.class);
     }

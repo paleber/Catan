@@ -2,12 +2,17 @@ package engine.control;
 
 public interface IMainControl {
 
-    void addControl(IControlSubject control);
+    void addView(IView view);
 
-    void initialize(IControlManager cm);
+    void addObserver(IControlObserver ctrl);
 
-    void start();
+    void addSubject(IControlSubject ctrl, Class<? extends IControlObserver> type, IView view);
 
-    void stop();
+    void switchControl(Class<? extends IControlObserver> ctrl);
 
+    void shutdown();
+
+    void addSharedData(Object data);
+
+    Object getSharedData(Class<?> type);
 }

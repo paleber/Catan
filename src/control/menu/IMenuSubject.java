@@ -1,4 +1,4 @@
-package control;
+package control.menu;
 
 
 import engine.control.IControlSubject;

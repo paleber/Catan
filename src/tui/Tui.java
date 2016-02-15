@@ -1,9 +1,9 @@
 package tui;
 
 import com.google.inject.Inject;
-import control.GameControl;
-import control.MenuControl;
-import engine.control.IControlManager;
+import control.game.GameControl;
+import control.menu.MenuControl;
+import engine.control.IMainControl;
 import engine.control.IView;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -22,10 +22,10 @@ public final class Tui implements IView {
     private TuiGameControl game;
 
     @Override
-    public void initialize(final IControlManager cm) {
+    public void initialize(final IMainControl cm) {
         LOGGER.trace("Initializing");
-        cm.registerControl(menu, MenuControl.class, this);
-        cm.registerControl(game, GameControl.class, this);
+        cm.addSubject(menu, MenuControl.class, this);
+        cm.addSubject(game, GameControl.class, this);
     }
 
     @Override
