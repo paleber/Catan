@@ -21,6 +21,7 @@ public final class MenuControl implements IControlObserver {
     @Override
     public void initialize(IMainControl cm) {
         LOGGER.trace("Initializing");
+        cm.registerObserver(this);
         playerData = (PlayerData) cm.getSharedData(PlayerData.class);
     }
 

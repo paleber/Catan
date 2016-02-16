@@ -15,6 +15,7 @@ public final class GameControl implements IControlObserver {
     @Override
     public void initialize(IMainControl controlManager) {
         LOGGER.trace("Initializing");
+        controlManager.registerObserver(this);
         this.controlManager = controlManager;
     }
 

@@ -22,10 +22,15 @@ public final class Tui implements IView {
     private TuiGameControl game;
 
     @Override
-    public void initialize(final IMainControl cm) {
+    public void initialize(final IMainControl main) {
         LOGGER.trace("Initializing");
-        cm.addSubject(menu, MenuControl.class, this);
-        cm.addSubject(game, GameControl.class, this);
+        main.registerView(this);
+
+        menu.initialize(main, this);
+
+        //cm.addSubject(menu, MenuControl.class, this);
+        //cm.addSubject(game, GameControl.class, this);
+        //cm.registerSubject(game, GameControl.class);
     }
 
     @Override

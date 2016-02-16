@@ -31,10 +31,13 @@ public final class Gui extends Application implements IView {
     private GuiGameControl game;
 
     @Override
-    public void initialize(IMainControl cm) {
+    public void initialize(IMainControl main) {
         LOGGER.trace("Initializing");
-        cm.addSubject(menu, MenuControl.class, this);
-        cm.addSubject(game, GameControl.class, this);
+
+        main.registerView(this);
+
+        menu.initialize(main, this);
+        game.initialize(main, this);
 
         new Thread(() -> {
             Application.launch(Gui.class);
@@ -46,18 +49,6 @@ public final class Gui extends Application implements IView {
         LOGGER.trace("Shutting down");
     }
 
-
-    private static final class Pane1 extends StackPane {
-
-        public Pane1() {
-            Button btn = new Button();
-            btn.setText("Say 'Hello World'");
-            btn.setOnAction(event -> System.out.println("Hello World!"));
-
-            getChildren().add(btn);
-
-        }
-    }
 
     @Override
     public void start(Stage stage) throws Exception {
@@ -88,7 +79,7 @@ public final class Gui extends Application implements IView {
 
     private Stage stage;
 
-    /*
+
     public void setPane(final StackPane pane) {
 
         while (stage == null) {
@@ -107,6 +98,6 @@ public final class Gui extends Application implements IView {
         } else {
             stage.getScene().setRoot(pane);
         }
-    } */
+    }
 
 }

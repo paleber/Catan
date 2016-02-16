@@ -33,7 +33,7 @@ public final class GuiMenuControl extends StackPane implements IMenuSubject {
     } */
 
     @Override
-    public void initialize(IMainControl cm, IControlObserver observer, IView view) {
+    public void initialize(IMainControl cm, IView view) {
         LOGGER.trace("Initializing");
 
 

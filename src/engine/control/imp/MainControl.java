@@ -5,15 +5,12 @@ import engine.control.IControlObserver;
 import engine.control.IControlSubject;
 import engine.control.IView;
 
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-
+import java.util.*;
 
 public final class MainControl implements IMainControl {
 
     private final Map<Class<? extends IControlObserver>, IControlObserver> observers = new HashMap<>();
+
 
     private final List<IView> views = new LinkedList<>();
     private final Map<Class<?>, Object> sharedData = new HashMap<>();
@@ -21,25 +18,32 @@ public final class MainControl implements IMainControl {
     private IControlObserver activeObserver = null;
 
     @Override
-    public void addView(IView view) {
+    public void registerView(IView view) {
+        assert (!views.contains(view));
         views.add(view);
-        view.initialize(this);
+        //view.initialize(this);
     }
 
     @Override
-    public void addObserver(IControlObserver ctrl) {
+    public void registerObserver(IControlObserver ctrl) {
         assert (!observers.containsKey(ctrl.getClass()));
         observers.put(ctrl.getClass(), ctrl);
-        ctrl.initialize(this);
+        //ctrl.initialize(this);
     }
 
     @Override
-    public void addSubject(IControlSubject ctrl, Class<? extends IControlObserver> type, IView view) {
-        assert (observers.containsKey(ctrl));
-        IControlObserver observer = observers.get(type);
-        observer.addSubject(ctrl);
-        ctrl.initialize(this, observer, view);
+    public IControlObserver getObserver(Class<? extends IControlObserver> type) {
+        assert (observers.containsKey(type));
+        return observers.get(type);
     }
+
+    /*
+    @Override
+    public void registerSubject(IControlSubject ctrl, Class<? extends IControlObserver> type) {
+        assert (observers.containsKey(type));
+        observers.get(type).addSubject(ctrl);
+        //ctrl.initialize(this, observer, view);
+    } */
 
     @Override
     public void switchControl(Class<? extends IControlObserver> ctrl) {

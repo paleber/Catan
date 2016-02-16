@@ -2,9 +2,9 @@ package engine.control;
 
 public interface IControlObserver {
 
-    void addSubject(IControlSubject control);
+    void addSubject(IControlSubject subject);
 
-    void initialize(IMainControl cm);
+    void initialize(IMainControl main);
 
     void start();
 

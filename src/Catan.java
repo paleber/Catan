@@ -20,7 +20,7 @@ public final class Catan {
     );
 
     @Inject
-    private IMainControl controlManager;
+    private IMainControl mainControl;
 
     @Inject
     private MenuControl menu;
@@ -38,15 +38,15 @@ public final class Catan {
     private PlayerData playerData;
 
     private void initialize() {
-        controlManager.addSharedData(playerData);
+        mainControl.addSharedData(playerData);
 
-        controlManager.addObserver(menu);
-        controlManager.addObserver(game);
+        menu.initialize(mainControl);
+        game.initialize(mainControl);
 
-        controlManager.addView(tui);
-        controlManager.addView(gui);
+        tui.initialize(mainControl);
+        gui.initialize(mainControl);
 
-        controlManager.switchControl(MenuControl.class);
+        mainControl.switchControl(MenuControl.class);
     }
 
     public static void main(String[] args) {

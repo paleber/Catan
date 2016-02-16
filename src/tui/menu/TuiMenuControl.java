@@ -1,9 +1,9 @@
 package tui.menu;
 
+import com.google.inject.Inject;
 import control.menu.IMenuSubject;
 import control.menu.MenuControl;
 import engine.control.IMainControl;
-import engine.control.IControlObserver;
 import engine.control.IView;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -18,19 +18,20 @@ public final class TuiMenuControl implements IMenuSubject {
 
     private TextCommandReader reader = new TextCommandReader();
 
+
     @Override
-    public void initialize(IMainControl cm, IControlObserver main, IView view) {
+    public void initialize(IMainControl main, IView view) {
         assert (view instanceof Tui);
-        assert (main instanceof MenuControl);
+        LOGGER.trace("Initializing");
 
         Tui tui = (Tui) view;
-        MenuControl menu = (MenuControl) main;
+        MenuControl menu = (MenuControl) main.getObserver(MenuControl.class);
+        menu.addSubject(this);
 
-        LOGGER.trace("Initializing");
         reader.addCommand("number", new CmdSetNumberPlayers(menu));// add set Number command
         //reader.addCommand("name");// add set Name command
-        reader.addCommand("game", new CmdShowGame(cm));
-        reader.addCommand("exit", new CmdShutdown(cm));
+        reader.addCommand("game", new CmdShowGame(main));
+        reader.addCommand("exit", new CmdShutdown(main));
     }
 
     @Override

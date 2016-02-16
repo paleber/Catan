@@ -12,7 +12,7 @@ public final class GuiGameControl implements IControlSubject {
     private static final Logger LOGGER = LogManager.getLogger();
 
     @Override
-    public void initialize(IMainControl cm, IControlObserver observer, IView view) {
+    public void initialize(IMainControl cm, IView view) {
         LOGGER.trace("Initializing");
     }
 
