@@ -7,6 +7,8 @@ import engine.control.IMainControl;
 import engine.control.imp.ControlModule;
 import geo.imp.GeoModule;
 import gui.Gui;
+import gui.MyApp;
+import javafx.application.Application;
 import model.common.PlayerData;
 import tui.Tui;
 
