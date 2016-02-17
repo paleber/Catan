@@ -1,17 +1,13 @@
 package gui;
 
-import com.google.inject.Inject;
 import control.menu.IMenuSubject;
 import engine.control.IMainControl;
-import engine.control.IControlObserver;
 import engine.control.IView;
-import javafx.scene.control.Button;
 import javafx.scene.layout.StackPane;
-import javafx.scene.shape.Circle;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public final class GuiMenuControl extends StackPane implements IMenuSubject {
+public final class GuiMenuControl extends StackPane implements IMenuSubject<Gui> {
 
     private static final Logger LOGGER = LogManager.getLogger();
 
@@ -33,7 +29,7 @@ public final class GuiMenuControl extends StackPane implements IMenuSubject {
     } */
 
     @Override
-    public void initialize(IMainControl cm, IView view) {
+    public void initialize(IMainControl cm, Gui gui) {
         LOGGER.trace("Initializing");
 
 

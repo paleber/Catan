@@ -1,8 +1,8 @@
 package engine.control;
 
-public interface IControlSubject {
+public interface IControlSubject<T extends IView>{
 
-    void initialize(IMainControl cm, IView view);
+    void initialize(IMainControl cm, T view);
 
     void start();
 

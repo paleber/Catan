@@ -2,26 +2,31 @@ package control.game;
 
 import engine.control.IMainControl;
 import engine.control.IControlObserver;
-import engine.control.IControlSubject;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public final class GameControl implements IControlObserver {
+import java.util.LinkedList;
+import java.util.List;
+
+public final class GameControl implements IControlObserver<IGameSubject> {
 
     private static final Logger LOGGER = LogManager.getLogger();
 
-    private IMainControl controlManager;
+    private IMainControl mainControl;
+
+    private final List<IGameSubject> subjects = new LinkedList<>();
+
 
     @Override
-    public void initialize(IMainControl controlManager) {
+    public void initialize(IMainControl mainControl) {
         LOGGER.trace("Initializing");
-        controlManager.registerObserver(this);
-        this.controlManager = controlManager;
+        this.mainControl = mainControl;
+        mainControl.registerObserver(this);
     }
 
     @Override
-    public void addSubject(IControlSubject view) {
-
+    public void addSubject(IGameSubject subject) {
+        subjects.add(subject);
     }
 
     @Override

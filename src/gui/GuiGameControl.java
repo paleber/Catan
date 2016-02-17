@@ -1,18 +1,16 @@
 package gui;
 
 import engine.control.IMainControl;
-import engine.control.IControlObserver;
 import engine.control.IControlSubject;
-import engine.control.IView;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public final class GuiGameControl implements IControlSubject {
+public final class GuiGameControl implements IControlSubject<Gui> {
 
     private static final Logger LOGGER = LogManager.getLogger();
 
     @Override
-    public void initialize(IMainControl cm, IView view) {
+    public void initialize(IMainControl cm, Gui gui) {
         LOGGER.trace("Initializing");
     }
 

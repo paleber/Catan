@@ -2,7 +2,6 @@ package engine.control.imp;
 
 import engine.control.IMainControl;
 import engine.control.IControlObserver;
-import engine.control.IControlSubject;
 import engine.control.IView;
 
 import java.util.*;

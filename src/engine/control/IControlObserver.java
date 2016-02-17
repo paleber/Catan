@@ -1,8 +1,8 @@
 package engine.control;
 
-public interface IControlObserver {
+public interface IControlObserver<T extends IControlSubject> {
 
-    void addSubject(IControlSubject subject);
+    void addSubject(T subject);
 
     void initialize(IMainControl main);
 

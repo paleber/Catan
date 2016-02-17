@@ -6,8 +6,6 @@ public interface IMainControl {
 
     void registerObserver(IControlObserver observer);
 
-    //void registerSubject(IControlSubject subject, Class<? extends IControlObserver> observer);
-
     IControlObserver getObserver(Class<? extends IControlObserver> type);
 
     void switchControl(Class<? extends IControlObserver> type);
