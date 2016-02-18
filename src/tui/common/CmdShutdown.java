@@ -1,7 +1,7 @@
 package tui.common;
 
 import engine.control.IMainControl;
-import engine.text_command.ITextCommand;
+import engine.text_cmd.ITextCommand;
 
 public final class CmdShutdown implements ITextCommand {
 

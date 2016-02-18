@@ -1,8 +1,8 @@
-package engine.text_command;
+package engine.text_cmd.imp;
 
+import engine.text_cmd.ITextCommand;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.message.ObjectArrayMessage;
 
 import java.util.Map;
 
@@ -18,6 +18,7 @@ final class CmdPrintHelp implements ITextCommand {
 
     @Override
     public void execute(final String... args) {
+        LOGGER.info("The following commands are available:");
         for (String cmd : cmdMap.keySet()) {
             LOGGER.info(cmd + ": " + cmdMap.get(cmd).getDescription());
         }

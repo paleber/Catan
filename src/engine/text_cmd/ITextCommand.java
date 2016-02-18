@@ -1,4 +1,4 @@
-package engine.text_command;
+package engine.text_cmd;
 
 /**
  * TextCommand for putting as value into Map, with command as Key.

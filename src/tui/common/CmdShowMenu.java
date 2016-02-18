@@ -2,7 +2,7 @@ package tui.common;
 
 import control.menu.MenuControl;
 import engine.control.IMainControl;
-import engine.text_command.ITextCommand;
+import engine.text_cmd.ITextCommand;
 
 public class CmdShowMenu implements ITextCommand {
 

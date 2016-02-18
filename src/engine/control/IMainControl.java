@@ -6,7 +6,7 @@ public interface IMainControl {
 
     void registerObserver(IControlObserver observer);
 
-    IControlObserver getObserver(Class<? extends IControlObserver> type);
+    <T extends IControlObserver> T getObserver(Class<T> type);
 
     void switchControl(Class<? extends IControlObserver> type);
 
@@ -14,6 +14,6 @@ public interface IMainControl {
 
     void addSharedData(Object data);
 
-    Object getSharedData(Class<?> type);
+    <T> T getSharedData(Class<T> type);
 
 }

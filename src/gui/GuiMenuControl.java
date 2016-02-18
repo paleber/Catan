@@ -32,9 +32,6 @@ public final class GuiMenuControl extends StackPane implements IMenuSubject<Gui>
     public void initialize(IMainControl cm, Gui gui) {
         LOGGER.trace("Initializing");
 
-
-
-
     }
 
     @Override
@@ -47,8 +44,14 @@ public final class GuiMenuControl extends StackPane implements IMenuSubject<Gui>
         LOGGER.trace("Stopping");
     }
 
+
     @Override
-    public void updatePlayerNames(String names) {
+    public void updateNumberOfPlayers(int number) {
+
+    }
+
+    @Override
+    public void updatePlayeName(int index, String name) {
 
     }
 }

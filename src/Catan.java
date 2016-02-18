@@ -5,10 +5,9 @@ import control.game.GameControl;
 import control.menu.MenuControl;
 import engine.control.IMainControl;
 import engine.control.imp.ControlModule;
+import engine.text_cmd.imp.TextCommandModule;
 import geo.imp.GeoModule;
 import gui.Gui;
-import gui.MyApp;
-import javafx.application.Application;
 import model.common.PlayerData;
 import tui.Tui;
 
@@ -16,7 +15,8 @@ public final class Catan {
 
     private static final Injector INJECTOR = Guice.createInjector(
             new ControlModule(),
-            new GeoModule()
+            new GeoModule(),
+            new TextCommandModule()
     );
 
     @Inject
@@ -37,6 +37,11 @@ public final class Catan {
     @Inject
     private PlayerData playerData;
 
+    public static void main(String[] args) {
+        Catan catan = INJECTOR.getInstance(Catan.class);
+        catan.initialize();
+    }
+
     private void initialize() {
         mainControl.addSharedData(playerData);
 
@@ -47,11 +52,6 @@ public final class Catan {
         gui.initialize(mainControl);
 
         mainControl.switchControl(MenuControl.class);
-    }
-
-    public static void main(String[] args) {
-        Catan catan = INJECTOR.getInstance(Catan.class);
-        catan.initialize();
     }
 
 }

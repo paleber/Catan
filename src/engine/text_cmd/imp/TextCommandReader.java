@@ -1,8 +1,9 @@
-package engine.text_command;
+package engine.text_cmd.imp;
 
+import engine.text_cmd.ITextCommand;
+import engine.text_cmd.ITextCommandReader;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.core.config.plugins.convert.TypeConverters;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -10,58 +11,49 @@ import java.io.InputStreamReader;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-public class TextCommandReader {
+final class TextCommandReader implements ITextCommandReader {
 
     private static final Logger LOGGER = LogManager.getLogger();
 
     private final Map<String, ITextCommand> cmdMap = new LinkedHashMap<>();
+    private final CmdPrintHelp cmdHelp = new CmdPrintHelp(cmdMap);
 
-    private Runner runner;
+    private final BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
-    private final class Runner implements Runnable {
+    public TextCommandReader() {
+        cmdMap.put("help", cmdHelp);
 
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        boolean running = true;
-
-        @Override
-        public void run() {
-            while (running) {
+        new Thread(() -> {
+            while (true) {
                 try {
                     executeCommand(br.readLine());
                 } catch (IOException e) {
-                    running = false;
+                    break;
                 }
             }
-        }
-
+        }).start();
     }
 
-    public TextCommandReader() {
-        cmdMap.put("help", new CmdPrintHelp(cmdMap));
-    }
-
-    public void addCommand(String name, ITextCommand cmd) {
+    public synchronized void addCommand(String name, ITextCommand cmd) {
         assert (!cmdMap.containsKey(name));
         cmdMap.put(name, cmd);
     }
 
-    public void start() {
-        assert (runner == null);
-        runner = new Runner();
-        new Thread(runner).start();
+    public synchronized void clearCommands() {
+        cmdMap.clear();
+        cmdMap.put("help", cmdHelp);
     }
 
-    public void stop() {
-        assert (runner != null);
+    @Override
+    public synchronized void shutdown() {
         try {
-            runner.br.close();
+            br.close();
         } catch (IOException e) {
             LOGGER.error("Closing BufferedReader failed");
         }
-        runner = null;
     }
 
-    private void executeCommand(final String line) {
+    private synchronized void executeCommand(final String line) {
         LOGGER.trace("execute command: " + line);
         String[] words = line.split(" ");
         if (words.length > 0) {

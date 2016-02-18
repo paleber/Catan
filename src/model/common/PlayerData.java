@@ -20,7 +20,7 @@ public final class PlayerData {
         resizeList(MIN_NUMBER_PLAYER);
     }
 
-    public void setNumberPlayers(int n)  {
+    public void setNumberOfPlayers(int n)  {
         if (n < MIN_NUMBER_PLAYER || n > MAX_NUMBER_PLAYER) {
             LOGGER.error(String.format("Only %d to %d players allowed",
                     MIN_NUMBER_PLAYER, MAX_NUMBER_PLAYER));
@@ -71,5 +71,6 @@ public final class PlayerData {
         // TODO more checks like length, illegal characters and numbers
         return true;
     }
+
 
 }

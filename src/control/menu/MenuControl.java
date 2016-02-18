@@ -9,7 +9,7 @@ import org.apache.logging.log4j.Logger;
 import java.util.LinkedList;
 import java.util.List;
 
-public final class MenuControl implements IControlObserver<IMenuSubject> {
+public final class MenuControl implements IMenuObserver {
 
     private static final Logger LOGGER = LogManager.getLogger();
 
@@ -17,13 +17,11 @@ public final class MenuControl implements IControlObserver<IMenuSubject> {
 
     private PlayerData playerData;
 
-
-
     @Override
     public void initialize(IMainControl cm) {
         LOGGER.trace("Initializing");
         cm.registerObserver(this);
-        playerData = (PlayerData) cm.getSharedData(PlayerData.class);
+        playerData = cm.getSharedData(PlayerData.class);
     }
 
     @Override
@@ -35,6 +33,10 @@ public final class MenuControl implements IControlObserver<IMenuSubject> {
     public void start() {
         LOGGER.trace("Starting");
         subjects.forEach(IMenuSubject::start);
+
+
+        // TODO Subjects auf neusten Stand bringen
+
     }
 
     @Override
@@ -44,15 +46,17 @@ public final class MenuControl implements IControlObserver<IMenuSubject> {
     }
 
     public void setNumberPlayer(int n)  {
-        playerData.setNumberPlayers(n);
+        playerData.setNumberOfPlayers(n);
     }
 
+    @Override
     public void setPlayerName(String name, int index) {
         playerData.setPlayerName(name, index);
     }
 
-    public String[] getPlayerNames() {
-        return playerData.getPlayerNames();
+    @Override
+    public void setNumberOfPlayers(int number) {
+        playerData.setNumberOfPlayers(number);
     }
 
 }
