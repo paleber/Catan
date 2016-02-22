@@ -11,17 +11,17 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 
-public class MenuPane extends StackPane implements IControlSubject{
+public class MenuPane extends StackPane implements IControlSubject<Gui>{
 
     private static final Logger LOGGER = LogManager.getLogger();
 
     private Gui gui;
 
     @Override
-    public void initialize(IMainControl cm, IView view) {
+    public void initialize(IMainControl cm, Gui gui) {
         LOGGER.trace("Initializing");
-        assert (view instanceof Gui);
-        gui = (Gui) view;
+
+        this.gui = gui;
         gui.setPane(this);
 
         Button bn = new Button("Start Game");

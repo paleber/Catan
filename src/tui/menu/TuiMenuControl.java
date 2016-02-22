@@ -14,7 +14,7 @@ public final class TuiMenuControl implements IMenuSubject<Tui> {
     private static final Logger LOGGER = LogManager.getLogger();
 
     private IMainControl main;
-    private MenuControl menu;
+    private MenuControl observer;
     private Tui tui;
 
     @Override
@@ -24,15 +24,15 @@ public final class TuiMenuControl implements IMenuSubject<Tui> {
         this.main = main;
         this.tui = tui;
 
-        menu = main.getObserver(MenuControl.class);
-        menu.addSubject(this);
+        observer = main.getObserver(MenuControl.class);
+        observer.addSubject(this);
     }
 
     @Override
     public void start() {
         LOGGER.trace("Starting");
 
-        tui.addCommand("number", new CmdSetNumberPlayers(menu)); // add set Number command
+        tui.addCommand("number", new CmdSetNumberPlayers(observer)); // add set Number command
         //reader.addCommand("name");// add set Name command
         tui.addCommand("game", new CmdShowGame(main));
         tui.addCommand("exit", new CmdShutdown(main));
@@ -50,7 +50,7 @@ public final class TuiMenuControl implements IMenuSubject<Tui> {
     }
 
     @Override
-    public void updatePlayeName(int index, String name) {
+    public void updatePlayerName(int index, String name) {
 
     }
 }

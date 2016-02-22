@@ -8,6 +8,6 @@ public interface IMenuSubject<T extends IView> extends IControlSubject<T> {
 
     void updateNumberOfPlayers(int number);
 
-    void updatePlayeName(int index, String name);
+    void updatePlayerName(int index, String name);
 
 }

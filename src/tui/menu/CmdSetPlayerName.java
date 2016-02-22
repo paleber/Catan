@@ -6,21 +6,23 @@ import model.common.PlayerData;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class CmdSetNumberPlayers implements ITextCommand {
+public final class CmdSetPlayerName extends TextCommand {
 
     private static final Logger LOGGER = LogManager.getLogger();
 
     private final MenuControl menu;
 
-    public CmdSetNumberPlayers(MenuControl menu) {
+    public CmdSetPlayerName(MenuControl menu) {
         this.menu = menu;
     }
 
     @Override
-    public void execute(String... args) {
-        int n = Integer.parseInt(args[1]);
+    protected void execute() throws IndexOutOfBoundsException, NumberFormatException {
+        String name = parseString();
+        int index = parseInteger();
+
         try {
-            menu.setNumberPlayer(n);
+            menu.setPlayerName(name, index);
         } catch (PlayerData.IllegalNumberOfPlayersException e) {
             LOGGER.error(e.getMessage());
         }
@@ -28,7 +30,7 @@ public class CmdSetNumberPlayers implements ITextCommand {
 
     @Override
     public String getDescription() {
-        return "set the number of players, argument is the number";
+        return "set the number of players, arguments are name and index";
     }
 
 }

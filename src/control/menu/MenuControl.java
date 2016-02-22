@@ -18,10 +18,10 @@ public final class MenuControl implements IMenuObserver {
     private PlayerData playerData;
 
     @Override
-    public void initialize(IMainControl cm) {
+    public void initialize(IMainControl main) {
         LOGGER.trace("Initializing");
-        cm.registerObserver(this);
-        playerData = cm.getSharedData(PlayerData.class);
+        main.registerObserver(this);
+        playerData = main.getSharedData(PlayerData.class);
     }
 
     @Override

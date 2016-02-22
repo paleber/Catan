@@ -15,6 +15,10 @@ final class MainControl implements IMainControl {
 
     private IControlObserver activeObserver = null;
 
+    public MainControl() {
+        System.out.println("Main");
+    }
+
     @Override
     public void registerView(IView view) {
         assert (!views.contains(view));

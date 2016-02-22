@@ -14,11 +14,6 @@ public class MyApp extends Application {
     public void start(Stage stage) {
         this.stage = stage;
         stage.show();
-
-
-
-
-
     }
 
 
