@@ -1,46 +1,61 @@
 package gui;
 
-import engine.control.IControlObserver;
-import engine.control.IControlSubject;
+import control.menu.IMenuSubject;
+import control.menu.MenuControl;
 import engine.control.IMainControl;
-import engine.control.IView;
-import javafx.scene.control.Button;
-import javafx.scene.layout.StackPane;
-import javafx.scene.shape.Circle;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+
+import javax.swing.*;
 
 
-public class MenuPane extends StackPane implements IControlSubject<Gui>{
+public class MenuPane extends JPanel implements IMenuSubject<Gui> {
 
-    private static final Logger LOGGER = LogManager.getLogger();
-
+    private IMainControl mainControl;
+    private MenuControl observer;
     private Gui gui;
 
+    public MenuPane() {
+        add(createStartButton());
+        add(createExitButton());
+    }
+
+    private JButton createStartButton() {
+        JButton bn = new JButton("Start");
+        bn.addActionListener(e -> System.out.println("Start clicked"));
+        return bn;
+    }
+
+
+    private JButton createExitButton() {
+        JButton bn = new JButton("Exit");
+        bn.addActionListener(e -> System.out.println("Exit clicked"));
+        return bn;
+    }
+
+
     @Override
-    public void initialize(IMainControl cm, Gui gui) {
-        LOGGER.trace("Initializing");
-
+    public void initialize(IMainControl mainControl, Gui gui) {
+        this.mainControl = mainControl;
+        observer = mainControl.getObserver(MenuControl.class);
         this.gui = gui;
-        gui.setPane(this);
-
-        Button bn = new Button("Start Game");
-
-        bn.setOnAction(event -> System.out.println("dsfgfd"));
-
-        Circle c = new Circle(40, 40, 30);
-        getChildren().add(c);
-        getChildren().add(bn);
     }
 
     @Override
     public void start() {
-
+        gui.setContent(this);
     }
 
     @Override
     public void stop() {
+        gui.clearContent();
+    }
+
+    @Override
+    public void updateNumberOfPlayers(int number) {
 
     }
 
+    @Override
+    public void updatePlayerName(int index, String name) {
+
+    }
 }

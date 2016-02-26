@@ -49,8 +49,14 @@ final class MainControl implements IMainControl {
 
     @Override
     public void shutdown() {
+        System.out.println("fsfd" + views.size());
         stopActiveControl();
-        views.forEach(IView::shutdown);
+
+        //views.forEach(IView::shutdown);
+        for (IView v: views) {
+            System.out.println(v.getClass());
+            v.shutdown();
+        }
     }
 
     private void stopActiveControl() {

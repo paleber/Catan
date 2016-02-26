@@ -52,7 +52,13 @@ public final class Tui implements IView, ITextCommandReader {
     @Override
     public void shutdown() {
         LOGGER.trace("Shutting down");
-        textCommandReader.shutdown();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                textCommandReader.shutdown();
+            }
+        });
+
     }
 
 }

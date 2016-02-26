@@ -1,17 +1,18 @@
 package gui;
 
-import com.google.inject.Injector;
+import com.google.inject.Inject;
 import engine.control.IMainControl;
 import engine.control.IView;
-import javafx.application.Application;
-import javafx.scene.Scene;
-import javafx.scene.layout.StackPane;
-import javafx.stage.Stage;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-// stellt das Fenster dar
-public final class Gui extends Application implements IView {
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+
+
+public final class Gui implements IView {
 
     private static final Logger LOGGER = LogManager.getLogger();
 
@@ -20,11 +21,13 @@ public final class Gui extends Application implements IView {
 
     private IMainControl mainControl;
 
-    //@Inject
-    private GuiMenuControl menu;
+    @Inject
+    private MenuPane menu;
 
     //@Inject
-    private GuiGameControl game;
+    //private GuiGameControl game;
+
+    private final JFrame frame = new JFrame("SE-Project: Catan");
 
     @Override
     public void initialize(IMainControl main) {
@@ -33,103 +36,38 @@ public final class Gui extends Application implements IView {
         main.registerView(this);
 
         menu.initialize(main, this);
-        game.initialize(main, this);
+       // game.initialize(main, this);
 
-        //this.stage = stage;
+        clearContent();
 
-        stage.setTitle("SE-Project: Catan");
+        frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        frame.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                main.shutdown();
+            }
+        });
 
-        scene = new Scene(new StackPane());
-        LOGGER.debug("In Start: " + scene == null);
-
-        stage.setScene(scene);
-
-        stage.setHeight(MIN_HEIGHT);
-        stage.setWidth(MIN_WIDTH);
-
-        //stage.getScene().setRoot(root);
-        LOGGER.debug("In Start: " + scene == null);
-        stage.show();
-        LOGGER.debug("In Start: " + scene == null);
-
+        frame.setPreferredSize(new Dimension(MIN_HEIGHT, MIN_WIDTH));
+        frame.pack();
+        frame.setLocationRelativeTo(null);
+        frame.setVisible(true);
     }
 
     @Override
     public void shutdown() {
         LOGGER.trace("Shutting down");
+        frame.setVisible(false);
+        frame.setContentPane(null);
+        frame.dispose();
     }
 
-    private static volatile Gui instance;
-
-    private Stage stage;
-
-    public static Gui create(Injector injector) {
-        new Thread(() -> {
-            launch();
-        }).start();
-
-        // Wait for launch
-        while (instance == null) {
-            Thread.yield();
-        }
-
-        instance.menu = injector.getInstance(GuiMenuControl.class);
-        instance.game = injector.getInstance(GuiGameControl.class);
-        return instance;
-        /*
-        while (true) {
-            synchronized (instance) {
-                if (instance != null) {
-                    return instance;
-                }
-            }
-            Thread.yield();
-        } */
+    public void setContent(Container content) {
+        frame.setContentPane(content);
     }
 
-    @Override
-    public void start(Stage stage) throws Exception {
-        LOGGER.trace("Start Application");
-        this.stage = stage;
-        //synchronized (instance) {
-            instance = this;
-        //}
-    }
-
-    private volatile Scene scene; // TODO replace with LoadPane ???
-
-    public void setPane(final StackPane pane) {
-
-        LOGGER.debug("In setPane: " + scene == null);
-
-        while (scene == null) {
-            try {
-                Thread.sleep(200);
-                LOGGER.debug("Sleep");
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-
-        /*
-        while (stage == null) {
-            try {
-                Thread.sleep(200);
-                LOGGER.debug("Sleep");
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        } */
-
-        /*
-        if(stage.getScene() == null) {
-            stage.setScene(new Scene(pane));
-            System.out.println(stage == null);
-            stage.show();
-        } else {
-            stage.getScene().setRoot(pane);
-        } */
-        scene.setRoot(pane);
+    public void clearContent() {
+        frame.setContentPane(new JPanel());
     }
 
 }
