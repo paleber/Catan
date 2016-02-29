@@ -40,7 +40,7 @@ public final class Gui implements IView {
 
         clearContent();
 
-        frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        //frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         frame.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
@@ -57,8 +57,9 @@ public final class Gui implements IView {
     @Override
     public void shutdown() {
         LOGGER.trace("Shutting down");
+        //frame.setVisible(false);
+        //frame.setContentPane(new JPanel());
         frame.setVisible(false);
-        frame.setContentPane(null);
         frame.dispose();
     }
 

@@ -72,4 +72,10 @@ final class TextCommandReader implements ITextCommandReader {
         }
     }
 
+
+    public static void main(String[] args) {
+        ITextCommandReader x = new TextCommandReader();
+        x.shutdown();
+    }
+
 }
