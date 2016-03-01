@@ -48,7 +48,7 @@ public final class Catan {
         menu.initialize(mainControl);
         game.initialize(mainControl);
 
-       // tui.initialize(mainControl);
+        tui.initialize(mainControl);
         gui.initialize(mainControl);
 
         mainControl.switchControl(MenuControl.class);

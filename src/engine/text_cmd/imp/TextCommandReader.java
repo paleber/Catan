@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Scanner;
 
 final class TextCommandReader implements ITextCommandReader {
 
@@ -18,42 +19,61 @@ final class TextCommandReader implements ITextCommandReader {
     private final Map<String, ITextCommand> cmdMap = new LinkedHashMap<>();
     private final CmdPrintHelp cmdHelp = new CmdPrintHelp(cmdMap);
 
-    private final BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    private final InputStreamReader inputStreamReader = new InputStreamReader(System.in);
+    private final BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+
+    private final Scanner scanner = new Scanner(System.in);
+
+    private boolean running = false;
+
+    private final Runnable runner = () -> {
+        while (true) {
+            try {
+                executeCommand(bufferedReader.readLine());
+            } catch (IOException e) {
+                break;
+            }
+        }
+    };
 
     public TextCommandReader() {
         cmdMap.put("help", cmdHelp);
-
-        new Thread(() -> {
-            while (true) {
-                try {
-                    executeCommand(br.readLine());
-                } catch (IOException e) {
-                    break;
-                }
-            }
-        }).start();
     }
 
-    public synchronized void addCommand(String name, ITextCommand cmd) {
+    @Override
+    public void start() {
+        assert (!running);
+        running = true;
+        new Thread(runner).start();
+    }
+
+    public /*synchronized*/ void addCommand(String name, ITextCommand cmd) {
         assert (!cmdMap.containsKey(name));
         cmdMap.put(name, cmd);
     }
 
-    public synchronized void clearCommands() {
+    public /*synchronized*/ void clearCommands() {
         cmdMap.clear();
         cmdMap.put("help", cmdHelp);
     }
 
     @Override
-    public synchronized void shutdown() {
+    public /*synchronized*/ void shutdown() {
+        LOGGER.trace("Shutting down");
         try {
-            br.close();
+            scanner.close();
+            LOGGER.trace("CCCCCCCCC");
+            inputStreamReader.close();
+            LOGGER.trace("AAAAAAAAA");
+            bufferedReader.close();
+            LOGGER.trace("BBBBBBBBBB");
         } catch (IOException e) {
             LOGGER.error("Closing BufferedReader failed");
         }
+        LOGGER.trace("Shutted down");
     }
 
-    private synchronized void executeCommand(final String line) {
+    private /*synchronized*/ void executeCommand(final String line) {
         LOGGER.trace("execute command: " + line);
         String[] words = line.split(" ");
         if (words.length > 0) {
@@ -70,12 +90,6 @@ final class TextCommandReader implements ITextCommandReader {
                 LOGGER.error("unknown command, \"help\" to print available commands");
             }
         }
-    }
-
-
-    public static void main(String[] args) {
-        ITextCommandReader x = new TextCommandReader();
-        x.shutdown();
     }
 
 }

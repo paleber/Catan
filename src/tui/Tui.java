@@ -11,7 +11,7 @@ import tui.game.TuiGameControl;
 import tui.menu.TuiMenuControl;
 
 
-public final class Tui implements IView, ITextCommandReader {
+public final class Tui implements IView {
 
     private static final Logger LOGGER = LogManager.getLogger();
 
@@ -32,19 +32,16 @@ public final class Tui implements IView, ITextCommandReader {
         menu.initialize(mainControl, this);
         game.initialize(mainControl, this);
 
+        textCommandReader.start();
         //cm.addSubject(menu, MenuControl.class, this);
         //cm.addSubject(game, GameControl.class, this);
         //cm.registerSubject(game, GameControl.class);
     }
 
-
-
-    @Override
     public void addCommand(String name, ITextCommand cmd) {
         textCommandReader.addCommand(name, cmd);
     }
 
-    @Override
     public void clearCommands() {
         textCommandReader.clearCommands();
     }
@@ -52,13 +49,7 @@ public final class Tui implements IView, ITextCommandReader {
     @Override
     public void shutdown() {
         LOGGER.trace("Shutting down");
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                textCommandReader.shutdown();
-            }
-        });
-
+        textCommandReader.shutdown();
     }
 
 }
