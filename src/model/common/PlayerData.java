@@ -63,7 +63,7 @@ public final class PlayerData {
     public final static class IllegalNumberOfPlayersException extends RuntimeException {
         public IllegalNumberOfPlayersException(final int number) {
             super(String.format("%d is invalid, only %d to %d players allowed",
-                    PlayerData.MIN_NUMBER_PLAYER, PlayerData.MAX_NUMBER_PLAYER));
+                    number, PlayerData.MIN_NUMBER_PLAYER, PlayerData.MAX_NUMBER_PLAYER));
         }
     }
 

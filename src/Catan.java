@@ -49,7 +49,7 @@ public final class Catan {
         game.initialize(mainControl);
 
         tui.initialize(mainControl);
-        gui.initialize(mainControl);
+        //gui.initialize(mainControl);
 
         mainControl.switchControl(MenuControl.class);
     }
