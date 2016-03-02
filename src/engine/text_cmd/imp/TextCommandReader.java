@@ -5,10 +5,11 @@ import engine.text_cmd.ITextCommandReader;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.LinkedHashMap;
 import java.util.Map;
-import java.util.NoSuchElementException;
-import java.util.Scanner;
 
 final class TextCommandReader implements ITextCommandReader {
 
@@ -19,26 +20,25 @@ final class TextCommandReader implements ITextCommandReader {
     private final Map<String, ITextCommand> cmdMap = new LinkedHashMap<>();
     private final CmdPrintHelp cmdHelp = new CmdPrintHelp(cmdMap);
 
-    private final Scanner scanner = new Scanner(System.in);
-    private boolean running = false;
+    private final BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    private volatile boolean running = false;
 
     private final Runnable runner = () -> {
-        while (true) {
-            try {
-                executeCommand(scanner.nextLine());
+        try {
 
-            } catch (NoSuchElementException e) {
-                try {
+            while (running) {
+                if (br.ready()) {
+                    executeCommand(br.readLine());
+                } else {
                     Thread.sleep(SLEEP_TIME);
-                } catch (InterruptedException f) {
-                    LOGGER.error("Sleep interrupted");
-                    break;
                 }
-
-            } catch (IllegalStateException e) {
-                LOGGER.trace("Scanner closed");
-                break;
             }
+            br.close();
+
+        } catch (IOException e) {
+            LOGGER.fatal("IOException occurred");
+        } catch (InterruptedException e) {
+            LOGGER.fatal("InterruptedException occurred");
         }
     };
 
@@ -67,8 +67,9 @@ final class TextCommandReader implements ITextCommandReader {
 
     @Override
     public synchronized void shutdown() {
+        assert (running);
         LOGGER.trace("Shutting down");
-        scanner.close();
+        running = false;
     }
 
     private synchronized void executeCommand(final String line) {

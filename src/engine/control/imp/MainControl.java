@@ -3,10 +3,14 @@ package engine.control.imp;
 import engine.control.IMainControl;
 import engine.control.IControlObserver;
 import engine.control.IView;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.*;
 
 final class MainControl implements IMainControl {
+
+    private static final Logger LOGGER = LogManager.getLogger();
 
     private final Map<Class<? extends IControlObserver>, IControlObserver> observers = new HashMap<>();
 
@@ -49,14 +53,9 @@ final class MainControl implements IMainControl {
 
     @Override
     public void shutdown() {
-        System.out.println("fsfd" + views.size());
+        LOGGER.trace("Shutting down");
         stopActiveControl();
-
-        //views.forEach(IView::shutdown);
-        for (IView v: views) {
-            System.out.println(v.getClass());
-            v.shutdown();
-        }
+        views.forEach(IView::shutdown);
     }
 
     private void stopActiveControl() {
