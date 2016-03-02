@@ -32,19 +32,12 @@ public final class Gui implements IView {
     @Override
     public void initialize(IMainControl main) {
         LOGGER.trace("Initializing");
-
         main.registerView(this);
-
         menu.initialize(main, this);
-       // game.initialize(main, this);
 
-        clearContent();
-
-        //frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
-                System.out.println("-------------------");
                 main.shutdown();
             }
         });
@@ -52,24 +45,26 @@ public final class Gui implements IView {
         frame.setPreferredSize(new Dimension(MIN_HEIGHT, MIN_WIDTH));
         frame.pack();
         frame.setLocationRelativeTo(null);
+
+        clearContent();
+
         frame.setVisible(true);
     }
 
     @Override
     public void shutdown() {
         LOGGER.trace("Shutting down");
-        //frame.setVisible(false);
-        frame.setContentPane(new JPanel());
-        frame.setVisible(false);
         frame.dispose();
     }
 
     public void setContent(Container content) {
         frame.setContentPane(content);
+        frame.revalidate();
     }
 
     public void clearContent() {
         frame.setContentPane(new JPanel());
+        frame.revalidate();
     }
 
 }

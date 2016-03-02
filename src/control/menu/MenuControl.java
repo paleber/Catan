@@ -6,6 +6,7 @@ import model.common.PlayerData;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import javax.security.auth.Subject;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -45,18 +46,37 @@ public final class MenuControl implements IMenuObserver {
         subjects.forEach(IMenuSubject::stop);
     }
 
-    public void setNumberPlayer(int n)  {
-        playerData.setNumberOfPlayers(n);
-    }
-
+    /*
     @Override
     public void setPlayerName(String name, int index) {
         playerData.setPlayerName(name, index);
-    }
+        for(IMenuSubject subject: subjects) {
+            subject.updatePlayerName(index, name);
+        }
+    } */
 
+    /*
     @Override
     public void setNumberOfPlayers(int number) {
         playerData.setNumberOfPlayers(number);
+        for(IMenuSubject subject: subjects) {
+            subject.updatePlayerName(index, name);
+        }
+    } */
+
+    @Override
+    public void addPlayer(String name) {
+        playerData.addPlayer(name);
+        for(IMenuSubject subject: subjects) {
+            subject.onPlayerAdded(name);
+        }
     }
 
+    @Override
+    public void removePlayer(String name) {
+        playerData.removePlayer(name);
+        for(IMenuSubject subject: subjects) {
+            subject.onPlayerRemoved(name);
+        }
+    }
 }

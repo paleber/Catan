@@ -18,17 +18,20 @@ public final class PlayerData {
 
     private final List<String> names = new LinkedList<>();
 
+    /*
     public PlayerData() {
         resizeList(MIN_NUMBER_PLAYER);
-    }
+    } */
 
+    /*
     public void setNumberOfPlayers(int n) {
         if (n < MIN_NUMBER_PLAYER || n > MAX_NUMBER_PLAYER) {
             throw new IllegalNumberOfPlayersException(n);
         }
-        resizeList(n);
-    }
+       // resizeList(n);
+    } */
 
+    /*
     private void resizeList(int n) {
         while (names.size() < n) {
             names.add("Player" + (names.size() + 1));
@@ -36,9 +39,15 @@ public final class PlayerData {
         while (names.size() > n) {
             names.remove(names.size() - 1);
         }
+    } */
+
+
+
+    public String[] getPlayerNames() {
+        return names.toArray(new String[names.size()]);
     }
 
-    public void setPlayerName(String name, int index) {
+    public void addPlayer(String name) {
         if (names.contains(name)) {
             throw new NameAlreadyInUseException(name);
         }
@@ -47,17 +56,14 @@ public final class PlayerData {
             throw new IllegalNameException(name);
         }
 
-        try {
-            names.remove(index);
-        } catch (IndexOutOfBoundsException e) {
-            throw new PlayerNotExistException(index);
-        }
-
-        names.add(index, name);
+        names.add(name);
     }
 
-    public String[] getPlayerNames() {
-        return names.toArray(new String[names.size()]);
+    public void removePlayer(String name) {
+        if (!names.contains(name)) {
+            throw new PlayerNotExistException(name);
+        }
+        names.remove(name);
     }
 
     public final static class IllegalNumberOfPlayersException extends RuntimeException {
@@ -69,20 +75,19 @@ public final class PlayerData {
 
     public final static class NameAlreadyInUseException extends RuntimeException {
         public NameAlreadyInUseException(final String name) {
-            LOGGER.error("Name already in use: " + name);
+            super("Name already in use: " + name);
         }
     }
 
     public final static class IllegalNameException extends RuntimeException {
         public IllegalNameException(final String name) {
-            LOGGER.error("Invalid player name: " + name);
+            super("Invalid player name: " + name);
         }
     }
 
     public final static class PlayerNotExistException extends RuntimeException {
-        public PlayerNotExistException(final int index) {
-            LOGGER.error(String.format("Player with index %d not exists, only %d to %d players exists",
-                    index, MIN_NUMBER_PLAYER, MAX_NUMBER_PLAYER));
+        public PlayerNotExistException(final String name) {
+            super("Player " + name + " not exists");
         }
     }
 

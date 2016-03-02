@@ -6,22 +6,22 @@ import model.common.PlayerData;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class CmdSetNumberPlayers implements ITextCommand {
+public class CmdRemovePlayer extends TextCommand {
 
     private static final Logger LOGGER = LogManager.getLogger();
 
     private final MenuControl menu;
 
-    public CmdSetNumberPlayers(MenuControl menu) {
+    public CmdRemovePlayer(MenuControl menu) {
         this.menu = menu;
     }
-
+    
     @Override
-    public void execute(String... args) {
-        int n = Integer.parseInt(args[1]);
+    protected void execute() throws IndexOutOfBoundsException, NumberFormatException {
+        String name = parseString();
         try {
-            menu.setNumberPlayer(n);
-        } catch (PlayerData.IllegalNumberOfPlayersException e) {
+            menu.removePlayer(name);
+        } catch (PlayerData.PlayerNotExistException e) {
             LOGGER.error(e.getMessage());
         }
     }

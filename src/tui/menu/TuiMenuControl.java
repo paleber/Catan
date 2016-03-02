@@ -32,8 +32,8 @@ public final class TuiMenuControl implements IMenuSubject<Tui> {
     public void start() {
         LOGGER.trace("Starting");
 
-        tui.addCommand("number", new CmdSetNumberPlayers(observer)); // add set Number command
-        //reader.addCommand("name");// add set Name command
+        tui.addCommand("add", new CmdAddPlayer(observer));
+        tui.addCommand("remove", new CmdRemovePlayer(observer));
         tui.addCommand("game", new CmdShowGame(main));
         tui.addCommand("exit", new CmdShutdown(main));
     }
@@ -45,12 +45,12 @@ public final class TuiMenuControl implements IMenuSubject<Tui> {
     }
 
     @Override
-    public void updateNumberOfPlayers(int number) {
-
+    public void onPlayerAdded(String playerName) {
+        LOGGER.info("Player added: " + playerName);
     }
 
     @Override
-    public void updatePlayerName(int index, String name) {
-
+    public void onPlayerRemoved(String playerName) {
+        LOGGER.info("Player removed: " + playerName);
     }
 }
