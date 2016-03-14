@@ -1,7 +1,7 @@
 package tui.menu;
 
 import control.menu.MenuControl;
-import engine.text_cmd.ITextCommand;
+
 import model.common.PlayerData;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -22,7 +22,7 @@ public final class CmdAddPlayer extends TextCommand {
 
         try {
             menu.addPlayer(name);
-        } catch (PlayerData.IllegalNumberOfPlayersException e) {
+        } catch (PlayerData.IllegalNumberOfPlayersException | PlayerData.IllegalNameException e) {
             LOGGER.error(e.getMessage());
         }
     }

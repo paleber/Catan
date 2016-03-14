@@ -8,6 +8,9 @@ import org.apache.logging.log4j.Logger;
 
 import javax.swing.*;
 
+import java.util.LinkedList;
+import java.util.List;
+
 
 public class MenuPane extends JPanel implements IMenuSubject<Gui> {
 
@@ -17,24 +20,46 @@ public class MenuPane extends JPanel implements IMenuSubject<Gui> {
     private MenuControl observer;
     private Gui gui;
 
+    /*
+    private final JButton bnStart = new JButton() {
+        {
+            setBounds(50, 50, 100, 30);
+            setText("Start");
+        }
+    };
+
+    private final JTextField tfAddPlayer = new JTextField() {
+        {
+            setBounds(50, 100, 100, 30);
+        }
+    };
+
+    private final JButton bnAddPlayer = new JButton() {
+        {
+            setBounds(170, 100, 70, 30);
+            setText("Add");
+        }
+    }; */
+
+    private final JLabel[] lbPlayers = new JLabel[4];
+    {
+        for(int i = 0; i < lbPlayers.length; i++) {
+            lbPlayers[i] = new JLabel();
+            lbPlayers[i].setLocation(20, 20 + 25 * i);
+            lbPlayers[i].setSize(200, 20);
+            add(lbPlayers[i]);
+        }
+    }
+
+
+
+
     public MenuPane() {
-        add(createStartButton());
-        add(createExitButton());
+        setLayout(null);
+        //add(bnStart);
+        //add(tfAddPlayer);
+        //add(bnAddPlayer);
     }
-
-    private JButton createStartButton() {
-        JButton bn = new JButton("Start");
-        bn.addActionListener(e -> System.out.println("Start clicked"));
-        return bn;
-    }
-
-
-    private JButton createExitButton() {
-        JButton bn = new JButton("Exit");
-        bn.addActionListener(e -> System.out.println("Exit clicked"));
-        return bn;
-    }
-
 
     @Override
     public void initialize(IMainControl mainControl, Gui gui) {
@@ -56,15 +81,27 @@ public class MenuPane extends JPanel implements IMenuSubject<Gui> {
         gui.clearContent();
     }
 
+    private final List<String> players = new LinkedList<>();
 
     @Override
-    public void onPlayerAdded(String playerName) {
-
+    public void onPlayerAdded(String player) {
+        players.add(player);
+        updatePlayers();
     }
 
     @Override
-    public void onPlayerRemoved(String playerName) {
+    public void onPlayerRemoved(String player) {
+        players.remove(player);
+        updatePlayers();
+    }
 
+    private void updatePlayers() {
+        for (JLabel lb: lbPlayers) {
+            lb.setText("");
+        }
+        for (int i = 0; i < players.size(); i++) {
+            lbPlayers[i].setText(players.get(i));
+        }
     }
 
 }

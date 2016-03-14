@@ -1,5 +1,6 @@
 package tui.menu;
 
+import control.exception.PlayerNotExistsException;
 import control.menu.MenuControl;
 import engine.text_cmd.ITextCommand;
 import model.common.PlayerData;
@@ -21,7 +22,7 @@ public class CmdRemovePlayer extends TextCommand {
         String name = parseString();
         try {
             menu.removePlayer(name);
-        } catch (PlayerData.PlayerNotExistException e) {
+        } catch (PlayerNotExistsException e) {
             LOGGER.error(e.getMessage());
         }
     }
