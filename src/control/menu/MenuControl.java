@@ -1,5 +1,10 @@
 package control.menu;
 
+import control.exception.IllegalNameException;
+import control.exception.IllegalNumberOfPlayersException;
+import control.exception.NameInUseException;
+import control.exception.PlayerNotExistsException;
+import control.game.GameControl;
 import engine.control.IMainControl;
 import engine.control.IControlObserver;
 import model.common.PlayerData;
@@ -18,10 +23,13 @@ public final class MenuControl implements IMenuObserver {
 
     private PlayerData playerData;
 
+    private IMainControl main;
+
     @Override
     public void initialize(IMainControl main) {
         LOGGER.trace("Initializing");
         main.registerObserver(this);
+        this.main = main;
         playerData = main.getSharedData(PlayerData.class);
     }
 
@@ -34,10 +42,11 @@ public final class MenuControl implements IMenuObserver {
     public void start() {
         LOGGER.trace("Starting");
         subjects.forEach(IMenuSubject::start);
-
-
-        // TODO Subjects auf neusten Stand bringen
-
+        for (String playerName : playerData.getPlayerNames()) {
+            for (IMenuSubject subject : subjects) {
+                subject.onPlayerAdded(playerName);
+            }
+        }
     }
 
     @Override
@@ -65,18 +74,26 @@ public final class MenuControl implements IMenuObserver {
     } */
 
     @Override
-    public void addPlayer(String name) {
+    public void addPlayer(String name) throws NameInUseException,
+            IllegalNameException, IllegalNumberOfPlayersException {
         playerData.addPlayer(name);
-        for(IMenuSubject subject: subjects) {
+        for (IMenuSubject subject : subjects) {
             subject.onPlayerAdded(name);
         }
     }
 
     @Override
-    public void removePlayer(String name) {
+    public void removePlayer(String name) throws PlayerNotExistsException {
         playerData.removePlayer(name);
-        for(IMenuSubject subject: subjects) {
+        for (IMenuSubject subject : subjects) {
             subject.onPlayerRemoved(name);
         }
     }
+
+    @Override
+    public void startGame() throws IllegalNumberOfPlayersException {
+        playerData.checkStartConditions();
+        main.switchControl(GameControl.class);
+    }
+
 }

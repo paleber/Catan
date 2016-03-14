@@ -6,7 +6,6 @@ import engine.control.IMainControl;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import tui.Tui;
-import tui.common.CmdShowGame;
 import tui.common.CmdShutdown;
 
 public final class TuiMenuControl implements IMenuSubject<Tui> {
@@ -34,7 +33,7 @@ public final class TuiMenuControl implements IMenuSubject<Tui> {
 
         tui.addCommand("add", new CmdAddPlayer(observer));
         tui.addCommand("remove", new CmdRemovePlayer(observer));
-        tui.addCommand("game", new CmdShowGame(main));
+        tui.addCommand("game", new CmdStartGame(observer));
         tui.addCommand("exit", new CmdShutdown(main));
     }
 

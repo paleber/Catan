@@ -8,7 +8,7 @@ import org.apache.logging.log4j.Logger;
 import java.util.LinkedList;
 import java.util.List;
 
-public final class GameControl implements IControlObserver<IGameSubject> {
+public final class GameControl implements IGameObserver {
 
     private static final Logger LOGGER = LogManager.getLogger();
 

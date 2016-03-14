@@ -50,5 +50,9 @@ public final class PlayerData {
         names.remove(name);
     }
 
-
+    public void checkStartConditions() throws IllegalNumberOfPlayersException {
+        if (names.size() < MIN_NUMBER_PLAYER) {
+            throw new IllegalNumberOfPlayersException(MIN_NUMBER_PLAYER, MAX_NUMBER_PLAYER);
+        }
+    }
 }

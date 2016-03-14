@@ -1,5 +1,6 @@
 package tui.menu;
 
+import control.exception.CatanException;
 import control.exception.PlayerNotExistsException;
 import control.menu.MenuControl;
 import engine.text_cmd.ITextCommand;
@@ -22,7 +23,7 @@ public class CmdRemovePlayer extends TextCommand {
         String name = parseString();
         try {
             menu.removePlayer(name);
-        } catch (PlayerNotExistsException e) {
+        } catch (CatanException e) {
             LOGGER.error(e.getMessage());
         }
     }

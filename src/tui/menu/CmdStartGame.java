@@ -2,27 +2,24 @@ package tui.menu;
 
 import control.exception.CatanException;
 import control.menu.MenuControl;
-
-import model.common.PlayerData;
+import engine.text_cmd.ITextCommand;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public final class CmdAddPlayer extends TextCommand {
+
+public class CmdStartGame implements ITextCommand {
 
     private static final Logger LOGGER = LogManager.getLogger();
-
     private final MenuControl menu;
 
-    public CmdAddPlayer(MenuControl menu) {
+    public CmdStartGame(final MenuControl menu) {
         this.menu = menu;
     }
 
     @Override
-    protected void execute() throws IndexOutOfBoundsException, NumberFormatException {
-        String name = parseString();
-
+    public void execute(final String... args) {
         try {
-            menu.addPlayer(name);
+            menu.startGame();
         } catch (CatanException e) {
             LOGGER.error(e.getMessage());
         }
@@ -30,7 +27,7 @@ public final class CmdAddPlayer extends TextCommand {
 
     @Override
     public String getDescription() {
-        return "add a player, argument is the name";
+        return "show the game";
     }
 
 }
