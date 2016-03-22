@@ -2,8 +2,8 @@ package engine.control;
 
 public interface IView {
 
-    void initialize(IMainControl main);
+    void onInitialize(IMainControl main);
 
-    void shutdown();
+    void onShutdown();
 
 }

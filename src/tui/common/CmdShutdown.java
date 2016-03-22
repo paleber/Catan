@@ -18,7 +18,7 @@ public final class CmdShutdown implements ITextCommand {
 
     @Override
     public String getDescription() {
-        return "shutdown the application";
+        return "onShutdown the application";
     }
 
 }

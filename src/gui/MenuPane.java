@@ -62,21 +62,21 @@ public class MenuPane extends JPanel implements IMenuSubject<Gui> {
     }
 
     @Override
-    public void initialize(IMainControl mainControl, Gui gui) {
+    public void onInitialize(IMainControl mainControl, Gui gui) {
         this.mainControl = mainControl;
         observer = mainControl.getObserver(MenuControl.class);
-        observer.addSubject(this);
+        observer.onSubjectAdded(this);
         this.gui = gui;
     }
 
     @Override
-    public void start() {
+    public void onStart() {
         LOGGER.trace("Starting");
         gui.setContent(this);
     }
 
     @Override
-    public void stop() {
+    public void onStop() {
         LOGGER.trace("Stopping");
         gui.clearContent();
     }

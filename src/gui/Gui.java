@@ -30,10 +30,10 @@ public final class Gui implements IView {
     private final JFrame frame = new JFrame("SE-Project: Catan");
 
     @Override
-    public void initialize(IMainControl main) {
+    public void onInitialize(IMainControl main) {
         LOGGER.trace("Initializing");
         main.registerView(this);
-        menu.initialize(main, this);
+        menu.onInitialize(main, this);
 
         frame.addWindowListener(new WindowAdapter() {
             @Override
@@ -52,7 +52,7 @@ public final class Gui implements IView {
     }
 
     @Override
-    public void shutdown() {
+    public void onShutdown() {
         LOGGER.trace("Shutting down");
         frame.dispose();
     }

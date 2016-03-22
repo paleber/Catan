@@ -1,6 +1,8 @@
 package tui;
 
 import com.google.inject.Inject;
+import control.game.GameControl;
+import control.menu.MenuControl;
 import engine.control.IMainControl;
 import engine.control.IView;
 import engine.text_cmd.ITextCommand;
@@ -25,16 +27,16 @@ public final class Tui implements IView {
     private TuiGameControl game;
 
     @Override
-    public void initialize(final IMainControl mainControl) {
+    public void onInitialize(final IMainControl mainControl) {
         LOGGER.trace("Initializing");
 
-        mainControl.registerView(this);
-        menu.initialize(mainControl, this);
-        game.initialize(mainControl, this);
+        mainControl.registerSubject(menu);
+        mainControl.registerSubject(game);
+
 
         textCommandReader.start();
-        //cm.addSubject(menu, MenuControl.class, this);
-        //cm.addSubject(game, GameControl.class, this);
+        //cm.onSubjectAdded(menu, MenuControl.class, this);
+        //cm.onSubjectAdded(game, GameControl.class, this);
         //cm.registerSubject(game, GameControl.class);
     }
 
@@ -47,7 +49,7 @@ public final class Tui implements IView {
     }
 
     @Override
-    public void shutdown() {
+    public void onShutdown() {
         LOGGER.trace("Shutting down");
         textCommandReader.shutdown();
     }

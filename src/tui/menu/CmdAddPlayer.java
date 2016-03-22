@@ -1,6 +1,7 @@
 package tui.menu;
 
 import control.exception.CatanException;
+import control.menu.IMenuObserver;
 import control.menu.MenuControl;
 
 import model.common.PlayerData;
@@ -11,9 +12,9 @@ public final class CmdAddPlayer extends TextCommand {
 
     private static final Logger LOGGER = LogManager.getLogger();
 
-    private final MenuControl menu;
+    private final IMenuObserver menu;
 
-    public CmdAddPlayer(MenuControl menu) {
+    public CmdAddPlayer(IMenuObserver menu) {
         this.menu = menu;
     }
 

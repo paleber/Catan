@@ -1,6 +1,7 @@
 package tui.menu;
 
 import control.exception.CatanException;
+import control.menu.IMenuObserver;
 import control.menu.MenuControl;
 import engine.text_cmd.ITextCommand;
 import org.apache.logging.log4j.LogManager;
@@ -10,9 +11,9 @@ import org.apache.logging.log4j.Logger;
 public class CmdStartGame implements ITextCommand {
 
     private static final Logger LOGGER = LogManager.getLogger();
-    private final MenuControl menu;
+    private final IMenuObserver menu;
 
-    public CmdStartGame(final MenuControl menu) {
+    public CmdStartGame(final IMenuObserver menu) {
         this.menu = menu;
     }
 

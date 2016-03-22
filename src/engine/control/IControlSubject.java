@@ -1,11 +1,11 @@
 package engine.control;
 
-public interface IControlSubject<T extends IView>{
+public interface IControlSubject<C extends IControlObserver, V extends IView> {
 
-    void initialize(IMainControl cm, T view);
+    void onInitialize(C observer, V view);
 
-    void start();
+    void onStart();
 
-    void stop();
+    void onStop();
 
 }

@@ -45,11 +45,11 @@ public final class Catan {
     private void initialize() {
         mainControl.addSharedData(playerData);
 
-        menu.initialize(mainControl);
-        game.initialize(mainControl);
+        mainControl.registerObserver(menu);
+        mainControl.registerObserver(game);
 
-        tui.initialize(mainControl);
-        gui.initialize(mainControl);
+        mainControl.registerView(tui);
+        mainControl.registerView(gui);
 
         mainControl.switchControl(MenuControl.class);
     }

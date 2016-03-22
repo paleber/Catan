@@ -1,8 +1,11 @@
 package tui.menu;
 
+import control.menu.IMenuObserver;
 import control.menu.IMenuSubject;
 import control.menu.MenuControl;
+import engine.control.IControlObserver;
 import engine.control.IMainControl;
+import engine.control.IView;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import tui.Tui;
@@ -13,22 +16,31 @@ public final class TuiMenuControl implements IMenuSubject<Tui> {
     private static final Logger LOGGER = LogManager.getLogger();
 
     private IMainControl main;
-    private MenuControl observer;
+    private IMenuObserver observer;
     private Tui tui;
 
+    /*
     @Override
-    public void initialize(IMainControl main, Tui tui) {
+    public void onInitialize(IMainControl main, Tui tui) {
         LOGGER.trace("Initializing");
 
         this.main = main;
         this.tui = tui;
 
         observer = main.getObserver(MenuControl.class);
-        observer.addSubject(this);
+        observer.onSubjectAdded(this);
+    }
+ */
+
+    @Override
+    public void onInitialize(Tui tui, IMenuObserver observer) {
+        this.main = main;
+        this.observer = observer;
+        this.tui = tui;
     }
 
     @Override
-    public void start() {
+    public void onStart() {
         LOGGER.trace("Starting");
 
         tui.addCommand("add", new CmdAddPlayer(observer));
@@ -38,7 +50,7 @@ public final class TuiMenuControl implements IMenuSubject<Tui> {
     }
 
     @Override
-    public void stop() {
+    public void onStop() {
         LOGGER.trace("Stopping");
         tui.clearCommands();
     }

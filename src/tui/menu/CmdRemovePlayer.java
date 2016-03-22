@@ -2,6 +2,7 @@ package tui.menu;
 
 import control.exception.CatanException;
 import control.exception.PlayerNotExistsException;
+import control.menu.IMenuObserver;
 import control.menu.MenuControl;
 import engine.text_cmd.ITextCommand;
 import model.common.PlayerData;
@@ -12,9 +13,9 @@ public class CmdRemovePlayer extends TextCommand {
 
     private static final Logger LOGGER = LogManager.getLogger();
 
-    private final MenuControl menu;
+    private final IMenuObserver menu;
 
-    public CmdRemovePlayer(MenuControl menu) {
+    public CmdRemovePlayer(IMenuObserver menu) {
         this.menu = menu;
     }
     

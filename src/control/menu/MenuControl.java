@@ -6,12 +6,10 @@ import control.exception.NameInUseException;
 import control.exception.PlayerNotExistsException;
 import control.game.GameControl;
 import engine.control.IMainControl;
-import engine.control.IControlObserver;
 import model.common.PlayerData;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import javax.security.auth.Subject;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -26,7 +24,7 @@ public final class MenuControl implements IMenuObserver {
     private IMainControl main;
 
     @Override
-    public void initialize(IMainControl main) {
+    public void onInitialize(IMainControl main) {
         LOGGER.trace("Initializing");
         main.registerObserver(this);
         this.main = main;
@@ -34,14 +32,14 @@ public final class MenuControl implements IMenuObserver {
     }
 
     @Override
-    public void addSubject(IMenuSubject subject) {
+    public void onSubjectAdded(IMenuSubject subject) {
         subjects.add(subject);
     }
 
     @Override
-    public void start() {
+    public void onStart() {
         LOGGER.trace("Starting");
-        subjects.forEach(IMenuSubject::start);
+        subjects.forEach(IMenuSubject::onStart);
         for (String playerName : playerData.getPlayerNames()) {
             for (IMenuSubject subject : subjects) {
                 subject.onPlayerAdded(playerName);
@@ -50,9 +48,9 @@ public final class MenuControl implements IMenuObserver {
     }
 
     @Override
-    public void stop() {
+    public void onStop() {
         LOGGER.trace("Stopping");
-        subjects.forEach(IMenuSubject::stop);
+        subjects.forEach(IMenuSubject::onStop);
     }
 
     /*

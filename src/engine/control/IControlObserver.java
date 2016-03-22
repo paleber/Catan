@@ -2,12 +2,12 @@ package engine.control;
 
 public interface IControlObserver<T extends IControlSubject> {
 
-    void addSubject(T subject);
+    void onInitialize(IMainControl main);
 
-    void initialize(IMainControl main);
+    void onSubjectAdded(T subject);
 
-    void start();
+    void onStart();
 
-    void stop();
+    void onStop();
 
 }

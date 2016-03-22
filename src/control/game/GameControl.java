@@ -18,24 +18,24 @@ public final class GameControl implements IGameObserver {
 
 
     @Override
-    public void initialize(IMainControl mainControl) {
+    public void onInitialize(IMainControl mainControl) {
         LOGGER.trace("Initializing");
         this.mainControl = mainControl;
         mainControl.registerObserver(this);
     }
 
     @Override
-    public void addSubject(IGameSubject subject) {
+    public void onSubjectAdded(IGameSubject subject) {
         subjects.add(subject);
     }
 
     @Override
-    public void start() {
+    public void onStart() {
         LOGGER.trace("Starting");
     }
 
     @Override
-    public void stop() {
+    public void onStop() {
         LOGGER.trace("Stopping");
     }
 

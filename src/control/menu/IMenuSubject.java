@@ -4,7 +4,7 @@ package control.menu;
 import engine.control.IControlSubject;
 import engine.control.IView;
 
-public interface IMenuSubject<T extends IView> extends IControlSubject<T> {
+public interface IMenuSubject<V extends IView> extends IControlSubject<IMenuObserver, V> {
 
     void onPlayerAdded(String playerName);
 
