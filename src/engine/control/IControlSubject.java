@@ -8,4 +8,5 @@ public interface IControlSubject<C extends IControlObserver, V extends IView> {
 
     void onStop();
 
+   // void onInitialize(IControlObserver observer, IView view);
 }

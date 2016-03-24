@@ -1,24 +1,12 @@
 package engine.control;
 
-import control.game.GameControl;
-import tui.Tui;
-import tui.game.TuiGameControl;
-
 public interface IMainControl {
 
     void registerView(IView view);
 
     void registerObserver(IControlObserver observer);
 
-
-    /**
-     * Add a Subject, view and observer must be already registered.
-     *
-     * @param view
-     */
-    <C extends IControlObserver, V extends IView> void registerSubject(IControlSubject<C, V> subject);
-
-    // <T extends IControlObserver> T getObserver(Class<T> type); // remove
+    <S extends IControlSubject<O, V>, O extends IControlObserver<S>, V extends IView> void registerSubject(S subject, O observer, V view);
 
     void switchControl(Class<? extends IControlObserver> type);
 
@@ -26,5 +14,5 @@ public interface IMainControl {
 
     void addSharedData(Object data);
 
-    <T> T getSharedData(Class<T> type);
+    <D> D getSharedData(Class<D> type);
 }

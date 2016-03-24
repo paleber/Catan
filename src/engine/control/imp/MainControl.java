@@ -7,66 +7,63 @@ import engine.control.IView;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+
 
 final class MainControl implements IMainControl {
 
     private static final Logger LOGGER = LogManager.getLogger();
 
-    private final Map<Class<? extends IControlObserver>, IControlObserver> observers = new HashMap<>();
-    private final Map<Class<? extends IControlObserver>, List<IControlSubject>> subjects = new HashMap<>();
-    // TODO inner class for observers and subjects map ?
+    private static final class Element {
+
+        private final IControlObserver observer;
+        private final List<IControlSubject> subjects = new LinkedList<>();
+
+        private Element(final IControlObserver observer) {
+            this.observer = observer;
+        }
+
+    }
+
+    private final Map<Class<? extends IControlObserver>, Element> controls = new HashMap<>();
 
     private final List<IView> views = new LinkedList<>();
     private final Map<Class<?>, Object> sharedData = new HashMap<>();
 
-    private IControlObserver activeObserver = null;
+    private Element active = null;
 
     @Override
     public void registerView(IView view) {
         assert (!views.contains(view));
         views.add(view);
         view.onInitialize(this);
-        //view.onInitialize(this);
     }
 
     @Override
     public void registerObserver(IControlObserver ctrl) {
-        assert (!observers.containsKey(ctrl.getClass()));
-        observers.put(ctrl.getClass(), ctrl);
-        subjects.put(ctrl.getClass(), new LinkedList<>());
+        assert (!controls.containsKey(ctrl.getClass()));
+        controls.put(ctrl.getClass(), new Element(ctrl));
         ctrl.onInitialize(this);
     }
 
     @Override
-
-    public <C extends IControlObserver, V extends IView> void registerSubject(IControlSubject<C, V> subject) {
-        Object o = new Object();
-        C c = (C) o;
-
-        C c; //Class<C> observerClass = new Class<C>();
-        assert (!views.contains(c.getClass()));
+    public <S extends IControlSubject<O, V>, O extends IControlObserver<S>, V extends IView> void registerSubject(S subject, O observer, V view) {
+        assert (!controls.containsKey(observer.getClass()));
+        controls.get(observer.getClass()).subjects.add(subject);
+        observer.onSubjectAdded(subject);
+        subject.onInitialize(observer, view);
     }
-
-    @Override
-    public <V extends IView, C extends IControlObserver> void registerSubject(Class<V> view, Class<C> observer) {
-        assert (!views.contains(view));
-        assert (observers.containsKey(observer));
-    }
-
-    /*
-    @Override
-    public <T extends IControlObserver> T getObserver(Class<T> type) {
-        assert (observers.containsKey(type));
-        return type.cast(observers.get(type));
-    } */
 
     @Override
     public void switchControl(Class<? extends IControlObserver> ctrl) {
-        assert (observers.containsKey(ctrl));
+        assert (controls.containsKey(ctrl));
         stopActiveControl();
-        activeObserver = observers.get(ctrl);
-        activeObserver.onStart();
+        active = controls.get(ctrl);
+        active.subjects.forEach(IControlSubject::onStart);
+        active.observer.onStart();
     }
 
     @Override
@@ -77,8 +74,9 @@ final class MainControl implements IMainControl {
     }
 
     private void stopActiveControl() {
-        if (activeObserver != null) {
-            activeObserver.onStop();
+        if (active != null) {
+            active.observer.onStop();
+            active.subjects.forEach(IControlSubject::onStop);
         }
     }
 
@@ -89,7 +87,7 @@ final class MainControl implements IMainControl {
     }
 
     @Override
-    public <T> T getSharedData(Class<T> type) {
+    public <D> D getSharedData(Class<D> type) {
         assert (sharedData.containsKey(type));
         return type.cast(sharedData.get(type));
     }
