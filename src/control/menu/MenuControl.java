@@ -26,7 +26,6 @@ public final class MenuControl implements IMenuObserver {
     @Override
     public void onInitialize(IMainControl main) {
         LOGGER.trace("Initializing");
-        main.registerObserver(this);
         this.main = main;
         playerData = main.getSharedData(PlayerData.class);
     }
@@ -39,7 +38,6 @@ public final class MenuControl implements IMenuObserver {
     @Override
     public void onStart() {
         LOGGER.trace("Starting");
-        subjects.forEach(IMenuSubject::onStart);
         for (String playerName : playerData.getPlayerNames()) {
             for (IMenuSubject subject : subjects) {
                 subject.onPlayerAdded(playerName);
@@ -50,7 +48,6 @@ public final class MenuControl implements IMenuObserver {
     @Override
     public void onStop() {
         LOGGER.trace("Stopping");
-        subjects.forEach(IMenuSubject::onStop);
     }
 
     /*

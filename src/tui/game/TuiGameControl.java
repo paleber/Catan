@@ -1,6 +1,6 @@
 package tui.game;
 
-import control.game.IGameObserver;
+import control.game.IGameControl;
 import control.game.IGameSubject;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -11,7 +11,7 @@ public final class TuiGameControl implements IGameSubject<Tui> {
     private static final Logger LOGGER = LogManager.getLogger();
 
     @Override
-    public void onInitialize(IGameObserver observer, Tui view) {
+    public void onInitialize(IGameControl observer, Tui view) {
         LOGGER.trace("Initializing");
     }
 

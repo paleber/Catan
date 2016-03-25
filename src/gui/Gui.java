@@ -1,6 +1,7 @@
 package gui;
 
 import com.google.inject.Inject;
+import control.menu.MenuControl;
 import engine.control.IMainControl;
 import engine.control.IView;
 import org.apache.logging.log4j.LogManager;
@@ -19,7 +20,6 @@ public final class Gui implements IView {
     private static final int MIN_WIDTH = 400;
     private static final int MIN_HEIGHT = 300;
 
-    private IMainControl mainControl;
 
     @Inject
     private MenuPane menu;
@@ -30,15 +30,13 @@ public final class Gui implements IView {
     private final JFrame frame = new JFrame("SE-Project: Catan");
 
     @Override
-    public void onInitialize(IMainControl main) {
+    public void onInitialize(IMainControl mainControl) {
         LOGGER.trace("Initializing");
-        main.registerView(this);
-        menu.onInitialize(main, this);
 
         frame.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
-                main.shutdown();
+                mainControl.shutdown();
             }
         });
 
@@ -49,6 +47,10 @@ public final class Gui implements IView {
         clearContent();
 
         frame.setVisible(true);
+
+
+        mainControl.registerSubject(menu, MenuControl.class, this);
+
     }
 
     @Override
@@ -57,12 +59,12 @@ public final class Gui implements IView {
         frame.dispose();
     }
 
-    public void setContent(Container content) {
+    void setContent(Container content) {
         frame.setContentPane(content);
         frame.revalidate();
     }
 
-    public void clearContent() {
+    void clearContent() {
         frame.setContentPane(new JPanel());
         frame.revalidate();
     }

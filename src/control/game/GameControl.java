@@ -1,14 +1,15 @@
 package control.game;
 
 import engine.control.IMainControl;
-import engine.control.IControlObserver;
+import model.common.PlayerData;
+import model.game.Game;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.LinkedList;
 import java.util.List;
 
-public final class GameControl implements IGameObserver {
+public final class GameControl implements IGameControl {
 
     private static final Logger LOGGER = LogManager.getLogger();
 
@@ -17,11 +18,13 @@ public final class GameControl implements IGameObserver {
     private final List<IGameSubject> subjects = new LinkedList<>();
 
 
+    Game game;
+
     @Override
     public void onInitialize(IMainControl mainControl) {
         LOGGER.trace("Initializing");
         this.mainControl = mainControl;
-        mainControl.registerObserver(this);
+
     }
 
     @Override
@@ -32,6 +35,7 @@ public final class GameControl implements IGameObserver {
     @Override
     public void onStart() {
         LOGGER.trace("Starting");
+        game = new Game(mainControl.getSharedData(PlayerData.class).getPlayerNames());
     }
 
     @Override

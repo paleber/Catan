@@ -1,5 +1,6 @@
 package gui;
 
+import control.menu.IMenuObserver;
 import control.menu.IMenuSubject;
 import control.menu.MenuControl;
 import engine.control.IMainControl;
@@ -17,7 +18,7 @@ public class MenuPane extends JPanel implements IMenuSubject<Gui> {
     private static final Logger LOGGER = LogManager.getLogger();
 
     private IMainControl mainControl;
-    private MenuControl observer;
+    private IMenuObserver observer;
     private Gui gui;
 
     /*
@@ -61,11 +62,11 @@ public class MenuPane extends JPanel implements IMenuSubject<Gui> {
         //add(bnAddPlayer);
     }
 
+
+
     @Override
-    public void onInitialize(IMainControl mainControl, Gui gui) {
-        this.mainControl = mainControl;
-        observer = mainControl.getObserver(MenuControl.class);
-        observer.onSubjectAdded(this);
+    public void onInitialize(IMenuObserver observer, Gui gui) {
+        this.observer = observer;
         this.gui = gui;
     }
 
