@@ -25,14 +25,15 @@ public class Field {
         for(Intersection inter: intersections) {
             inter.addNeighbor(this);
         }
-
     }
 
     public String toString() {
-        return "Field: TODO " + number + " " + terrain;
-
-
+        StringBuilder builder = new StringBuilder();
+        builder.append("Field | ID: " + id + " | Number: " + number + " | Terrain: " + terrain);
+        for(Intersection i: intersections) {
+            builder.append(" " + i.getId());
+        }
+        return builder.toString();
     }
-
 
 }

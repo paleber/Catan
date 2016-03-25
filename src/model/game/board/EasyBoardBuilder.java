@@ -10,61 +10,58 @@ import model.game.object.Path;
 
 import java.util.*;
 
-/**
- * Created by Patrick on 25.03.2016.
- */
-public class EasyBoardBuilder implements IBoardBuilder{
+public class EasyBoardBuilder implements IBoardBuilder {
 
-
-    //Intersection[] intersection = new Intersection[Coordinates.points.length];
-
-    private final SortedMap<IPoint, Intersection> map = new TreeMap<>();
+    private final Map<IPoint, Intersection> map = new HashMap<>();
 
     private final List<Path> paths = new LinkedList<>();
     private final List<Field> fields = new LinkedList<>();
 
-
     public EasyBoardBuilder() {
 
         // create Intersection
-        for(IPoint p: Coordinates.points) {
+        for (IPoint p : Coordinates.points) {
             map.put(p, new Intersection(p));
         }
 
         // create Paths
-        for(ILine l: Coordinates.lines) {
+        for (ILine l : Coordinates.lines) {
             paths.add(new Path(map.get(l.getStart()), map.get(l.getEnd())));
         }
 
         // create Hexagons
-        for(IPolygon poly: Coordinates.polys) {
+        for (IPolygon poly : Coordinates.polys) {
             Intersection[] inter = new Intersection[poly.getNumberElements()];
-            for(int i = 0; i < inter.length; i++) {
+            for (int i = 0; i < inter.length; i++) {
                 inter[i] = map.get(poly.getPoint(i));
             }
             fields.add(new Field(Material.LUMBER, 8, inter));
         }
 
-        // add nextPaths to Intersections
-        for(Path path: paths) {
-            path.getIntersection(0).addNeighbor(path);
-        }
-
     }
-
 
     @Override
     public Intersection[] getIntersections() {
-        return new Intersection[0];
+        Intersection[] a = new Intersection[map.values().size()];
+        for (int i = 0; i < a.length; i++) {
+            for (Intersection inter : map.values()) {
+                if (inter.getId() == i) {
+                    a[i] = inter;
+                    break;
+                }
+            }
+        }
+        return a;
     }
 
     @Override
     public Path[] getPaths() {
-        return new Path[0];
+        return paths.toArray(new Path[0]);
     }
 
     @Override
     public Field[] getFields() {
-        return new Field[0];
+        return fields.toArray(new Field[0]);
     }
+
 }

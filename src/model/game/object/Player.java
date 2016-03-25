@@ -34,10 +34,6 @@ public class Player {
         return "PlayerName"; //TODO
     }
 
-    public boolean buildStreet(Intersection inter) { return false;}
 
-    public boolean buildCity() {return false; }
-
-    public boolean buildVillage() { return false;}
 
 }

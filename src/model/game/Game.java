@@ -1,5 +1,6 @@
 package model.game;
 
+import model.game.board.EasyBoardBuilder;
 import model.game.board.IBoardBuilder;
 import model.game.board.StandardBoardBuilder;
 import model.game.object.Field;
@@ -21,13 +22,41 @@ public class Game {
             players[i] = new Player(playerNames[i]);
         }
 
-        IBoardBuilder builder = new StandardBoardBuilder();
-
+        IBoardBuilder builder = new EasyBoardBuilder();
         intersections = builder.getIntersections();
         paths = builder.getPaths();
         fields = builder.getFields();
+
+        for (Intersection i : intersections) {
+            System.out.println(i);
+        }
+
+        for (Path p : paths) {
+            System.out.println(p);
+        }
+
+        for (Field f : fields) {
+            System.out.println(f);
+        }
+
     }
 
+
+    public static void main(String[] args) {
+        new Game();
+    }
+
+
+
+    public void rollDice() {}
+
+    public void buildStreet(int pathId) {}
+
+    public void buildCity(int intersectionId) {}
+
+    public void buildVillage(int intersectionId) {}
+
+    public void finishTurn() {}
 
     // --- Setup ---
     // Später dann evtl Einstellungsmöglichkeiten, für Spielbrett aufbau, Spielerreihenfole , variante usw...

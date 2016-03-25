@@ -35,4 +35,9 @@ public class Path {
     }
 
 
+    @Override
+    public String toString() {
+        return "Path | ID: " + id + " | " + intersections[0].getId() + " " + intersections[1].getId();
+    }
+
 }

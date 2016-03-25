@@ -8,6 +8,10 @@ import java.util.List;
 public class Intersection {
 
 
+    public int getId() {
+        return id;
+    }
+
     enum status {
         FREE, BLOCKED, VILLAGE, CITY
     }
@@ -25,10 +29,9 @@ public class Intersection {
 
     public Intersection(IPoint point) {
         this.point = point;
-
     }
 
-    public void addNeighbor(Path next) {
+    void addNeighbor(Path next) {
         if (!nextPaths.contains(next)) {
             for(Path p: nextPaths) {
                 next.addNeighbor(p);
@@ -38,17 +41,21 @@ public class Intersection {
         }
     }
 
-    public void addNeighbor(Intersection next) {
+    void addNeighbor(Intersection next) {
         if (!nextIntersections.contains(next)) {
             nextIntersections.add(next);
         }
     }
 
-    public void addNeighbor(Field next) {
+    void addNeighbor(Field next) {
         if (!nextFields.contains(next)) {
             nextFields.add(next);
         }
     }
 
+    @Override
+    public String toString() {
+        return "Intersection | ID: " + id + " | " + point;
+    }
 
 }
