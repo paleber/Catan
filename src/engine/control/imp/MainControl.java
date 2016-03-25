@@ -50,11 +50,13 @@ final class MainControl implements IMainControl {
     }
 
     @Override
-    public <S extends IControlSubject<O, V>, O extends IControlObserver<S>, V extends IView> void registerSubject(S subject, O observer, V view) {
-        assert (!controls.containsKey(observer.getClass()));
-        controls.get(observer.getClass()).subjects.add(subject);
-        observer.onSubjectAdded(subject);
-        subject.onInitialize(observer, view);
+    @SuppressWarnings("unchecked")
+    public <S extends IControlSubject<O, V>, O extends IControlObserver, V extends IView> void registerSubject(S subject, Class <? extends O> observer, V view) {
+        assert (!controls.containsKey(observer));
+        Element e = controls.get(observer);
+        e.subjects.add(subject);
+        e.observer.onSubjectAdded(subject);
+        subject.onInitialize((O)e.observer, view);
     }
 
     @Override

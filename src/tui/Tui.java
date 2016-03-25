@@ -10,7 +10,7 @@ import engine.text_cmd.ITextCommandReader;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import tui.game.TuiGameControl;
-import tui.menu.TuiMenuControl;
+import tui.menu.TuiMenuSubject;
 
 
 public final class Tui implements IView {
@@ -21,7 +21,7 @@ public final class Tui implements IView {
     private ITextCommandReader textCommandReader;
 
     @Inject
-    private TuiMenuControl menu;
+    private TuiMenuSubject menu;
 
     @Inject
     private TuiGameControl game;
@@ -30,9 +30,12 @@ public final class Tui implements IView {
     public void onInitialize(final IMainControl mainControl) {
         LOGGER.trace("Initializing");
 
-        mainControl.registerSubject(menu);
-        mainControl.registerSubject(game);
 
+
+
+        mainControl.registerSubject(menu, MenuControl.class, this);
+
+        mainControl.registerSubject(game, GameControl.class, this);
 
         textCommandReader.start();
         //cm.onSubjectAdded(menu, MenuControl.class, this);

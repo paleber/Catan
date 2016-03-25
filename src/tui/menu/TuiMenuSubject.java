@@ -11,11 +11,10 @@ import org.apache.logging.log4j.Logger;
 import tui.Tui;
 import tui.common.CmdShutdown;
 
-public final class TuiMenuControl implements IMenuSubject<Tui> {
+public final class TuiMenuSubject implements IMenuSubject<Tui> {
 
     private static final Logger LOGGER = LogManager.getLogger();
 
-    private IMainControl main;
     private IMenuObserver observer;
     private Tui tui;
 
@@ -32,9 +31,12 @@ public final class TuiMenuControl implements IMenuSubject<Tui> {
     }
  */
 
+
+
+
+
     @Override
-    public void onInitialize(Tui tui, IMenuObserver observer) {
-        this.main = main;
+    public void onInitialize(IMenuObserver observer, Tui tui) {
         this.observer = observer;
         this.tui = tui;
     }
@@ -46,7 +48,7 @@ public final class TuiMenuControl implements IMenuSubject<Tui> {
         tui.addCommand("add", new CmdAddPlayer(observer));
         tui.addCommand("remove", new CmdRemovePlayer(observer));
         tui.addCommand("game", new CmdStartGame(observer));
-        tui.addCommand("exit", new CmdShutdown(main));
+       // tui.addCommand("exit", new CmdShutdown(main));
     }
 
     @Override
