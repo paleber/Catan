@@ -1,24 +1,38 @@
 package model.game.object;
 
 
-import geo.ILine;
-
 import java.util.ArrayList;
 import java.util.List;
 
 public class Path {
 
-    private final ILine line;
-
+    private final Intersection[] intersections;
     private final List<Path> nextPaths = new ArrayList<>();
+
+    private static int idCounter = 0;
+    private final int id = idCounter++;
 
     private Player owner = null;
 
-    public Path(ILine line) {
-        this.line = line;
+    public Path(Intersection... intersections) {
+        assert (intersections.length == 2);
+        this.intersections = intersections;
+        intersections[0].addNeighbor(this);
+        intersections[1].addNeighbor(this);
+        intersections[0].addNeighbor(intersections[1]);
+        intersections[1].addNeighbor(intersections[0]);
     }
 
     public void addNeighbor(Path next) {
-        nextPaths.add(next);
+        if(!nextPaths.contains(next)) {
+            nextPaths.add(next);
+        }
+
     }
+
+    public Intersection getIntersection(int index) {
+        return intersections[index];
+    }
+
+
 }

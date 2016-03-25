@@ -9,28 +9,27 @@ import java.util.List;
 public class Field {
 
     private static final int NO_NUMBER = -1;
+    private final Intersection[] intersections;
 
     private int number; // 2-6, 8-12
     private Material terrain;
-    private IPolygon poly;
-    private final List<Intersection> nextIntersections = new ArrayList<>();
 
-    public Field(IPolygon poly, int number, Material terrain) {
-        this.poly = poly;
+    private static int idCounter = 0;
+    private final int id = idCounter++;
+
+    public Field(Material terrain, int number, Intersection... intersections) {
+        assert (intersections.length == 6);
+        this.intersections = intersections;
         this.number = number;
         this.terrain = terrain;
-    }
+        for(Intersection inter: intersections) {
+            inter.addNeighbor(this);
+        }
 
-    public Field(IPolygon poly, Material terrain) {
-        this(poly, NO_NUMBER, terrain);
-    }
-
-    public void addNeighbor(Intersection intersection) {
-        nextIntersections.add(intersection);
     }
 
     public String toString() {
-        return "Field: " + poly.calculateMid() + " " + number + " "  + terrain;
+        return "Field: TODO " + number + " " + terrain;
 
 
     }

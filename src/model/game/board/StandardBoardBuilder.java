@@ -1,16 +1,30 @@
 package model.game.board;
 
 import model.game.object.Field;
-import model.game.object.Material;
+
 import model.game.object.Intersection;
 import model.game.object.Path;
-import geo.*;
 
-import java.util.*;
-import java.util.List;
 
 public final class StandardBoardBuilder implements IBoardBuilder {
 
+    @Override
+    public Intersection[] getIntersections() {
+        return new Intersection[0];
+    }
+
+    @Override
+    public Path[] getPaths() {
+        return new Path[0];
+    }
+
+    @Override
+    public Field[] getFields() {
+        return new Field[0];
+    }
+
+
+    /*
     private static final Map<Integer, Integer> NUMBER_COUNT = new HashMap<>();
 
     static {
@@ -170,5 +184,5 @@ public final class StandardBoardBuilder implements IBoardBuilder {
             System.out.println(f);
         }
     }
-
+*/
 }
