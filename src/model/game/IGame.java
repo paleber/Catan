@@ -8,7 +8,7 @@ public interface IGame {
 
      void buildCity(int intersectionId) ;
 
-     void buildVillage(int intersectionId) ;
+     void buildSettlement(int intersectionId) ;
 
      void finishTurn();
 

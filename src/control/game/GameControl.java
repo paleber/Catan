@@ -2,6 +2,10 @@ package control.game;
 
 import engine.control.IMainControl;
 import model.common.PlayerData;
+import model.game.IIntersection;
+import model.game.IPath;
+import model.game.IPlayer;
+import model.game.ITerrain;
 import model.game.object.Game;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -35,12 +39,21 @@ public final class GameControl implements IGameControl {
     @Override
     public void onStart() {
         LOGGER.trace("Starting");
-        game = new Game(mainControl.getSharedData(PlayerData.class).getPlayerNames());
+        game = new Game(this, mainControl.getSharedData(PlayerData.class).getPlayerNames());
     }
 
     @Override
     public void onStop() {
         LOGGER.trace("Stopping");
+    }
+
+    @Override
+    public void setupGame(IIntersection[] intersections, IPath[] paths, ITerrain[] terrains, IPlayer[] players) {
+
+        for(IGameSubject subject: subjects) {
+            subject.onSetupGame(intersections, paths, terrains, players);
+        }
+
     }
 
 }

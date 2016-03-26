@@ -33,6 +33,10 @@ public class Player implements IPlayer {
 
     }
 
+    public void countWinPoints() {
+
+    }
+
     /*
     private void addMaterial(Material m) {
         int n = resources.remove(m);
@@ -71,4 +75,15 @@ public class Player implements IPlayer {
         return Color.BLACK; // TODO
     }
 
+    public void buildSettlement(Intersection s) {
+        // TODO, in Vorbereitungsphase prüfen, dass korrekt gebaut wird
+
+        // TODO, Material prüfen, wenn nicht genug vorhanden exception werfen
+    }
+
+    public void buildStreet(Path s) {
+        // TODO, in Vorbereitungsphase prüfen, dass korrekt gebaut wird
+
+        // TODO, Material prüfen, wenn nicht genug vorhanden exception werfen
+    }
 }

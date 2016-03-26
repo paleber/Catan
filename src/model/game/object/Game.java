@@ -1,28 +1,44 @@
 package model.game.object;
 
+import control.game.IGameControl;
 import model.game.IGame;
+import model.game.IPath;
 import model.game.board.EasyBoardBuilder;
 import model.game.board.IBoardBuilder;
 
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
 
-public class Game implements IGame{
+
+public class Game implements IGame {
 
     private final Player[] players;
-    private final Intersection[] intersections;
-    private final Path[] paths;
-    private final Terrain[] terrains;
+    private final List<Intersection> intersections = new LinkedList<>();
+    private final List<Path> paths = new LinkedList<>();
 
-    public Game(String... playerNames) {
+    private final Terrain[] terrains;
+    private final IGameControl control;
+
+    public Game(IGameControl control, String... playerNames) {
         players = new Player[playerNames.length];
         for (int i = 0; i < players.length; i++) {
             players[i] = new Player(playerNames[i]);
         }
 
+        this.control = control;
+
         IBoardBuilder builder = new EasyBoardBuilder();
-        intersections = builder.getIntersections();
-        paths = builder.getPaths();
+
+        Collections.addAll(intersections, builder.getIntersections());
+
+        Collections.addAll(paths, builder.getPaths());
+
         terrains = builder.getTerrains();
 
+        control.setupGame(builder.getIntersections(), builder.getPaths(), terrains.clone(), players.clone());
+
+        /*
         for (Intersection i : intersections) {
             System.out.println(i);
         }
@@ -35,20 +51,113 @@ public class Game implements IGame{
             System.out.println(f);
         }
 
+        for (Player p: players) {
+            System.out.println(p);
+        } */
+
+        curPlayerIndex = 0;
+        state = State.PREPARATION_FORWARD;
+
+    }
+
+    private enum State {
+        PREPARATION_FORWARD,
+        PREPARATION_BACKWARD,
+        GATHERING,
+        ACTION
+    }
+
+    private State state;
+    private int curPlayerIndex;
+
+
+    public void rollDice() {
+    }
+
+    public void buildStreet(int pathId) {
+
+        if (state == State.GATHERING) {
+            // TODO action in this phase not allowed exception
+        }
+
+
+        Path path = findPath(pathId);
+
+        if (path == null) {
+            // TODO throw Exception cant build on this place
+        }
+
+        players[curPlayerIndex].buildStreet(path);
+
+        paths.remove(path);
+
+        switch (state) {
+            case PREPARATION_FORWARD:
+                if (curPlayerIndex < players.length - 1) {
+                    curPlayerIndex += 1;
+                    // TODO nachricht, nächster Spieler an der Reihe
+                } else {
+                    state = State.PREPARATION_BACKWARD;
+                    // TODO nachricht, Rückrunde beginnt letzter Spieler ist zuerst dran
+                }
+                break;
+
+            case PREPARATION_BACKWARD:
+                break;
+            case ACTION:
+                break;
+        }
+
+        // TODO Nachricht das gebaut wurde
     }
 
 
+    public void buildSettlement(int intersectionId) {
+        // GameStatus prüfen TODO
+
+        if (state == State.PREPARATION_FORWARD && players[curPlayerIndex].getSettlements().length != 0) {
+
+        }
+
+        Intersection s = findIntersection(intersectionId);
+        if (s == null) {
+            // TODO throw Exception cant build on this place
+        }
+
+        players[curPlayerIndex].buildSettlement(s); // Can throw Exception if not enougg Material
+        intersections.remove(s);
+
+        // TODO nachbarn der intersection wegen abstandsregel entfernen
+
+        // TODO Nachricht das gebaut wurde
+
+    }
+
+    private Intersection findIntersection(int intersectionId) {
+        for (Intersection s : intersections) {
+            if (s.getId() == intersectionId) {
+                return s;
+            }
+        }
+        return null;
+    }
+
+    private Path findPath(int pathId) {
+        for (Path p : paths) {
+            if (p.getId() == pathId) {
+                return p;
+            }
+        }
+        return null;
+    }
+
+    public void buildCity(int intersectionId) {
+
+    }
 
 
-    public void rollDice() {}
-
-    public void buildStreet(int pathId) {}
-
-    public void buildCity(int intersectionId) {}
-
-    public void buildVillage(int intersectionId) {}
-
-    public void finishTurn() {}
+    public void finishTurn() {
+    }
 
     // --- Setup ---
     // Später dann evtl Einstellungsmöglichkeiten, für Spielbrett aufbau, Spielerreihenfole , variante usw...
