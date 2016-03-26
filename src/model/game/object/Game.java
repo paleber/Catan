@@ -1,20 +1,16 @@
-package model.game;
+package model.game.object;
 
+import model.game.IGame;
 import model.game.board.EasyBoardBuilder;
 import model.game.board.IBoardBuilder;
-import model.game.board.StandardBoardBuilder;
-import model.game.object.Field;
-import model.game.object.Intersection;
-import model.game.object.Path;
-import model.game.object.Player;
 
 
-public class Game {
+public class Game implements IGame{
 
     private final Player[] players;
     private final Intersection[] intersections;
     private final Path[] paths;
-    private final Field[] fields;
+    private final Terrain[] terrains;
 
     public Game(String... playerNames) {
         players = new Player[playerNames.length];
@@ -25,7 +21,7 @@ public class Game {
         IBoardBuilder builder = new EasyBoardBuilder();
         intersections = builder.getIntersections();
         paths = builder.getPaths();
-        fields = builder.getFields();
+        terrains = builder.getTerrains();
 
         for (Intersection i : intersections) {
             System.out.println(i);
@@ -35,16 +31,12 @@ public class Game {
             System.out.println(p);
         }
 
-        for (Field f : fields) {
+        for (Terrain f : terrains) {
             System.out.println(f);
         }
 
     }
 
-
-    public static void main(String[] args) {
-        new Game();
-    }
 
 
 

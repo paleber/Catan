@@ -1,4 +1,4 @@
-package model.game.object;
+package model.game;
 
 /**
  * Enum with Materials used for Resources and Terrain.
@@ -21,9 +21,9 @@ public enum Material {
     ORE(true, true), // Ore Mountain
 
     /**
-     * Default material Grain, Terrain Field.
+     * Default material Grain, Terrain Terrain.
      */
-    GRAIN(true, true), // Grain Field
+    GRAIN(true, true), // Grain Terrain
 
     /**
      * Default material Lumber, Terrain Forest.

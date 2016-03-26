@@ -2,7 +2,7 @@ package control.game;
 
 import engine.control.IMainControl;
 import model.common.PlayerData;
-import model.game.Game;
+import model.game.object.Game;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

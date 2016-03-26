@@ -1,15 +1,19 @@
 package model.game.object;
 
+import model.game.IIntersection;
+import model.game.IPath;
+import model.game.IPlayer;
+import model.game.Material;
+
+import java.awt.*;
 import java.util.EnumMap;
 import java.util.Map;
 
-public class Player {
+public class Player implements IPlayer {
 
     private static final int MAX_STREETS = 15;
     private static final int MAX_VILLAGES = 5;
     private static final int MAX_CITIES = 4;
-
-
 
     private Map<Material, Integer> resources = new EnumMap<>(Material.class);
 
@@ -21,19 +25,50 @@ public class Player {
         }
     }
 
-    public void addMaterial(Material m) {
+    public void collectStartMaterial() {
+
+    }
+
+    public void collectMaterial(int number) {
+
+    }
+
+    /*
+    private void addMaterial(Material m) {
         int n = resources.remove(m);
         resources.put(m, n + 1);
     }
 
     public int getMaterialNumber(Material m) {
         return resources.get(m);
-    }
+    } */
 
     public String getName() {
         return "PlayerName"; //TODO
     }
 
+    @Override
+    public IPath[] getStreets() {
+        return new IPath[0]; // TODO
+    }
 
+    @Override
+    public IIntersection[] getSettlements() {
+        return new IIntersection[0];  // TODO
+    }
+
+    @Override
+    public IIntersection[] getCities() {
+        return new IIntersection[0];  // TODO
+    }
+
+    @Override
+    public Map<Material, Integer> getMaterials() {
+        return resources; // TODO clone map
+    }
+
+    public Color getColor() {
+        return Color.BLACK; // TODO
+    }
 
 }

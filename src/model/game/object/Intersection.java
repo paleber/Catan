@@ -1,15 +1,21 @@
 package model.game.object;
 
 import geo.IPoint;
+import model.game.IIntersection;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Intersection {
+public class Intersection implements IIntersection {
 
 
     public int getId() {
         return id;
+    }
+
+    @Override
+    public IPoint getPoint() {
+        return point; // TODO copy Point or make it immutable
     }
 
     enum status {
@@ -20,7 +26,7 @@ public class Intersection {
 
     private final List<Intersection> nextIntersections = new ArrayList<>();
     private final List<Path> nextPaths = new ArrayList<>();
-    private final List<Field> nextFields = new ArrayList<>();
+    private final List<Terrain> nextTerrains = new ArrayList<>();
 
     private Player owner = null;
 
@@ -47,9 +53,9 @@ public class Intersection {
         }
     }
 
-    void addNeighbor(Field next) {
-        if (!nextFields.contains(next)) {
-            nextFields.add(next);
+    void addNeighbor(Terrain next) {
+        if (!nextTerrains.contains(next)) {
+            nextTerrains.add(next);
         }
     }
 

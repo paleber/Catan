@@ -1,7 +1,7 @@
 package model.game.board;
 
 
-import model.game.object.Field;
+import model.game.object.Terrain;
 import model.game.object.Intersection;
 import model.game.object.Path;
 
@@ -11,6 +11,6 @@ public interface IBoardBuilder {
 
     Path[] getPaths();
 
-    Field[] getFields();
+    Terrain[] getTerrains();
 
 }

@@ -1,6 +1,6 @@
 package model.game.board;
 
-import model.game.object.Field;
+import model.game.object.Terrain;
 
 import model.game.object.Intersection;
 import model.game.object.Path;
@@ -18,9 +18,8 @@ public final class StandardBoardBuilder implements IBoardBuilder {
         return new Path[0];
     }
 
-    @Override
-    public Field[] getFields() {
-        return new Field[0];
+    public Terrain[] getTerrains() {
+        return new Terrain[0];
     }
 
 
@@ -53,7 +52,7 @@ public final class StandardBoardBuilder implements IBoardBuilder {
 
     private final Map<ILine, Path> paths = new HashMap<>();
     private final Map<IPoint, Intersection> intersections = new HashMap<>();
-    private final Map<IPolygon, Field> fields = new HashMap<>();
+    private final Map<IPolygon, Terrain> fields = new HashMap<>();
 
     public StandardBoardBuilder() {
         HexagonBuilder builder = new HexagonBuilder();
@@ -151,9 +150,9 @@ public final class StandardBoardBuilder implements IBoardBuilder {
             Material terrain = terrains.remove(r.nextInt(terrains.size()));
             if (terrain.isCollectable()) {
                 int number = numbers.remove(r.nextInt(numbers.size()));
-                fields.put(key, new Field(key, number, terrain));
+                fields.put(key, new Terrain(key, number, terrain));
             } else {
-                fields.put(key, new Field(key, terrain));
+                fields.put(key, new Terrain(key, terrain));
             }
         }
 
@@ -170,8 +169,8 @@ public final class StandardBoardBuilder implements IBoardBuilder {
     }
 
     @Override
-    public Field[] getFields() {
-        return fields.values().toArray(new Field[0]);
+    public Terrain[] getTerrains() {
+        return fields.values().toArray(new Terrain[0]);
     }
 
     public static void main(String[] args) {
@@ -180,7 +179,7 @@ public final class StandardBoardBuilder implements IBoardBuilder {
         System.out.println("Lines: " + x.paths.size()); // 72
         System.out.println("Points: " + x.intersections.size()); // 54
 
-        for(Field f: x.getFields()) {
+        for(Terrain f: x.getTerrains()) {
             System.out.println(f);
         }
     }

@@ -3,9 +3,9 @@ package model.game.board;
 import geo.ILine;
 import geo.IPoint;
 import geo.IPolygon;
-import model.game.object.Field;
+import model.game.object.Terrain;
 import model.game.object.Intersection;
-import model.game.object.Material;
+import model.game.Material;
 import model.game.object.Path;
 
 import java.util.*;
@@ -15,7 +15,7 @@ public class EasyBoardBuilder implements IBoardBuilder {
     private final Map<IPoint, Intersection> map = new HashMap<>();
 
     private final List<Path> paths = new LinkedList<>();
-    private final List<Field> fields = new LinkedList<>();
+    private final List<Terrain> terrains = new LinkedList<>();
 
     public EasyBoardBuilder() {
 
@@ -35,7 +35,7 @@ public class EasyBoardBuilder implements IBoardBuilder {
             for (int i = 0; i < inter.length; i++) {
                 inter[i] = map.get(poly.getPoint(i));
             }
-            fields.add(new Field(Material.LUMBER, 8, inter));
+            terrains.add(new Terrain(Material.LUMBER, 8, inter));
         }
 
     }
@@ -59,9 +59,8 @@ public class EasyBoardBuilder implements IBoardBuilder {
         return paths.toArray(new Path[0]);
     }
 
-    @Override
-    public Field[] getFields() {
-        return fields.toArray(new Field[0]);
+    public Terrain[] getTerrains() {
+        return terrains.toArray(new Terrain[0]);
     }
 
 }

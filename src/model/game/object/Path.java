@@ -1,10 +1,13 @@
 package model.game.object;
 
 
+import model.game.IIntersection;
+import model.game.IPath;
+
 import java.util.ArrayList;
 import java.util.List;
 
-public class Path {
+public class Path implements IPath{
 
     private final Intersection[] intersections;
     private final List<Path> nextPaths = new ArrayList<>();
@@ -40,4 +43,13 @@ public class Path {
         return "Path | ID: " + id + " | " + intersections[0].getId() + " " + intersections[1].getId();
     }
 
+    @Override
+    public int getId() {
+        return id;
+    }
+
+    @Override
+    public IIntersection[] getIntersections() {
+        return intersections.clone();
+    }
 }
