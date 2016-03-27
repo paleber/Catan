@@ -3,13 +3,10 @@ package control.game;
 
 import engine.control.IControlSubject;
 import engine.control.IView;
-import model.game.IIntersection;
-import model.game.IPath;
-import model.game.IPlayer;
-import model.game.ITerrain;
+import model.game.event.IGameEvent;
 
 public interface IGameSubject<V extends IView> extends IControlSubject<IGameControl, V> {
 
-    void onSetupGame(IIntersection[] intersections, IPath[] paths, ITerrain[] terrains, IPlayer[] players);
+    void onGameEvent(IGameEvent event);
 
 }

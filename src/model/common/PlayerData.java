@@ -1,9 +1,10 @@
 package model.common;
 
-import control.exception.IllegalNameException;
-import control.exception.IllegalNumberOfPlayersException;
-import control.exception.NameInUseException;
-import control.exception.PlayerNotExistsException;
+import control.exception.*;
+import control.exception.menu.IllegalNameException;
+import control.exception.menu.IllegalNumberOfPlayersException;
+import control.exception.menu.NameInUseException;
+import control.exception.menu.PlayerNotExistsException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

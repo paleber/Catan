@@ -2,6 +2,7 @@ package model.game.object;
 
 import geo.IPoint;
 import model.game.IIntersection;
+import model.game.event.SetupIntersectionEvent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,6 +17,14 @@ public class Intersection implements IIntersection {
     @Override
     public IPoint getPoint() {
         return point; // TODO copy Point or make it immutable
+    }
+
+    public SetupIntersectionEvent createSetupEvent() {
+        return new SetupIntersectionEvent(id, point.getX(), point.getY());
+    }
+
+    public Intersection[] getNeighborIntersections() {
+        return nextIntersections.toArray(new Intersection[0]);
     }
 
     enum status {
@@ -39,7 +48,7 @@ public class Intersection implements IIntersection {
 
     void addNeighbor(Path next) {
         if (!nextPaths.contains(next)) {
-            for(Path p: nextPaths) {
+            for (Path p : nextPaths) {
                 next.addNeighbor(p);
                 p.addNeighbor(next);
             }

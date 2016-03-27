@@ -4,6 +4,8 @@ package model.game.object;
 import model.game.IIntersection;
 import model.game.ITerrain;
 import model.game.Material;
+import model.game.event.IGameEvent;
+import model.game.event.SetupTerrainEvent;
 
 public class Terrain implements ITerrain {
 
@@ -21,7 +23,7 @@ public class Terrain implements ITerrain {
         this.intersections = intersections;
         this.number = number;
         this.material = material;
-        for(Intersection inter: intersections) {
+        for (Intersection inter : intersections) {
             inter.addNeighbor(this);
         }
     }
@@ -48,10 +50,17 @@ public class Terrain implements ITerrain {
     public String toString() {
         StringBuilder builder = new StringBuilder();
         builder.append("Terrain | ID: " + id + " | Number: " + number + " | Material: " + material);
-        for(Intersection i: intersections) {
+        for (Intersection i : intersections) {
             builder.append(" " + i.getId());
         }
         return builder.toString();
+    }
+
+    public SetupTerrainEvent createSetupEvent() {
+        return new SetupTerrainEvent(id, number, material,
+                intersections[0].getId(), intersections[1].getId(),
+                intersections[2].getId(), intersections[3].getId(),
+                intersections[4].getId(), intersections[5].getId());
     }
 
 }

@@ -1,10 +1,15 @@
 package model.game.object;
 
+import control.exception.CatanException;
+import control.exception.game.IllegalActionInThisPhaseException;
+import control.exception.game.IllegalPlaceToBuildException;
 import control.game.IGameControl;
 import model.game.IGame;
-import model.game.IPath;
 import model.game.board.EasyBoardBuilder;
 import model.game.board.IBoardBuilder;
+import model.game.event.BuildSettlementEvent;
+import model.game.event.PreparationPhaseSettlementEvent;
+import model.game.event.PreparationPhaseStreetEvent;
 
 import java.util.Collections;
 import java.util.LinkedList;
@@ -29,54 +34,62 @@ public class Game implements IGame {
         this.control = control;
 
         IBoardBuilder builder = new EasyBoardBuilder();
-
         Collections.addAll(intersections, builder.getIntersections());
-
         Collections.addAll(paths, builder.getPaths());
-
         terrains = builder.getTerrains();
 
-        control.setupGame(builder.getIntersections(), builder.getPaths(), terrains.clone(), players.clone());
 
-        /*
         for (Intersection i : intersections) {
-            System.out.println(i);
+            control.sendGameEvent(i.createSetupEvent());
         }
 
         for (Path p : paths) {
-            System.out.println(p);
+            control.sendGameEvent(p.createSetupEvent());
         }
 
-        for (Terrain f : terrains) {
-            System.out.println(f);
+        for (Terrain t : terrains) {
+            control.sendGameEvent(t.createSetupEvent());
         }
 
-        for (Player p: players) {
-            System.out.println(p);
-        } */
+        for (Player p : players) {
+            control.sendGameEvent(p.createSetupEvent());
+        }
 
         curPlayerIndex = 0;
-        state = State.PREPARATION_FORWARD;
+        phase = Phase.PREPARATION_SETTLEMENT;
+
+        control.sendGameEvent(new PreparationPhaseSettlementEvent(curPlayerIndex));
 
     }
 
-    private enum State {
-        PREPARATION_FORWARD,
-        PREPARATION_BACKWARD,
+    private enum Phase {
+        PREPARATION_SETTLEMENT,
+        PREPARATION_STREET,
         GATHERING,
         ACTION
     }
 
-    private State state;
+    private Phase phase;
     private int curPlayerIndex;
 
 
     public void rollDice() {
+
+        if (phase != Phase.GATHERING) {
+            throw new IllegalActionInThisPhaseException("TODO");
+        }
+
+        // TODO
     }
 
     public void buildStreet(int pathId) {
 
-        if (state == State.GATHERING) {
+        if (phase != Phase.PREPARATION_STREET && phase != Phase.ACTION) {
+            throw new IllegalActionInThisPhaseException("TODO");
+        }
+
+
+        if (phase == Phase.GATHERING) {
             // TODO action in this phase not allowed exception
         }
 
@@ -91,45 +104,34 @@ public class Game implements IGame {
 
         paths.remove(path);
 
-        switch (state) {
-            case PREPARATION_FORWARD:
-                if (curPlayerIndex < players.length - 1) {
-                    curPlayerIndex += 1;
-                    // TODO nachricht, nächster Spieler an der Reihe
-                } else {
-                    state = State.PREPARATION_BACKWARD;
-                    // TODO nachricht, Rückrunde beginnt letzter Spieler ist zuerst dran
-                }
-                break;
-
-            case PREPARATION_BACKWARD:
-                break;
-            case ACTION:
-                break;
-        }
-
         // TODO Nachricht das gebaut wurde
     }
 
 
     public void buildSettlement(int intersectionId) {
-        // GameStatus prüfen TODO
 
-        if (state == State.PREPARATION_FORWARD && players[curPlayerIndex].getSettlements().length != 0) {
-
+        if (phase != Phase.PREPARATION_SETTLEMENT && phase != Phase.ACTION) {
+            throw new IllegalActionInThisPhaseException("TODO");
         }
 
         Intersection s = findIntersection(intersectionId);
         if (s == null) {
-            // TODO throw Exception cant build on this place
+            throw new IllegalPlaceToBuildException("TODO");
+        }
+        players[curPlayerIndex].buildSettlement(s); // throws Exception, not enough Material
+
+        // Remove neighbor intersections due to distance rule
+        intersections.remove(s);
+        for (Intersection i : s.getNeighborIntersections()) {
+            intersections.remove(i);
         }
 
-        players[curPlayerIndex].buildSettlement(s); // Can throw Exception if not enougg Material
-        intersections.remove(s);
+        control.sendGameEvent(new BuildSettlementEvent(curPlayerIndex, intersectionId));
 
-        // TODO nachbarn der intersection wegen abstandsregel entfernen
-
-        // TODO Nachricht das gebaut wurde
+        if (phase == Phase.PREPARATION_SETTLEMENT) {
+            phase = Phase.PREPARATION_STREET;
+            control.sendGameEvent(new PreparationPhaseStreetEvent(s.getId()));
+        }
 
     }
 

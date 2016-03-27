@@ -4,6 +4,8 @@ import model.game.IIntersection;
 import model.game.IPath;
 import model.game.IPlayer;
 import model.game.Material;
+import model.game.event.SetupPlayerEvent;
+import model.game.event.SetupTerrainEvent;
 
 import java.awt.*;
 import java.util.EnumMap;
@@ -35,6 +37,14 @@ public class Player implements IPlayer {
 
     public void countWinPoints() {
 
+    }
+
+    int id = 0;
+    String name = "TODO";
+    Color color = Color.PINK;
+
+    public SetupPlayerEvent createSetupEvent() {
+        return new SetupPlayerEvent(id, name, color);
     }
 
     /*

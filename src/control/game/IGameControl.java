@@ -1,13 +1,10 @@
 package control.game;
 
 import engine.control.IControlObserver;
-import model.game.IIntersection;
-import model.game.IPath;
-import model.game.IPlayer;
-import model.game.ITerrain;
+import model.game.event.IGameEvent;
 
 public interface IGameControl extends IControlObserver<IGameSubject> {
 
-    void setupGame(IIntersection[] intersections, IPath[] paths, ITerrain[] terrains, IPlayer[] players);
+    void sendGameEvent(IGameEvent event);
 
 }

@@ -2,6 +2,7 @@ package tui.game;
 
 import control.game.IGameControl;
 import control.game.IGameSubject;
+import model.game.event.IGameEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import tui.Tui;
@@ -25,4 +26,8 @@ public final class TuiGameControl implements IGameSubject<Tui> {
         LOGGER.trace("Stopping");
     }
 
+    @Override
+    public void onGameEvent(IGameEvent event) {
+        // TODO
+    }
 }

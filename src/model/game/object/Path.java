@@ -3,6 +3,8 @@ package model.game.object;
 
 import model.game.IIntersection;
 import model.game.IPath;
+import model.game.event.SetupIntersectionEvent;
+import model.game.event.SetupPathEvent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,6 +37,11 @@ public class Path implements IPath{
 
     public Intersection getIntersection(int index) {
         return intersections[index];
+    }
+
+
+    public SetupPathEvent createSetupEvent() {
+        return new SetupPathEvent(id, intersections[0].getId(), intersections[1].getId());
     }
 
 

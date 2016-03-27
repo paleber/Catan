@@ -1,4 +1,4 @@
 package model.game.event;
 
-public class BuildCityEvent {
+public class BuildCityEvent implements IGameEvent {
 }

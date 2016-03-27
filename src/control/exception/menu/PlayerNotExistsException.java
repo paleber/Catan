@@ -1,4 +1,6 @@
-package control.exception;
+package control.exception.menu;
+
+import control.exception.CatanException;
 
 public class PlayerNotExistsException extends CatanException {
 

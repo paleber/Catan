@@ -6,6 +6,7 @@ import model.game.IIntersection;
 import model.game.IPath;
 import model.game.IPlayer;
 import model.game.ITerrain;
+import model.game.event.IGameEvent;
 import model.game.object.Game;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -48,12 +49,7 @@ public final class GameControl implements IGameControl {
     }
 
     @Override
-    public void setupGame(IIntersection[] intersections, IPath[] paths, ITerrain[] terrains, IPlayer[] players) {
-
-        for(IGameSubject subject: subjects) {
-            subject.onSetupGame(intersections, paths, terrains, players);
-        }
+    public void sendGameEvent(IGameEvent event) {
 
     }
-
 }

@@ -1,11 +1,7 @@
 package tui.menu;
 
 import control.exception.CatanException;
-import control.exception.PlayerNotExistsException;
 import control.menu.IMenuObserver;
-import control.menu.MenuControl;
-import engine.text_cmd.ITextCommand;
-import model.common.PlayerData;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
