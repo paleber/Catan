@@ -8,7 +8,7 @@ import model.game.board.EasyBoardBuilder;
 import model.game.board.IBoardBuilder;
 import model.game.event.*;
 
-import java.awt.*;
+import java.awt.Color;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
@@ -26,7 +26,7 @@ public class Game implements IGame {
     public Game(IGameControl control, String... playerNames) {
         players = new Player[playerNames.length];
         for (int i = 0; i < players.length; i++) {
-            players[i] = new Player(playerNames[i], Color.PINK, control);
+            players[i] = new Player(playerNames[i], i, Color.PINK, control, this);
         }
 
         this.control = control;
@@ -46,10 +46,6 @@ public class Game implements IGame {
 
         for (Terrain t : terrains) {
             control.sendGameEvent(t.createSetupEvent());
-        }
-
-        for (Player p : players) {
-            control.sendGameEvent(p.createSetupEvent());
         }
 
         control.sendGameEvent(new PreparationSettlementPhaseEvent(curPlayerIndex));
@@ -100,7 +96,7 @@ public class Game implements IGame {
         @Override
         public void buildStreet(int pathId) {
             Path path = findPathForBuilding(pathId);
-            players[curPlayerIndex].buildSetupPath(path);
+            players[curPlayerIndex].buildSetupStreet(path);
             finishStreetBuilding(path);
 
             if (players[curPlayerIndex].getSettlements().length <= 1) {
@@ -121,7 +117,7 @@ public class Game implements IGame {
                     control.sendGameEvent(new PreparationSettlementPhaseEvent(curPlayerIndex));
                 } else {
                     for (Player p : players) {
-                        p.gatherStartResources();
+                        p.collectStartResources();
                     }
                     gamePhase = resourcePhase;
                     control.sendGameEvent(new ResourcePhaseEvent(curPlayerIndex));
@@ -147,6 +143,8 @@ public class Game implements IGame {
             } else {
                 // TODO Knight
             }
+
+            gamePhase = actionPhase;
         }
 
     };
@@ -155,26 +153,35 @@ public class Game implements IGame {
 
         @Override
         void buildStreet(int pathId) {
-            // TODO
+            Path p = findPathForBuilding(pathId);
+            players[curPlayerIndex].buildStreet(p);
+            finishStreetBuilding(p);
         }
 
         @Override
         void buildSettlement(int waypointId) {
-            // TODO
+            Intersection s = findIntersectionForBuilding(waypointId);
+            players[curPlayerIndex].buildSettlement(s);
+            finishSettlementBuilding(s);
         }
 
         @Override
         void buildCity(int waypointId) {
-            // TODO
+            players[curPlayerIndex].buildCity(waypointId);
         }
-
 
         @Override
         void finishTurn() {
-            // TODO
+            curPlayerIndex++;
+            if(curPlayerIndex >= players.length) {
+                curPlayerIndex = 0;
+            }
+            control.sendGameEvent(new NextPlayerEvent(curPlayerIndex));
         }
 
     };
+
+    private final GamePhase gameOverPhase = new GamePhase() {};
 
     private Intersection findIntersectionForBuilding(int intersectionId) {
         Intersection s = findIntersection(intersectionId);
@@ -187,14 +194,14 @@ public class Game implements IGame {
     private void finishSettlementBuilding(Intersection s) {
         control.sendGameEvent(new BuildSettlementEvent(curPlayerIndex, s.getId()));
 
-        // Remove neighbor intersections due to distance rule
         intersections.remove(s);
         for (Intersection i : s.getNeighborIntersections()) {
-            intersections.remove(i);
-            // TODO message for blocked intersections
+            if (intersections.contains(i)) {
+                intersections.remove(i);
+                control.sendGameEvent(new WaypointBlockedEvent(i.getId()));
+            }
         }
     }
-
 
     private Path findPathForBuilding(int pathId) {
         Path path = findPath(pathId);
@@ -208,9 +215,7 @@ public class Game implements IGame {
         paths.remove(path);
     }
 
-
     private GamePhase gamePhase = preparationSettlementPhase;
-
 
     public void rollDice() {
         gamePhase.rollDice();
@@ -239,6 +244,11 @@ public class Game implements IGame {
             }
         }
         return null;
+    }
+
+    void gameOver(int playerId) {
+        gamePhase = gameOverPhase;
+        control.sendGameEvent(new GameOverEvent(playerId));
     }
 
     private Path findPath(int pathId) {

@@ -1,56 +1,103 @@
 package model.game.object;
 
+import control.exception.game.NotEnoughMaterialException;
 import control.game.IGameControl;
-import model.game.IIntersection;
-import model.game.IPath;
-import model.game.IPlayer;
 import model.game.Material;
+import model.game.event.GatherResourcesEvent;
 import model.game.event.SetupPlayerEvent;
-import model.game.event.SetupTerrainEvent;
 
-import java.awt.*;
-import java.util.EnumMap;
-import java.util.Map;
+import java.awt.Color;
+import java.util.*;
 
-public class Player implements IPlayer {
+public class Player {
 
     private static final int MAX_STREETS = 15;
-    private static final int MAX_VILLAGES = 5;
+    private static final int MAX_SETTLEMENTS = 5;
     private static final int MAX_CITIES = 4;
+
     private final IGameControl control;
+    private final Game game;
+
+    private final int id;
+
 
     private Map<Material, Integer> resources = new EnumMap<>(Material.class);
 
-    public Player(String name, Color color, IGameControl control) {
+    private final List<Path> streets = new LinkedList<>();
+    private final List<Intersection> settlements = new LinkedList<>();
+    private final List<Intersection> cities = new LinkedList<>();
+
+    private static final Map<Material, Integer> streetCosts = new TreeMap<>();
+    private static final Map<Material, Integer> settlementCosts = new TreeMap<>();
+    private static final Map<Material, Integer> cityCosts = new TreeMap<>();
+
+    static {
+        streetCosts.put(Material.BRICK, 1);
+        streetCosts.put(Material.LUMBER, 1);
+
+        settlementCosts.put(Material.BRICK, 1);
+        settlementCosts.put(Material.LUMBER, 1);
+        settlementCosts.put(Material.GRAIN, 1);
+        settlementCosts.put(Material.WOOL, 1);
+
+        cityCosts.put(Material.GRAIN, 2);
+        cityCosts.put(Material.ORE, 3);
+    }
+
+
+    public Player(String name, int id, Color color, IGameControl control, Game game) {
         for (Material m : Material.values()) {
             if (m.isCollectable()) {
                 resources.put(m, 0);
             }
         }
 
-        this.color = color;
+        this.id = id;
         this.control = control;
+        this.game = game;
+
+        control.sendGameEvent(new SetupPlayerEvent(id, name, color));
     }
 
-    public void collectStartMaterial() {
+    private void checkCosts(Map<Material, Integer> costs) {
+        for (Material m : costs.keySet()) {
+            if (resources.get(m) < costs.get(m)) {
+                throw new NotEnoughMaterialException("TODO");
+            }
+        }
+    }
+
+    void collectMaterial(int number) {
+
+        for (Intersection s : settlements) {
+            for (Terrain t : s.getNeighborTerrains()) {
+                if (t.getNumber() == number) {
+                    int n = resources.get(t.getMaterial());
+                    resources.put(t.getMaterial(), n + 1);
+                    control.sendGameEvent(new GatherResourcesEvent(id, s.getId(), t.getId(), t.getMaterial(), 1));
+                }
+            }
+        }
+
+        for (Intersection s : cities) {
+            for (Terrain t : s.getNeighborTerrains()) {
+                if (t.getNumber() == number) {
+                    int n = resources.get(t.getMaterial());
+                    resources.put(t.getMaterial(), n + 2);
+                    control.sendGameEvent(new GatherResourcesEvent(id, s.getId(), t.getId(), t.getMaterial(), 2));
+                }
+            }
+        }
 
     }
 
-    public void collectMaterial(int number) {
-
+    public void countWinPoints(int playerId) {
+        game.gameOver(playerId);
     }
 
-    public void countWinPoints() {
 
-    }
 
-    int id = 0;
-    String name = "TODO";
-    private final Color color ;
 
-    public SetupPlayerEvent createSetupEvent() {
-        return new SetupPlayerEvent(id, name, color);
-    }
 
     /*
     private void addMaterial(Material m) {
@@ -62,56 +109,32 @@ public class Player implements IPlayer {
         return resources.get(m);
     } */
 
-    public String getName() {
-        return "PlayerName"; //TODO
-    }
-
-    @Override
-    public IPath[] getStreets() {
-        return new IPath[0]; // TODO
-    }
-
-    @Override
-    public IIntersection[] getSettlements() {
-        return new IIntersection[0];  // TODO
-    }
-
-    @Override
-    public IIntersection[] getCities() {
-        return new IIntersection[0];  // TODO
-    }
-
-    @Override
-    public Map<Material, Integer> getMaterials() {
-        return resources; // TODO clone map
-    }
-
-    public Color getColor() {
-        return Color.BLACK; // TODO
-    }
 
     public void buildSettlement(Intersection s) {
-        // TODO, in Vorbereitungsphase prüfen, dass korrekt gebaut wird
-
-        // TODO, Material prüfen, wenn nicht genug vorhanden exception werfen
+        // TODO
     }
 
     public void buildStreet(Path s) {
-        // TODO, in Vorbereitungsphase prüfen, dass korrekt gebaut wird
-
-        // TODO, Material prüfen, wenn nicht genug vorhanden exception werfen
+        // TODO
     }
 
     public void buildSetupSettlement(Intersection s) {
         // TODO
     }
 
-    public void buildSetupPath(Path path) {
+    public void buildSetupStreet(Path path) {
         // TODO
     }
 
-    public void gatherStartResources() {
+    public void collectStartResources() {
         // TODO
+    }
 
+    public void buildCity(int waypointId) {
+        // TODO
+    }
+
+    public Intersection[] getSettlements() {
+        return new Intersection[]{}; // TODO
     }
 }

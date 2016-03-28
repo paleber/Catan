@@ -27,6 +27,10 @@ public class Intersection implements IIntersection {
         return nextIntersections.toArray(new Intersection[0]);
     }
 
+    public Terrain[] getNeighborTerrains() {
+        return nextTerrains.toArray(new Terrain[0]);
+    }
+
     enum status {
         FREE, BLOCKED, VILLAGE, CITY
     }
