@@ -96,4 +96,13 @@ public class Player implements IPlayer {
 
         // TODO, Material prüfen, wenn nicht genug vorhanden exception werfen
     }
+
+    public void buildSetupSettlement(Intersection s) {
+
+        // TODO
+    }
+
+    public void buildSetupPath(Path path) {
+        // TODO
+    }
 }

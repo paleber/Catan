@@ -1,6 +1,5 @@
 package model.game.object;
 
-import control.exception.CatanException;
 import control.exception.game.IllegalActionInThisPhaseException;
 import control.exception.game.IllegalPlaceToBuildException;
 import control.game.IGameControl;
@@ -8,13 +7,12 @@ import model.game.IGame;
 import model.game.board.EasyBoardBuilder;
 import model.game.board.IBoardBuilder;
 import model.game.event.BuildSettlementEvent;
-import model.game.event.PreparationPhaseSettlementEvent;
-import model.game.event.PreparationPhaseStreetEvent;
+import model.game.event.PreparationSettlementPhaseEvent;
+import model.game.event.ResourcePhaseEvent;
 
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
-
 
 public class Game implements IGame {
 
@@ -55,84 +53,143 @@ public class Game implements IGame {
             control.sendGameEvent(p.createSetupEvent());
         }
 
-        curPlayerIndex = 0;
-        phase = Phase.PREPARATION_SETTLEMENT;
-
-        control.sendGameEvent(new PreparationPhaseSettlementEvent(curPlayerIndex));
-
+        control.sendGameEvent(new PreparationSettlementPhaseEvent(curPlayerIndex));
     }
 
-    private enum Phase {
-        PREPARATION_SETTLEMENT,
-        PREPARATION_STREET,
-        GATHERING,
-        ACTION
-    }
+    private int curPlayerIndex = 0;
 
-    private Phase phase;
-    private int curPlayerIndex;
+    private abstract class GamePhase {
 
-
-    public void rollDice() {
-
-        if (phase != Phase.GATHERING) {
+        void rollDice() {
             throw new IllegalActionInThisPhaseException("TODO");
         }
 
-        // TODO
-    }
-
-    public void buildStreet(int pathId) {
-
-        if (phase != Phase.PREPARATION_STREET && phase != Phase.ACTION) {
+        void buildStreet(int pathId) {
             throw new IllegalActionInThisPhaseException("TODO");
         }
 
-
-        if (phase == Phase.GATHERING) {
-            // TODO action in this phase not allowed exception
-        }
-
-
-        Path path = findPath(pathId);
-
-        if (path == null) {
-            // TODO throw Exception cant build on this place
-        }
-
-        players[curPlayerIndex].buildStreet(path);
-
-        paths.remove(path);
-
-        // TODO Nachricht das gebaut wurde
-    }
-
-
-    public void buildSettlement(int intersectionId) {
-
-        if (phase != Phase.PREPARATION_SETTLEMENT && phase != Phase.ACTION) {
+        void buildSettlement(int waypointId) {
             throw new IllegalActionInThisPhaseException("TODO");
         }
 
+        void buildCity(int waypointId) {
+            throw new IllegalActionInThisPhaseException("TODO");
+        }
+
+        void finishTurn() {
+            throw new IllegalActionInThisPhaseException("TODO");
+        }
+
+    }
+
+    private final GamePhase preparationSettlementPhase = new GamePhase() {
+
+        @Override
+        public void buildSettlement(int intersectionId) {
+            Intersection s = findIntersectionForBuilding(intersectionId);
+            players[curPlayerIndex].buildSetupSettlement(s);
+            finishSettlementBuilding(s);
+
+            gamePhase = preparationStreetPhase;
+            control.sendGameEvent(new BuildSettlementEvent(curPlayerIndex, intersectionId));
+        }
+
+    };
+
+    private final GamePhase preparationStreetPhase = new GamePhase() {
+
+        @Override
+        public void buildStreet(int pathId) {
+            Path path = findPathForBuilding(pathId);
+            players[curPlayerIndex].buildSetupPath(path);
+            finishStreetBuilding(path);
+
+            if (players[curPlayerIndex].getSettlements().length <= 1) {
+
+                // Forward Preparation Round
+                if (curPlayerIndex < players.length - 1) {
+                    curPlayerIndex++;
+                }
+                gamePhase = preparationSettlementPhase;
+                control.sendGameEvent(new PreparationSettlementPhaseEvent(curPlayerIndex));
+
+            } else {
+
+                // Backward Preparation Round
+                if (curPlayerIndex > 0) {
+                    curPlayerIndex--;
+                    gamePhase = preparationSettlementPhase;
+                    control.sendGameEvent(new PreparationSettlementPhaseEvent(curPlayerIndex));
+                } else {
+
+                    // TODO verteile Startresourcen an alle Spieler
+
+                    gamePhase = resourcePhase;
+                    control.sendGameEvent(new ResourcePhaseEvent(curPlayerIndex));
+                }
+            }
+        }
+
+    };
+
+    private final GamePhase resourcePhase = null; // TODO
+
+    private final GamePhase actionPhase = null; // TODO
+
+    private Intersection findIntersectionForBuilding(int intersectionId) {
         Intersection s = findIntersection(intersectionId);
         if (s == null) {
             throw new IllegalPlaceToBuildException("TODO");
         }
-        players[curPlayerIndex].buildSettlement(s); // throws Exception, not enough Material
+        return s;
+    }
+
+    private void finishSettlementBuilding(Intersection s) {
+        control.sendGameEvent(new BuildSettlementEvent(curPlayerIndex, s.getId()));
 
         // Remove neighbor intersections due to distance rule
         intersections.remove(s);
         for (Intersection i : s.getNeighborIntersections()) {
             intersections.remove(i);
+            // TODO message for blocked intersections
         }
+    }
 
-        control.sendGameEvent(new BuildSettlementEvent(curPlayerIndex, intersectionId));
 
-        if (phase == Phase.PREPARATION_SETTLEMENT) {
-            phase = Phase.PREPARATION_STREET;
-            control.sendGameEvent(new PreparationPhaseStreetEvent(s.getId()));
+    private Path findPathForBuilding(int pathId) {
+        Path path = findPath(pathId);
+        if (path == null) {
+            throw new IllegalPlaceToBuildException("TODO");
         }
+        return path;
+    }
 
+    private void finishStreetBuilding(Path path) {
+        paths.remove(path);
+    }
+
+
+    private GamePhase gamePhase = preparationSettlementPhase;
+
+
+    public void rollDice() {
+        gamePhase.rollDice();
+    }
+
+    public void buildStreet(int pathId) {
+        gamePhase.buildStreet(pathId);
+    }
+
+    public void buildSettlement(int intersectionId) {
+        gamePhase.buildSettlement(intersectionId);
+    }
+
+    public void buildCity(int intersectionId) {
+        gamePhase.buildCity(intersectionId);
+    }
+
+    public void finishTurn() {
+        gamePhase.finishTurn();
     }
 
     private Intersection findIntersection(int intersectionId) {
@@ -153,13 +210,7 @@ public class Game implements IGame {
         return null;
     }
 
-    public void buildCity(int intersectionId) {
 
-    }
-
-
-    public void finishTurn() {
-    }
 
     // --- Setup ---
     // Später dann evtl Einstellungsmöglichkeiten, für Spielbrett aufbau, Spielerreihenfole , variante usw...
