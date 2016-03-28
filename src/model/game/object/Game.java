@@ -6,13 +6,13 @@ import control.game.IGameControl;
 import model.game.IGame;
 import model.game.board.EasyBoardBuilder;
 import model.game.board.IBoardBuilder;
-import model.game.event.BuildSettlementEvent;
-import model.game.event.PreparationSettlementPhaseEvent;
-import model.game.event.ResourcePhaseEvent;
+import model.game.event.*;
 
+import java.awt.*;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Random;
 
 public class Game implements IGame {
 
@@ -26,7 +26,7 @@ public class Game implements IGame {
     public Game(IGameControl control, String... playerNames) {
         players = new Player[playerNames.length];
         for (int i = 0; i < players.length; i++) {
-            players[i] = new Player(playerNames[i]);
+            players[i] = new Player(playerNames[i], Color.PINK, control);
         }
 
         this.control = control;
@@ -35,7 +35,6 @@ public class Game implements IGame {
         Collections.addAll(intersections, builder.getIntersections());
         Collections.addAll(paths, builder.getPaths());
         terrains = builder.getTerrains();
-
 
         for (Intersection i : intersections) {
             control.sendGameEvent(i.createSetupEvent());
@@ -121,9 +120,9 @@ public class Game implements IGame {
                     gamePhase = preparationSettlementPhase;
                     control.sendGameEvent(new PreparationSettlementPhaseEvent(curPlayerIndex));
                 } else {
-
-                    // TODO verteile Startresourcen an alle Spieler
-
+                    for (Player p : players) {
+                        p.gatherStartResources();
+                    }
                     gamePhase = resourcePhase;
                     control.sendGameEvent(new ResourcePhaseEvent(curPlayerIndex));
                 }
@@ -132,9 +131,50 @@ public class Game implements IGame {
 
     };
 
-    private final GamePhase resourcePhase = null; // TODO
+    private final GamePhase resourcePhase = new GamePhase() {
 
-    private final GamePhase actionPhase = null; // TODO
+        @Override
+        void rollDice() {
+            Random r = new Random();
+            int n1 = r.nextInt(6) + 1;
+            int n2 = r.nextInt(6) + 1;
+            control.sendGameEvent(new RollDiceEvent(n1, n2));
+
+            if (n1 + n2 != 7) {
+                for (Player p : players) {
+                    p.collectMaterial(n1 + n2);
+                }
+            } else {
+                // TODO Knight
+            }
+        }
+
+    };
+
+    private final GamePhase actionPhase = new GamePhase() {
+
+        @Override
+        void buildStreet(int pathId) {
+            // TODO
+        }
+
+        @Override
+        void buildSettlement(int waypointId) {
+            // TODO
+        }
+
+        @Override
+        void buildCity(int waypointId) {
+            // TODO
+        }
+
+
+        @Override
+        void finishTurn() {
+            // TODO
+        }
+
+    };
 
     private Intersection findIntersectionForBuilding(int intersectionId) {
         Intersection s = findIntersection(intersectionId);
@@ -209,7 +249,6 @@ public class Game implements IGame {
         }
         return null;
     }
-
 
 
     // --- Setup ---

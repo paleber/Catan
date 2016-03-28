@@ -1,5 +1,6 @@
 package model.game.object;
 
+import control.game.IGameControl;
 import model.game.IIntersection;
 import model.game.IPath;
 import model.game.IPlayer;
@@ -16,15 +17,19 @@ public class Player implements IPlayer {
     private static final int MAX_STREETS = 15;
     private static final int MAX_VILLAGES = 5;
     private static final int MAX_CITIES = 4;
+    private final IGameControl control;
 
     private Map<Material, Integer> resources = new EnumMap<>(Material.class);
 
-    public Player(String name) {
+    public Player(String name, Color color, IGameControl control) {
         for (Material m : Material.values()) {
             if (m.isCollectable()) {
                 resources.put(m, 0);
             }
         }
+
+        this.color = color;
+        this.control = control;
     }
 
     public void collectStartMaterial() {
@@ -41,7 +46,7 @@ public class Player implements IPlayer {
 
     int id = 0;
     String name = "TODO";
-    Color color = Color.PINK;
+    private final Color color ;
 
     public SetupPlayerEvent createSetupEvent() {
         return new SetupPlayerEvent(id, name, color);
@@ -98,11 +103,15 @@ public class Player implements IPlayer {
     }
 
     public void buildSetupSettlement(Intersection s) {
-
         // TODO
     }
 
     public void buildSetupPath(Path path) {
         // TODO
+    }
+
+    public void gatherStartResources() {
+        // TODO
+
     }
 }
