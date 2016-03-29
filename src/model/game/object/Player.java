@@ -1,5 +1,6 @@
 package model.game.object;
 
+import com.google.common.collect.ImmutableMap;
 import control.exception.game.NotEnoughMaterialException;
 import control.game.IGameControl;
 import model.game.Material;
@@ -31,7 +32,11 @@ public class Player {
     private static final Map<Material, Integer> settlementCosts = new TreeMap<>();
     private static final Map<Material, Integer> cityCosts = new TreeMap<>();
 
+    private static final ImmutableMap<Material, Integer> m = ImmutableMap.of(Material.BRICK, 1, Material.LUMBER, 1);
+
+
     static {
+
         streetCosts.put(Material.BRICK, 1);
         streetCosts.put(Material.LUMBER, 1);
 

@@ -7,6 +7,8 @@ import model.game.Material;
 import model.game.event.IGameEvent;
 import model.game.event.SetupTerrainEvent;
 
+import java.util.Set;
+
 public class Terrain implements ITerrain {
 
     private static final int NO_NUMBER = -1;

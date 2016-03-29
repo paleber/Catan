@@ -49,6 +49,7 @@ public class Game implements IGame {
         }
 
         control.sendGameEvent(new PreparationSettlementPhaseEvent(curPlayerIndex));
+
     }
 
     private int curPlayerIndex = 0;
